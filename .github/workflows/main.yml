@@ -1,14 +1,19 @@
-name: PRAVEER PAPA - 10 AGENT MATRIX
+name: PRAVEER PAPA - 10 AGENT MATRIX 24/7
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '0 */6 * * *' # Backup trigger every 6 hours
+  repository_dispatch:
+    types: [restart_matrix] # Allows the script to trigger a fresh run
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 350 # Stay under the 360-min (6h) GitHub limit
     strategy:
+      fail-fast: false
       matrix:
-        # Launching 5 separate machines
         machine: [1, 2, 3, 4, 5]
     steps:
       - name: Checkout Code
@@ -23,12 +28,21 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y google-chrome-stable
-          pip install selenium selenium-stealth
+          pip install selenium selenium-stealth requests
 
-      - name: Run 10-Agent Blitz
+      - name: Run 10-Agent Blitz (Continuous Loop)
         env:
           SESSION_ID: ${{ secrets.SESSION_ID }}
           GROUP_URL: ${{ secrets.GROUP_URL }}
           TARGET_NAME: ${{ secrets.TARGET_NAME }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           MACHINE_ID: ${{ matrix.machine }}
         run: python praveer_gh.py
+
+      - name: Auto-Restart Trigger
+        if: always() # Ensure it tries to restart even if the script crashed
+        run: |
+          curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+               -H "Accept: application/vnd.github.v3+json" \
+               -X POST https://api.github.com/repos/${{ github.repository }}/dispatches \
+               -d '{"event_type": "restart_matrix"}'
