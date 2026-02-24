@@ -1,51 +1,37 @@
-name: PRAVEER 24-7 MATRIX
+name: PRAVEER PAPA - 10 AGENT BLITZ
 
 on:
-  workflow_dispatch:
-  repository_dispatch:
-    types: [restart_matrix]
-  schedule:
-    - cron: '0 */6 * * *'
+  workflow_dispatch: # Allows manual start from the Actions tab
+  # Optional: Uncomment below to run every 2 hours automatically
+  # schedule:
+  #   - cron: '0 */2 * * *'
 
 jobs:
-  blitz:
+  build:
     runs-on: ubuntu-latest
-    timeout-minutes: 355
     strategy:
-      fail-fast: false
       matrix:
+        # Launching 5 separate machines simultaneously
         machine: [1, 2, 3, 4, 5]
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Checkout Code
+        uses: actions/checkout@v3
 
-      - name: Setup Python
+      - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
 
-      - name: Install System Dependencies
+      - name: Install Dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y google-chrome-stable
-          pip install selenium selenium-stealth requests
+          pip install selenium selenium-stealth
 
-      - name: Kill Ghost Processes & Run
+      - name: Run Reload-Breaker
         env:
           SESSION_ID: ${{ secrets.SESSION_ID }}
           GROUP_URL: ${{ secrets.GROUP_URL }}
           TARGET_NAME: ${{ secrets.TARGET_NAME }}
           MACHINE_ID: ${{ matrix.machine }}
-        run: |
-          echo "Cleaning up old processes..."
-          pkill -9 chrome || true
-          pkill -9 chromedriver || true
-          python praveer_gh.py
-
-      - name: Trigger Next 6-Hour Cycle
-        if: always()
-        run: |
-          curl -H "Authorization: token ${{ secrets.GH_TOKEN }}" \
-               -H "Accept: application/vnd.github.v3+json" \
-               -X POST https://api.github.com/repos/${{ github.repository }}/dispatches \
-               -d '{"event_type": "restart_matrix"}'
+        run: python praveer_gh.py
