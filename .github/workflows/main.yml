@@ -1,28 +1,30 @@
-name: DEVEL KA ABBU - 20 AGENT TOTAL BLACKOUT
+name: DEVEL KA ABBU - GLOBAL BLACKOUT MATRIX
 
 on:
   workflow_dispatch:
 
 jobs:
   blackout:
-    runs-on: ubuntu-latest
-    timeout-minutes: 360 
+    runs-on: ${{ matrix.os }} # Strategy to vary IP ranges
+    timeout-minutes: 360
     strategy:
       fail-fast: false
       matrix:
-        machine: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] # 10 Machines x 2 Agents = 20
+        # Spreading across different runner types to maximize IP diversity
+        os: [ubuntu-latest, ubuntu-22.04, ubuntu-20.04]
+        machine: [1, 2, 3] # This creates 9 machines (18 agents) globally
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
         with:
           python-version: '3.9'
-      - name: Install Selenium
+      - name: Install Dependencies
         run: pip install selenium
-      - name: Launch 20-Agent Matrix
+      - name: Launch Global Strike
         env:
           SESSION_ID: ${{ secrets.SESSION_ID }}
           GROUP_URL: ${{ secrets.GROUP_URL }}
           TARGET_NAME: ${{ secrets.TARGET_NAME }}
-          MACHINE_ID: ${{ matrix.machine }}
+          MACHINE_ID: ${{ matrix.machine }}-${{ matrix.os }}
           PYTHONUNBUFFERED: "1"
         run: python -u praveer_gh.py
