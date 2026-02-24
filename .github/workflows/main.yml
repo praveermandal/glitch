@@ -15,10 +15,11 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install Playwright
+     - name: Install Playwright
         run: |
           pip install playwright
-          # This command installs the actual Chromium browser inside the runner
+          # We use DEBIAN_FRONTEND=noninteractive to skip all prompts
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y libasound2 libasound2-plugins alsa-utils alsa-oss
           playwright install chromium --with-deps
 
       - name: Launch 1-ID Strike
