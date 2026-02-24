@@ -1,10 +1,10 @@
-name: PRAVEER.OWNS - STEALTH STRIKE
+name: PRAVEER.OWNS - NATIVE STRIKE
 
 on:
-  workflow_dispatch: # Allows you to start it manually
+  workflow_dispatch:
 
 jobs:
-  launch-matrix:
+  strike:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -15,18 +15,16 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install Dependencies
+      - name: Install Playwright
         run: |
-          pip install selenium
-          # Ensure Chrome is stable on the runner
-          sudo apt-get update
-          sudo apt-get install -y google-chrome-stable
+          pip install playwright
+          # This command installs the actual Chromium browser inside the runner
+          playwright install chromium --with-deps
 
-      - name: Execute Stealth Strike
+      - name: Launch 1-ID Strike
         env:
-          # Mapping GitHub Secrets to Script Environment Variables
           SESSION_ID: ${{ secrets.SESSION_ID }}
           GROUP_URL: ${{ secrets.GROUP_URL }}
           TARGET_NAME: ${{ secrets.TARGET_NAME }}
-          MACHINE_ID: "ALPHA-1"
+          MACHINE_ID: "1"
         run: python -u praveer_gh.py
