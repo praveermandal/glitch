@@ -15,22 +15,12 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install System Dependencies
+      - name: Install Playwright & Dependencies
         run: |
-          sudo apt-get update
-          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
-            libasound2t64 \
-            libasound2-plugins \
-            alsa-utils \
-            fonts-freefont-ttf \
-            fonts-ipafont-gothic \
-            fonts-wqy-zenhei
-
-      - name: Install Playwright & Browsers
-        run: |
+          python -m pip install --upgrade pip
           pip install playwright
-          # No sudo needed here. It safely downloads to the local runner cache.
-          playwright install chromium
+          # This single line downloads Chromium AND safely installs all required Ubuntu OS libraries
+          playwright install --with-deps chromium
 
       - name: Launch 1-ID Strike
         env:
