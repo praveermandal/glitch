@@ -30,9 +30,10 @@ jobs:
       - name: Install Playwright & Browsers
         run: |
           pip install playwright
-          # Using --with-deps but in non-interactive mode
-          playwright install chromium
-          sudo playwright install-deps chromium
+          # Install the browser binaries
+          python -m playwright install chromium
+          # Install the system dependencies using the Python module path
+          sudo python -m playwright install-deps chromium
 
       - name: Launch 1-ID Strike
         env:
