@@ -1,32 +1,24 @@
-name: PRAVEER.OWNS - BROWSER-KILLER (1-ID)
+name: PRAVEER.OWNS - NATIVE STRIKE
 
 on:
-  workflow_dispatch: # Manual start from Actions tab
+  workflow_dispatch:
 
 jobs:
   strike:
     runs-on: ubuntu-latest
-    # No matrix here to ensure only ONE instance of your ID is active
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Setup Python 3.11
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-
-      - name: Install Playwright & Stealth
+      - name: Install Playwright
         run: |
-          pip install playwright playwright-stealth
+          pip install playwright
           playwright install chromium --with-deps
-
-      - name: Launch 1-ID Browser Strike
+      - name: Launch 1-ID Strike
         env:
-          # SECRETS: Make sure these are set in your GitHub Repo Settings
           SESSION_ID: ${{ secrets.SESSION_ID }}
           GROUP_URL: ${{ secrets.GROUP_URL }}
           TARGET_NAME: ${{ secrets.TARGET_NAME }}
           MACHINE_ID: "1"
-          PYTHONUNBUFFERED: "1"
         run: python -u praveer_gh.py
