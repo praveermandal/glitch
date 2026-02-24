@@ -1,4 +1,4 @@
-name: PRAVEER.OWNS - PLAYWRIGHT BLACKOUT
+name: PRAVEER.OWNS - PLAYWRIGHT FIXED
 
 on:
   workflow_dispatch:
@@ -19,7 +19,7 @@ jobs:
         run: |
           pip install playwright playwright-stealth
           playwright install chromium --with-deps
-      - name: Launch Playwright Strike
+      - name: Launch Strike
         env:
           SESSION_ID: ${{ secrets.SESSION_ID }}
           GROUP_URL: ${{ secrets.GROUP_URL }}
