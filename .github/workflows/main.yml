@@ -1,4 +1,4 @@
-name: PRAVEER.OWNS - KERNEL STRIKE
+name: PRAVEER.OWNS - MATRIX BOTNET
 
 on:
   workflow_dispatch:
@@ -6,8 +6,11 @@ on:
 jobs:
   strike:
     runs-on: ubuntu-latest
-    # 🛑 THE BYPASS: We run the job inside a pre-configured Microsoft container.
-    # This completely skips the broken 'apt-get' mirror downloads.
+    # 🚀 THE SCALER: This spins up 5 separate GitHub machines simultaneously
+    strategy:
+      matrix:
+        machine_id: [1, 2, 3, 4, 5]
+    
     container:
       image: mcr.microsoft.com/playwright/python:v1.42.0-jammy
     
@@ -15,15 +18,14 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Install Python Package
+      - name: Install Strike Engine
         run: |
           pip install playwright
-          # Notice we removed '--with-deps'. The container already has them!
           playwright install chromium
 
-      - name: Launch Strike
+      - name: Launch 4-Agent Cluster
         env:
           SESSION_ID: ${{ secrets.SESSION_ID }}
           GROUP_URL: ${{ secrets.GROUP_URL }}
-          TARGET_NAME: ${{ secrets.TARGET_NAME }}
+          MACHINE_ID: ${{ matrix.machine_id }}
         run: python -u praveer_gh.py
