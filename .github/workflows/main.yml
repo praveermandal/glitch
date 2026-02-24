@@ -1,34 +1,33 @@
-name: PRAVEER PAPA - TEAM DEvEL MAX BLITZ
+name: PRAVEER PAPA - DYNAMIC MAX BLITZ
 
 on:
-  workflow_dispatch: # Manual trigger from the Actions tab
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        # Launching 5 separate machines to distribute the DOM load
         machine: [1, 2, 3, 4, 5]
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: checkout@v3
 
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
 
-      - name: Install System Dependencies
+      - name: Install Dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y google-chrome-stable
           pip install selenium selenium-stealth
 
-      - name: Run Maxed Blitz
+      - name: Run Dynamic Blitz
         env:
-          # Ensure these match your Repository Secrets
           SESSION_ID: ${{ secrets.SESSION_ID }}
           GROUP_URL: ${{ secrets.GROUP_URL }}
+          TARGET_NAME: ${{ secrets.TARGET_NAME }} # Add this in your Repo Secrets
           MACHINE_ID: ${{ matrix.machine }}
         run: python praveer_gh.py
