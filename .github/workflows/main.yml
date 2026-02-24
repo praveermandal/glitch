@@ -1,34 +1,21 @@
-name: PRAVEER NC - 10 AGENT STEALTH MATRIX
+name: PRAVEER NC - MONOLITH STRIKE
 
 on:
-  workflow_dispatch: # Manual trigger for maximum control
+  workflow_dispatch:
 
 jobs:
-  build:
+  strike:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        machine: [1, 2, 3, 4, 5] # Deploy across 5 runners
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
         with:
           python-version: '3.9'
-
-      - name: Install Dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y google-chrome-stable
-          pip install selenium
-
-      - name: Launch Stealth Blitz
+      - name: Install
+        run: pip install selenium
+      - name: Strike
         env:
           SESSION_ID: ${{ secrets.SESSION_ID }}
           GROUP_URL: ${{ secrets.GROUP_URL }}
           TARGET_NAME: ${{ secrets.TARGET_NAME }}
-          MACHINE_ID: ${{ matrix.machine }}
-          PYTHONUNBUFFERED: "1" # Ensures real-time logging
-        run: python -u praveer_gh.py
+        run: python praveer_gh.py
