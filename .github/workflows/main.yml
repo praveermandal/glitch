@@ -1,26 +1,27 @@
-name: DEVEL KA ABBU - GLOBAL BLACKOUT MATRIX
+name: DEVEL KA ABBU - 20 AGENT TOTAL BLACKOUT
 
 on:
   workflow_dispatch:
 
 jobs:
   blackout:
-    runs-on: ${{ matrix.os }} # Strategy to vary IP ranges
-    timeout-minutes: 360
+    runs-on: ${{ matrix.os }} 
+    timeout-minutes: 360 
     strategy:
       fail-fast: false
       matrix:
-        # Spreading across different runner types to maximize IP diversity
-        os: [ubuntu-latest, ubuntu-22.04, ubuntu-20.04]
-        machine: [1, 2, 3] # This creates 9 machines (18 agents) globally
+        # ✅ UPDATED TO SUPPORTED RUNNERS (2026)
+        os: [ubuntu-latest, ubuntu-24.04, ubuntu-22.04]
+        # We use 7 machines here to stay within the 20-agent limit across regions
+        machine: [1, 2, 3, 4, 5, 6, 7] 
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
         with:
           python-version: '3.9'
-      - name: Install Dependencies
+      - name: Install Selenium
         run: pip install selenium
-      - name: Launch Global Strike
+      - name: Launch 20-Agent Matrix
         env:
           SESSION_ID: ${{ secrets.SESSION_ID }}
           GROUP_URL: ${{ secrets.GROUP_URL }}
