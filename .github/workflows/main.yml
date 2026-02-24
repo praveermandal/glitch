@@ -1,17 +1,14 @@
-name: PRAVEER PAPA - 10 AGENT MATRIX 24/7
+name: PRAVEER PAPA - TEAM DEvEL MAX BLITZ
 
 on:
-  workflow_dispatch:
-  repository_dispatch:
-    types: [restart_matrix]
+  workflow_dispatch: # Manual trigger from the Actions tab
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 355
     strategy:
-      fail-fast: false
       matrix:
+        # Launching 5 separate machines to distribute the DOM load
         machine: [1, 2, 3, 4, 5]
     steps:
       - name: Checkout Code
@@ -22,27 +19,16 @@ jobs:
         with:
           python-version: '3.9'
 
-      - name: Install Dependencies
+      - name: Install System Dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y google-chrome-stable
           pip install selenium selenium-stealth
 
-      - name: Cleanup & Run
+      - name: Run Maxed Blitz
         env:
+          # Ensure these match your Repository Secrets
           SESSION_ID: ${{ secrets.SESSION_ID }}
           GROUP_URL: ${{ secrets.GROUP_URL }}
-          TARGET_NAME: ${{ secrets.TARGET_NAME }}
           MACHINE_ID: ${{ matrix.machine }}
-        run: |
-          pkill -9 chrome || true
-          pkill -9 chromedriver || true
-          python praveer_gh.py
-
-      - name: Auto-Restart
-        if: always()
-        run: |
-          curl -H "Authorization: token ${{ secrets.GH_TOKEN }}" \
-               -H "Accept: application/vnd.github.v3+json" \
-               -X POST https://api.github.com/repos/${{ github.repository }}/dispatches \
-               -d '{"event_type": "restart_matrix"}'
+        run: python praveer_gh.py
