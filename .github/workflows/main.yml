@@ -1,4 +1,4 @@
-name: PRAVEER.OWNS - 100-LINE BLACKOUT
+name: PRAVEER.OWNS - PLAYWRIGHT BLACKOUT
 
 on:
   workflow_dispatch:
@@ -6,7 +6,6 @@ on:
 jobs:
   blackout:
     runs-on: ubuntu-latest
-    timeout-minutes: 360
     strategy:
       fail-fast: false
       matrix:
@@ -16,9 +15,11 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Install Selenium
-        run: pip install selenium
-      - name: Launch 100-Line Strike
+      - name: Install Playwright & Stealth
+        run: |
+          pip install playwright playwright-stealth
+          playwright install chromium --with-deps
+      - name: Launch Playwright Strike
         env:
           SESSION_ID: ${{ secrets.SESSION_ID }}
           GROUP_URL: ${{ secrets.GROUP_URL }}
