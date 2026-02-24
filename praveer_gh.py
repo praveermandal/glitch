@@ -29,8 +29,8 @@ jobs:
       - name: Install Playwright & Browsers
         run: |
           pip install playwright
-          python -m playwright install chromium
-          sudo python -m playwright install-deps chromium
+          # No sudo needed here. It safely downloads to the local runner cache.
+          playwright install chromium
 
       - name: Launch 1-ID Strike
         env:
