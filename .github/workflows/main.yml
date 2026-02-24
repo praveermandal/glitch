@@ -1,48 +1,51 @@
-name: PRAVEER PAPA - 10 AGENT MATRIX 24/7
+name: PRAVEER 24-7 MATRIX
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '0 */6 * * *' # Backup trigger every 6 hours
   repository_dispatch:
-    types: [restart_matrix] # Allows the script to trigger a fresh run
+    types: [restart_matrix]
+  schedule:
+    - cron: '0 */6 * * *'
 
 jobs:
-  build:
+  blitz:
     runs-on: ubuntu-latest
-    timeout-minutes: 350 # Stay under the 360-min (6h) GitHub limit
+    timeout-minutes: 355
     strategy:
       fail-fast: false
       matrix:
         machine: [1, 2, 3, 4, 5]
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Set up Python
+      - name: Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
 
-      - name: Install Dependencies
+      - name: Install System Dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y google-chrome-stable
           pip install selenium selenium-stealth requests
 
-      - name: Run 10-Agent Blitz (Continuous Loop)
+      - name: Kill Ghost Processes & Run
         env:
           SESSION_ID: ${{ secrets.SESSION_ID }}
           GROUP_URL: ${{ secrets.GROUP_URL }}
           TARGET_NAME: ${{ secrets.TARGET_NAME }}
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           MACHINE_ID: ${{ matrix.machine }}
-        run: python praveer_gh.py
-
-      - name: Auto-Restart Trigger
-        if: always() # Ensure it tries to restart even if the script crashed
         run: |
-          curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          echo "Cleaning up old processes..."
+          pkill -9 chrome || true
+          pkill -9 chromedriver || true
+          python praveer_gh.py
+
+      - name: Trigger Next 6-Hour Cycle
+        if: always()
+        run: |
+          curl -H "Authorization: token ${{ secrets.GH_TOKEN }}" \
                -H "Accept: application/vnd.github.v3+json" \
                -X POST https://api.github.com/repos/${{ github.repository }}/dispatches \
                -d '{"event_type": "restart_matrix"}'
