@@ -1,4 +1,4 @@
-name: PRAVEER.OWNS - 10-AGENT STRIKE
+name: PRAVEER.OWNS - 100-LINE BLACKOUT
 
 on:
   workflow_dispatch:
@@ -10,7 +10,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # Reduced to 10 machines for better account longevity
         machine: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     steps:
       - uses: actions/checkout@v4
@@ -19,7 +18,7 @@ jobs:
           python-version: '3.11'
       - name: Install Selenium
         run: pip install selenium
-      - name: Launch Strike
+      - name: Launch 100-Line Strike
         env:
           SESSION_ID: ${{ secrets.SESSION_ID }}
           GROUP_URL: ${{ secrets.GROUP_URL }}
