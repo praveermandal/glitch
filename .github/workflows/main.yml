@@ -6,40 +6,24 @@ on:
 jobs:
   strike:
     runs-on: ubuntu-latest
+    # 🛑 THE BYPASS: We run the job inside a pre-configured Microsoft container.
+    # This completely skips the broken 'apt-get' mirror downloads.
+    container:
+      image: mcr.microsoft.com/playwright/python:v1.42.0-jammy
+    
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
-      - name: Install System Dependencies
-        # This prevents the 'Get:2' hang by auto-confirming all packages
-        run: |
-          sudo apt-get update
-          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
-            libasound2t64 \
-            libasound2-plugins \
-            alsa-utils \
-            fonts-freefont-ttf \
-            fonts-ipafont-gothic \
-            fonts-wqy-zenhei
-
-      - name: Install Playwright & Browsers
+      - name: Install Python Package
         run: |
           pip install playwright
-          # Install the browser binaries
-          python -m playwright install chromium
-          # Install the system dependencies using the Python module path
-          sudo python -m playwright install-deps chromium
+          # Notice we removed '--with-deps'. The container already has them!
+          playwright install chromium
 
-      - name: Launch 1-ID Strike
+      - name: Launch Strike
         env:
           SESSION_ID: ${{ secrets.SESSION_ID }}
           GROUP_URL: ${{ secrets.GROUP_URL }}
           TARGET_NAME: ${{ secrets.TARGET_NAME }}
-          MACHINE_ID: "1"
-        # Using -u for unbuffered logs so you see the pulse in real-time
         run: python -u praveer_gh.py
