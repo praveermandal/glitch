@@ -1,14 +1,11 @@
-name: PRAVEER PAPA - K-PANEL STABLE
+name: Praveer NC Bot
 
 on:
-  workflow_dispatch:
+  workflow_dispatch: # Allows manual start
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        machine: [1, 2, 3, 4, 5]
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
@@ -20,15 +17,12 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install -y google-chrome-stable
-          pip install selenium
+          pip install playwright
+          playwright install chromium
 
-      - name: Run K-PANEL Blitz
+      - name: Run Bot
         env:
           SESSION_ID: ${{ secrets.SESSION_ID }}
           GROUP_URL: ${{ secrets.GROUP_URL }}
           TARGET_NAME: ${{ secrets.TARGET_NAME }}
-          MACHINE_ID: ${{ matrix.machine }}
-          PYTHONUNBUFFERED: "1"
-        run: python -u praveer_gh.py
+        run: python praveer_gh.py
