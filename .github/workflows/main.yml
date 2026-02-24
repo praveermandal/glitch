@@ -1,14 +1,14 @@
 name: PRAVEER PAPA - 10 AGENT MATRIX
 
 on:
-  workflow_dispatch: # Manual trigger only
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        machine: [1, 2, 3, 4, 5] # 5 Machines = 10 Agents total
+        machine: [1, 2, 3, 4, 5]
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
@@ -30,5 +30,4 @@ jobs:
           GROUP_URL: ${{ secrets.GROUP_URL }}
           TARGET_NAME: ${{ secrets.TARGET_NAME }}
           MACHINE_ID: ${{ matrix.machine }}
-          PYTHONUNBUFFERED: "1"
-        run: python -u praveer_gh.py
+        run: python praveer_gh.py
