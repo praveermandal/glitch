@@ -1,4 +1,4 @@
-name: PRAVEER PAPA - SHREDDER MATRIX
+name: PRAVEER PAPA - K-PANEL STABLE
 
 on:
   workflow_dispatch:
@@ -24,10 +24,11 @@ jobs:
           sudo apt-get install -y google-chrome-stable
           pip install selenium
 
-      - name: Run Shredder Blitz
+      - name: Run K-PANEL Blitz
         env:
           SESSION_ID: ${{ secrets.SESSION_ID }}
           GROUP_URL: ${{ secrets.GROUP_URL }}
           TARGET_NAME: ${{ secrets.TARGET_NAME }}
           MACHINE_ID: ${{ matrix.machine }}
-        run: python praveer_gh.py
+          PYTHONUNBUFFERED: "1"
+        run: python -u praveer_gh.py
