@@ -1,31 +1,40 @@
-name: PRAVEER.OWNS - 20 AGENT TOTAL BLACKOUT
+name: PRAVEER.OWNS - STEALTH PULSE MATRIX
 
 on:
-  workflow_dispatch:
+  workflow_dispatch: # Allows you to start the blackout manually
 
 jobs:
   blackout:
-    runs-on: ${{ matrix.os }}
-    timeout-minutes: 360
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360 # 6-hour strike duration
     strategy:
       fail-fast: false
       matrix:
-        # ✅ Using supported runners for 2026
-        os: [ubuntu-latest, ubuntu-24.04, ubuntu-22.04]
-        # Total 7 machines * 2 threads = 14 agents (You can increase machine list to 10 for 20 agents)
-        machine: [1, 2, 3, 4, 5, 6, 7]
+        # 5 Machines * 4 Agents per Machine = 20 Total Agents
+        machine: [1, 2, 3, 4, 5]
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.9'
-      - name: Install Selenium
-        run: pip install selenium
-      - name: Launch 𝖕𝖗𝖆𝖛𝖊𝖊𝖗.𝖔𝖜𝖓𝖘 Matrix
+          python-version: '3.11'
+
+      - name: Install Selenium & Dependencies
+        run: |
+          pip install selenium
+          # Ensure Chrome is optimized for headless performance
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable
+
+      - name: Launch 4-Agent Strike
         env:
+          # SECRETS: Ensure these are set in your GitHub Repo Settings
           SESSION_ID: ${{ secrets.SESSION_ID }}
           GROUP_URL: ${{ secrets.GROUP_URL }}
           TARGET_NAME: ${{ secrets.TARGET_NAME }}
-          MACHINE_ID: ${{ matrix.machine }}-${{ matrix.os }}
+          # Identifies the machine for the Python script logic
+          MACHINE_ID: ${{ matrix.machine }}
           PYTHONUNBUFFERED: "1"
         run: python -u praveer_gh.py
