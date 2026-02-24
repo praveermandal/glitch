@@ -1,11 +1,15 @@
-name: Praveer NC Bot
+name: PRAVEER PAPA - SUPERNOVA MATRIX
 
 on:
-  workflow_dispatch: # Allows manual start
+  workflow_dispatch: # Manual start from the Actions tab
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        # Launching 5 separate machines to distribute the render-load
+        machine: [1, 2, 3, 4, 5]
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
@@ -17,12 +21,17 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          pip install playwright
-          playwright install chromium
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable
+          pip install selenium
 
-      - name: Run Bot
+      - name: Run Supernova Blitz
         env:
+          # Match these names to your GitHub Repository Secrets
           SESSION_ID: ${{ secrets.SESSION_ID }}
           GROUP_URL: ${{ secrets.GROUP_URL }}
           TARGET_NAME: ${{ secrets.TARGET_NAME }}
-        run: python praveer_gh.py
+          MACHINE_ID: ${{ matrix.machine }}
+          # Forces logs to show up immediately
+          PYTHONUNBUFFERED: "1"
+        run: python -u praveer_gh.py
