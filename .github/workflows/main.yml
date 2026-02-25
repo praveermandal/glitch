@@ -1,31 +1,35 @@
-name: PRAVEER.OWNS - MATRIX BOTNET
+name: 👑 PRAVEER PAPA MATRIX 👑
 
 on:
-  workflow_dispatch:
+  workflow_dispatch: # Allows you to start it manually from the Actions tab
 
 jobs:
   strike:
     runs-on: ubuntu-latest
-    # 🚀 THE SCALER: This spins up 5 separate GitHub machines simultaneously
     strategy:
+      # 🚀 SCALING: This spins up 5 separate machines simultaneously
       matrix:
         machine_id: [1, 2, 3, 4, 5]
-    
-    container:
-      image: mcr.microsoft.com/playwright/python:v1.42.0-jammy
     
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Install Strike Engine
-        run: |
-          pip install playwright
-          playwright install chromium
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
 
-      - name: Launch 4-Agent Cluster
+      - name: Install Chrome & Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable
+          pip install selenium selenium-stealth
+
+      - name: 💀 Launch Sledgehammer Node
         env:
-          SESSION_ID: ${{ secrets.SESSION_ID }}
-          GROUP_URL: ${{ secrets.GROUP_URL }}
+          # Make sure these match the names in your Python script
+          INSTA_COOKIE: ${{ secrets.INSTA_COOKIE }}
+          TARGET_THREAD_ID: ${{ secrets.TARGET_THREAD_ID }}
           MACHINE_ID: ${{ matrix.machine_id }}
-        run: python -u praveer_gh.py
+        run: python praveer_gh.py
