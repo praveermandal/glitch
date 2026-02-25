@@ -1,15 +1,15 @@
-name: 👑 PRAVEER PAPA MATRIX 👑
+name: 👑 PRAVEER PAPA MINIMAL MATRIX 👑
 
 on:
-  workflow_dispatch: # Allows you to start it manually from the Actions tab
+  workflow_dispatch:
 
 jobs:
   strike:
     runs-on: ubuntu-latest
     strategy:
-      # 🚀 SCALING: This spins up 5 separate machines simultaneously
       matrix:
-        machine_id: [1, 2, 3, 4, 5]
+        # 🚀 2 MACHINES
+        machine_id: [1, 2]
     
     steps:
       - name: Checkout Code
@@ -26,9 +26,8 @@ jobs:
           sudo apt-get install -y google-chrome-stable
           pip install selenium selenium-stealth
 
-      - name: 💀 Launch Sledgehammer Node
+      - name: 💀 Launch Clean-Kill Node
         env:
-          # Make sure these match the names in your Python script
           INSTA_COOKIE: ${{ secrets.INSTA_COOKIE }}
           TARGET_THREAD_ID: ${{ secrets.TARGET_THREAD_ID }}
           MACHINE_ID: ${{ matrix.machine_id }}
